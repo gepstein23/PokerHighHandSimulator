@@ -1,9 +1,9 @@
 package tables;
 
-import main.Card;
-import main.Deck;
+import playingcards.Card;
+import playingcards.Deck;
 import main.HighHand;
-import main.PokerHand;
+import playingcards.PokerHand;
 import players.PLOPokerPlayer;
 import players.PokerPlayer;
 
@@ -18,6 +18,11 @@ public class PLOTable extends PokerTable {
     @Override
     protected boolean isPloTable() {
         return true;
+    }
+
+    @Override
+    protected Collection<PokerPlayer> filterPlayersPrePreflop(Collection<PokerPlayer> dealtPlayers) {
+        return null;
     }
 
     @Override

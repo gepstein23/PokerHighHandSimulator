@@ -1,6 +1,6 @@
 package simulation_datas;
 
-import main.PokerHand;
+import playingcards.PokerHand;
 
 public class HourSimulationData {
     private long hour;
@@ -17,24 +17,8 @@ public class HourSimulationData {
         return isPlo;
     }
 
-    public void setPlo(Boolean plo) {
-        isPlo = plo;
-    }
-
     public PokerHand getHighHand() {
         return highHand;
-    }
-
-    public void setHighHand(PokerHand highHand) {
-        this.highHand = highHand;
-    }
-
-    public long getHour() {
-        return hour;
-    }
-
-    public void setHour(long hour) {
-        this.hour = hour;
     }
 
     @Override

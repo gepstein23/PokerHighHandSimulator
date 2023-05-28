@@ -1,7 +1,7 @@
 package players;
 
-import main.Card;
-import main.PokerHand;
+import playingcards.Card;
+import playingcards.PokerHand;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,19 +30,31 @@ public abstract class PokerPlayer {
         holeCardIndexCombos.add(Arrays.asList(1, 3));
         holeCardIndexCombos.add(Arrays.asList(2, 3));
     }
-    Card[] holeCards;
-
-    public PokerPlayer() {
-
-    }
+    protected Card[] holeCards;
+    protected int vpip;
 
     public PokerPlayer(Card[] holeCards) {
         this.holeCards = holeCards;
+        this.vpip = getRandomVpip();
     }
+
+    protected abstract int getRandomVpip();
 
     public abstract PokerHand getBestHand(List<Card> communityCards);
 
     protected static boolean isFlopped(List<Integer> communityCardIndices) {
         return communityCardIndices.stream().allMatch(i -> i <= 2);
+    }
+
+    public boolean shouldSeeFlop() {
+        return areHoleCardsInRange(getHoleCardRanking());
+    }
+
+    protected boolean areHoleCardsInRange(int holeCardRanking) {
+        return holeCardRanking < vpip;
+    }
+
+    private int getHoleCardRanking() {
+        return 0;
     }
 }

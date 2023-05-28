@@ -1,18 +1,15 @@
 package main;
 
+import playingcards.PokerHand;
+
 import java.time.Duration;
 
+/**
+ * Represents a high hand promotion.
+ */
 public class HighHand {
     private PokerHand minimumQualifyingHand;
     private Duration highHandPeriod;
-
-    public Duration getHighHandPeriod() {
-        return highHandPeriod;
-    }
-
-    public void setHighHandPeriod(Duration highHandPeriod) {
-        this.highHandPeriod = highHandPeriod;
-    }
 
     public HighHand(PokerHand minimumQualifyingHand, Duration highHandPeriod) {
         this.minimumQualifyingHand = minimumQualifyingHand;
@@ -21,10 +18,6 @@ public class HighHand {
 
     public PokerHand getMinimumQualifyingHand() {
         return minimumQualifyingHand;
-    }
-
-    public void setMinimumQualifyingHand(PokerHand minimumQualifyingHand) {
-        this.minimumQualifyingHand = minimumQualifyingHand;
     }
 
     @Override

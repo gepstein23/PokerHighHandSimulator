@@ -1,15 +1,15 @@
 package tables;
 
-import main.Card;
-import main.Deck;
+import playingcards.Card;
+import playingcards.Deck;
 import main.HighHand;
-import main.PokerHand;
-import players.PLOPokerPlayer;
+import playingcards.PokerHand;
 import players.PokerPlayer;
 import simulation_datas.TableSimulationData;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static main.Utils.log;
 
@@ -42,8 +42,9 @@ public abstract class PokerTable {
     private PokerHand playHourOfHands(double tableHandsPerHour, HighHand highHand) {
         PokerHand tableHighHandWinner = null;
         for (int i = 0; i < tableHandsPerHour; i++) {
+            // Play out one hand
             final Deck deck = new Deck();
-            final Collection<PokerPlayer> players = dealPlayers(deck);
+            final Collection<PokerPlayer> players = filterPlayersPrePreflop(dealPlayers(deck));
             final List<Card> communityCards = dealCommunityCards(deck);
             final PokerHand winner = determineWinningHand(players, communityCards);
             final boolean qualifiesForHighHand = isQualifyingHighHand(winner, highHand);
@@ -54,6 +55,16 @@ public abstract class PokerTable {
             }
         }
         return tableHighHandWinner;
+    }
+
+    /**
+     * Given a list of dealt {@link PokerPlayer}s for a hand, filter out hands that would fold pre-flop based on
+     * the given hand and the player's VPIP & position.
+     * @param dealtPlayers
+     * @return
+     */
+    protected Collection<PokerPlayer> filterPlayersPrePreflop(Collection<PokerPlayer> dealtPlayers) {
+        return dealtPlayers.stream().filter(player -> player.shouldSeeFlop()).collect(Collectors.toList());
     }
 
     protected abstract boolean isQualifyingHighHand(PokerHand winner, HighHand highHand);

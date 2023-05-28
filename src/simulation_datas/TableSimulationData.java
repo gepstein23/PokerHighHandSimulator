@@ -1,6 +1,6 @@
 package simulation_datas;
 
-import main.PokerHand;
+import playingcards.PokerHand;
 
 import java.util.Map;
 
@@ -17,15 +17,7 @@ public class TableSimulationData {
         return tableHighHandPerSimulationHour;
     }
 
-    public void setTableHighHandPerSimulationHour(Map<Long, PokerHand> tableHighHandPerSimulationHour) {
-        this.tableHighHandPerSimulationHour = tableHighHandPerSimulationHour;
-    }
-
     public boolean isPloTable() {
         return isPloTable;
-    }
-
-    public void setPloTable(boolean ploTable) {
-        isPloTable = ploTable;
     }
 }

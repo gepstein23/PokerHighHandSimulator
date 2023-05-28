@@ -1,10 +1,10 @@
-package main;
+package playingcards;
 
-import players.PokerPlayer;
-
-import java.security.KeyPair;
 import java.util.*;
 
+/**
+ * Represents a five card hand of playing cards.
+ */
 public class PokerHand {
     private Card[] fiveHandCards;
     private HandType handType;
@@ -55,9 +55,9 @@ public class PokerHand {
     }
 
     private boolean isTwoPair(Card[] fiveHandCards) {
-        final Map<Card.Value, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
+        final Map<CardValue, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
         boolean foundPairOne = false;
-        for (Map.Entry<Card.Value, Integer> entry : valueToNumOccurrences.entrySet()) {
+        for (Map.Entry<CardValue, Integer> entry : valueToNumOccurrences.entrySet()) {
             if (entry.getValue().equals(2)) {
                 if (foundPairOne) {
                     return true;
@@ -69,14 +69,14 @@ public class PokerHand {
     }
 
     private boolean isQuads(Card[] fiveHandCards) {
-        final Map<Card.Value, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
+        final Map<CardValue, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
         return valueToNumOccurrences.containsValue(4);
     }
 
-    private static Map<Card.Value, Integer> getValueToNumOccurrencesMap(Card[] fiveHandCards) {
-        final Map<Card.Value, Integer> valueToNumOccurrences = new HashMap<>();
+    private static Map<CardValue, Integer> getValueToNumOccurrencesMap(Card[] fiveHandCards) {
+        final Map<CardValue, Integer> valueToNumOccurrences = new HashMap<>();
         for (Card card : fiveHandCards) {
-            final Card.Value value = card.getValue();
+            final CardValue value = card.getValue();
             Integer numOccurrences = valueToNumOccurrences.getOrDefault(value, 0);
             numOccurrences += 1;
             valueToNumOccurrences.put(value, numOccurrences);
@@ -85,7 +85,7 @@ public class PokerHand {
     }
 
     private boolean isFlush(Card[] fiveHandCards) {
-        Card.Suit suit = fiveHandCards[0].getSuit();
+        CardSuit suit = fiveHandCards[0].getSuit();
         if (suit == null) {
             return true;
         }
@@ -98,7 +98,7 @@ public class PokerHand {
     }
 
     private boolean isFullHouse(Card[] fiveHandCards) {
-        final Map<Card.Value, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
+        final Map<CardValue, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
         return valueToNumOccurrences.containsValue(3) && valueToNumOccurrences.containsValue(2);
     }
 
@@ -121,12 +121,12 @@ public class PokerHand {
     }
 
     private boolean isSet(Card[] fiveHandCards) {
-        final Map<Card.Value, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
+        final Map<CardValue, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
         return valueToNumOccurrences.containsValue(3);
     }
 
     private boolean isPair(Card[] fiveHandCards) {
-        final Map<Card.Value, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
+        final Map<CardValue, Integer> valueToNumOccurrences = getValueToNumOccurrencesMap(fiveHandCards);
         return valueToNumOccurrences.containsValue(2);
     }
 
@@ -160,18 +160,6 @@ public class PokerHand {
         return fiveHandCards;
     }
 
-    public void setFiveHandCards(Card[] fiveHandCards) {
-        this.fiveHandCards = fiveHandCards;
-    }
-
-    public HandType getHandType() {
-        return handType;
-    }
-
-    public void setHandType(HandType handType) {
-        this.handType = handType;
-    }
-
     public int compare(PokerHand otherHand) {
         if (this.handType.rank > otherHand.handType.rank) {
             return 1;
@@ -188,24 +176,24 @@ public class PokerHand {
             case FLUSH:
                 return 1; // TODO we don't really care for the time being
             case FULL_HOUSE:
-                final Card.Value[] thisFullValues = getFullHouseFullCardValues(this);
-                final Card.Value[] otherFullValues = getFullHouseFullCardValues(otherHand);
-                final Card.Value thisFullValue = thisFullValues[0];
-                final Card.Value otherFullValue = otherFullValues[0];
+                final CardValue[] thisFullValues = getFullHouseFullCardValues(this);
+                final CardValue[] otherFullValues = getFullHouseFullCardValues(otherHand);
+                final CardValue thisFullValue = thisFullValues[0];
+                final CardValue otherFullValue = otherFullValues[0];
                 if (thisFullValue != otherFullValue) {
                     return otherFullValue.compareTo(thisFullValue);
                 }
-                final Card.Value thisFullOfValue = thisFullValues[1];
-                final Card.Value otherFullOfValue = thisFullValues[1];
+                final CardValue thisFullOfValue = thisFullValues[1];
+                final CardValue otherFullOfValue = thisFullValues[1];
                 return otherFullOfValue.compareTo(thisFullOfValue);
             case QUADS:
-                final Card.Value thisQuadsValue = this.fiveHandCards[0].getValue();
-                final Card.Value otherQuadsValue = otherHand.fiveHandCards[0].getValue();
+                final CardValue thisQuadsValue = this.fiveHandCards[0].getValue();
+                final CardValue otherQuadsValue = otherHand.fiveHandCards[0].getValue();
                 if (thisQuadsValue != otherQuadsValue) {
                     return otherQuadsValue.compareTo(thisQuadsValue);
                 }
-                final Card.Value thisKickerValue = this.fiveHandCards[4].getValue();
-                final Card.Value otherKickerValue = otherHand.fiveHandCards[4].getValue();
+                final CardValue thisKickerValue = this.fiveHandCards[4].getValue();
+                final CardValue otherKickerValue = otherHand.fiveHandCards[4].getValue();
                 return thisKickerValue.compareTo(otherKickerValue);
             case STRAIGHT_FLUSH:
                 return otherHand.fiveHandCards[0].getValue().compareTo(this.fiveHandCards[0].getValue());
@@ -214,10 +202,10 @@ public class PokerHand {
         }
     }
 
-    private static Card.Value[] getFullHouseFullCardValues(PokerHand pokerHand) {
-        final Card.Value[] result = new Card.Value[2];
-        Map<Card.Value, Integer> valueToNumOccurrencesMap = getValueToNumOccurrencesMap(pokerHand.getFiveHandCards());
-        for (Map.Entry<Card.Value, Integer> entry : valueToNumOccurrencesMap.entrySet()) {
+    private static CardValue[] getFullHouseFullCardValues(PokerHand pokerHand) {
+        final CardValue[] result = new CardValue[2];
+        Map<CardValue, Integer> valueToNumOccurrencesMap = getValueToNumOccurrencesMap(pokerHand.getFiveHandCards());
+        for (Map.Entry<CardValue, Integer> entry : valueToNumOccurrencesMap.entrySet()) {
             if (entry.getValue().equals(3)) {
                 result[0] = entry.getKey();
             } else {

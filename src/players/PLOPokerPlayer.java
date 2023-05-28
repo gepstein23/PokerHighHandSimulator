@@ -1,9 +1,10 @@
 package players;
 
-import main.Card;
-import main.PokerHand;
+import playingcards.Card;
+import playingcards.PokerHand;
 
 import java.util.List;
+import java.util.Random;
 
 public class PLOPokerPlayer extends PokerPlayer {
     public PLOPokerPlayer(Card[] holeCards) {
@@ -11,6 +12,11 @@ public class PLOPokerPlayer extends PokerPlayer {
         if (holeCards.length != 4) {
             throw new AssertionError("Expected 4 player hole cards for PLO.");
         }
+    }
+
+    @Override
+    protected int getRandomVpip() {
+        return new Random(System.currentTimeMillis()).nextInt(50);
     }
 
     @Override

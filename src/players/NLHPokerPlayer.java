@@ -1,11 +1,10 @@
 package players;
 
-import main.Card;
-import main.PokerHand;
+import playingcards.Card;
+import playingcards.PokerHand;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 
 public class NLHPokerPlayer extends PokerPlayer {
     public NLHPokerPlayer(Card[] holeCards) {
@@ -13,6 +12,11 @@ public class NLHPokerPlayer extends PokerPlayer {
         if (holeCards.length != 2) {
             throw new AssertionError("Expected 2 player hole cards for NLH.");
         }
+    }
+
+    @Override
+    protected int getRandomVpip() {
+        return new Random(System.currentTimeMillis()).nextInt(50);
     }
 
     @Override

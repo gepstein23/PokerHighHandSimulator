@@ -1,5 +1,6 @@
 package main;
 
+import playingcards.PokerHand;
 import simulation_datas.HourSimulationData;
 import simulation_datas.SimulationData;
 import simulation_datas.TableSimulationData;
@@ -11,17 +12,16 @@ import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 
 import static main.Utils.log;
 
 public class HighHandSimulator {
-    private int numNlhTables;
-    private int numPloTables;
-    private int numHandsPerHour;
-    private int numPlayersPerTable;
-    private Duration simulationDuration;
-    private HighHand highHand;
+    private final int numNlhTables;
+    private final int numPloTables;
+    private final int numHandsPerHour;
+    private final int numPlayersPerTable;
+    private final Duration simulationDuration;
+    private final HighHand highHand;
 
     public HighHandSimulator(int numNlhTables, int numPloTables, int numHandsPerHour, int numPlayersPerTable,
                              Duration simulationDuration, HighHand highHand) {
@@ -43,7 +43,8 @@ public class HighHandSimulator {
         final int totalNumPloPlayers = numPloTables * numPlayersPerTable;
         final long nlhWinRatio = data.getNumNlhWins() / totalNumNlhPlayers;
         final long ploWinRatio = data.getNumPloWins() / totalNumPloPlayers;
-        log(String.format("totalNumNlhPlayers=%s, totalNumPloPlayers=%s\nnlhWinRatio=%s\nploWinRatio=%s", totalNumNlhPlayers, totalNumPloPlayers, nlhWinRatio, ploWinRatio));
+        log(String.format("totalNumNlhPlayers=%s, totalNumPloPlayers=%s\nnlhWinRatio=%s\nploWinRatio=%s",
+                totalNumNlhPlayers, totalNumPloPlayers, nlhWinRatio, ploWinRatio));
     }
 
     private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) {
