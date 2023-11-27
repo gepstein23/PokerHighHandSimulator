@@ -1,0 +1,837 @@
+C:\Users\Genevieve\.jdks\openjdk-15.0.1\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.3\lib\idea_rt.jar=62537:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.3\bin" -Dfile.encoding=UTF-8 -classpath C:\Users\Genevieve\Desktop\PokerHighHandSimulator\out\production\PokerHighHandSimulator;C:\Users\Genevieve\Desktop\commons-cli-1.5.0.jar main.Main --simulationDuration 1 --numHandsPerHour 25 --highHandMinimumQualifier 22233 --highHandDuration 1 --numNlhTables 2 --numPloTables 2 --numPlayersPerTable 4
+================ HighHandSimulator ================
+numNlhTables=2
+numPloTables=2
+numHandsPerHour=25
+numPlayersPerTable=4
+simulationDuration=PT1H
+highHand=[HighHand: minimumQualifyingHand=[PokerHand: handType=FULL_HOUSE {2 2 2 3 3}], highHandPeriod=PT1H]
+shouldFilterPreflop=false
+
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #0
+  - Player 558cacbe-3a82-4705-ba5b-9446fcc5cf3f cards=[5h, Td], shouldSeeFlop=true
+  - Player d96e3912-6895-4bec-bdf0-8c441b707a86 cards=[9c, 7h], shouldSeeFlop=true
+  - Player 38dad4bc-2310-459f-8271-9b4da5c342e2 cards=[As, Qd], shouldSeeFlop=true
+  - Player 812701bd-3bcd-4133-b3b6-cc3ffe5ecb1d cards=[6d, 8s], shouldSeeFlop=true
+ = Community Cards: [Qc, 4c, 2s, Jh, 6c]
+ = Winner: [2s, 6d, 6c, 8s, Jh], handType=PAIR, playerID=812701bd-3bcd-4133-b3b6-cc3ffe5ecb1d, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #1
+  - Player 40136787-13b2-4249-b14f-dd759ce01b0b cards=[7s, 6d], shouldSeeFlop=true
+  - Player b33c1955-935a-4a05-8e88-eaed0416d5b6 cards=[6c, 4s], shouldSeeFlop=true
+  - Player a04dfb80-9c2a-4e7b-85ab-8928afe9668f cards=[5s, 6s], shouldSeeFlop=true
+  - Player 5ce156cf-9c4c-41a5-864e-e2d6e00f960e cards=[Kh, Tc], shouldSeeFlop=true
+ = Community Cards: [8d, 8c, Th, 3s, 8h]
+ = Winner: [8d, 8c, 8h, Tc, Kh], handType=SET, playerID=5ce156cf-9c4c-41a5-864e-e2d6e00f960e, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #2
+  - Player 4a38b4db-021f-455a-837f-4cc9e4012a74 cards=[Js, 8h], shouldSeeFlop=true
+  - Player bb7dec2d-6690-48c7-893a-7ee489c1cac5 cards=[9c, 6h], shouldSeeFlop=true
+  - Player d9512f5f-802b-4b34-b88e-3741fddddebb cards=[2s, Kd], shouldSeeFlop=true
+  - Player ec0b3d38-0e23-4328-bd99-7d225a4d9a12 cards=[7d, 4c], shouldSeeFlop=true
+ = Community Cards: [2c, Ts, 3s, 6d, 4h]
+ = Winner: [3s, 4c, 4h, 6d, 7d], handType=PAIR, playerID=ec0b3d38-0e23-4328-bd99-7d225a4d9a12, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #3
+  - Player 6b0b811d-df9e-4cfd-8d21-d2927ada6dc5 cards=[8c, 8d], shouldSeeFlop=true
+  - Player f12e89f5-8d7b-471b-85b4-097fc96df939 cards=[Jc, 6c], shouldSeeFlop=true
+  - Player 6a748d35-af06-4d24-9a8d-e9c834be0333 cards=[2s, 7d], shouldSeeFlop=true
+  - Player f1822b7a-8761-4250-87c1-600a9dcaa9bc cards=[8h, Ah], shouldSeeFlop=true
+ = Community Cards: [Qs, 5c, 3d, Ks, Kh]
+ = Winner: [3d, 8c, 8d, Ks, Kh], handType=TWO_PAIR, playerID=6b0b811d-df9e-4cfd-8d21-d2927ada6dc5, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #4
+  - Player b5a2cad6-df0b-478a-92b4-efbd0b015e2f cards=[6h, 8c], shouldSeeFlop=true
+  - Player 7485f0fe-8d8b-4bfe-8c2d-e9e4b71fa598 cards=[Jh, 5c], shouldSeeFlop=true
+  - Player f0154ec9-def9-4836-8e24-e960250c1868 cards=[9c, Jc], shouldSeeFlop=true
+  - Player e256ddfc-241c-4ebc-b7fd-6eeb2c0c7bf2 cards=[4c, Qc], shouldSeeFlop=true
+ = Community Cards: [6d, As, 5d, 3s, 4d]
+ = Winner: [3s, 4c, 4d, 5d, Qc], handType=PAIR, playerID=e256ddfc-241c-4ebc-b7fd-6eeb2c0c7bf2, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #5
+  - Player e760c106-55d9-4e9a-b38b-752455454bcf cards=[2c, 7h], shouldSeeFlop=true
+  - Player 08e96c62-553c-44e0-8a97-acce52c3deb0 cards=[Th, 6s], shouldSeeFlop=true
+  - Player f467c9f9-0e58-4389-96a0-e85af50ad938 cards=[3d, Qs], shouldSeeFlop=true
+  - Player d632e2b6-129a-42ca-b529-6e30202714d1 cards=[Jh, 8h], shouldSeeFlop=true
+ = Community Cards: [7c, 8c, 5s, 2d, Kc]
+ = Winner: [2c, 2d, 7h, 7c, Kc], handType=TWO_PAIR, playerID=e760c106-55d9-4e9a-b38b-752455454bcf, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #6
+  - Player 46f00181-fb74-44c3-ac62-ef2caecaaa60 cards=[5c, 6d], shouldSeeFlop=true
+  - Player c3efaf5f-9c68-4911-bf22-32ab67e51ac9 cards=[9d, Kc], shouldSeeFlop=true
+  - Player 6959cf8c-cd95-4448-a3c5-0fd8190979ad cards=[Th, 7h], shouldSeeFlop=true
+  - Player a0b74bc7-5e3b-48d8-ae43-5b76024b5633 cards=[3s, Kh], shouldSeeFlop=true
+ = Community Cards: [3h, 2h, 2d, Jh, 8d]
+ = Winner: [2h, 3h, 7h, Th, Jh], handType=FLUSH, playerID=6959cf8c-cd95-4448-a3c5-0fd8190979ad, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #7
+  - Player e11226c5-db65-4b45-89af-92bf7e1f11c9 cards=[7d, 6c], shouldSeeFlop=true
+  - Player 497f8839-60ef-40ff-8da9-8c130b25f841 cards=[2s, 6s], shouldSeeFlop=true
+  - Player 82cb422e-e19d-4919-a494-0cf0f9c8d904 cards=[3s, 6d], shouldSeeFlop=true
+  - Player 81261089-a4fc-4cb2-980d-2181423eb196 cards=[Kc, 9c], shouldSeeFlop=true
+ = Community Cards: [Qs, 8s, Qc, Jc, As]
+ = Winner: [2s, 6s, 8s, Qs, As], handType=FLUSH, playerID=497f8839-60ef-40ff-8da9-8c130b25f841, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #8
+  - Player 7ef2290f-d8ac-4806-ba18-36ab0459f421 cards=[Jh, 2h], shouldSeeFlop=true
+  - Player 0ce5e253-e235-41ab-8160-a997ec514d15 cards=[9s, 9c], shouldSeeFlop=true
+  - Player e1d9a9c2-f152-47e7-878d-3982078bb43a cards=[Qd, Js], shouldSeeFlop=true
+  - Player f92a6130-76ee-440b-ba73-8f0e1458037f cards=[7s, 4h], shouldSeeFlop=true
+ = Community Cards: [5d, 6d, 9h, 3d, Jc]
+ = Winner: [3d, 4h, 5d, 6d, 7s], handType=STRAIGHT, playerID=f92a6130-76ee-440b-ba73-8f0e1458037f, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #9
+  - Player 93205199-2d8c-4be2-85bf-6b2e784dc7ab cards=[Ks, 9h], shouldSeeFlop=true
+  - Player 4a7bfeb1-660d-4824-8ddf-402c1cc74dbf cards=[Td, 4d], shouldSeeFlop=true
+  - Player 28f56573-deef-4392-a14b-413c40b880cd cards=[Qd, 2h], shouldSeeFlop=true
+  - Player 47833ca7-e649-4285-b485-b145e7f7b267 cards=[5h, Ts], shouldSeeFlop=true
+ = Community Cards: [7s, 4h, 7d, Kc, 2s]
+ = Winner: [2h, 2s, 7s, 7d, Qd], handType=TWO_PAIR, playerID=28f56573-deef-4392-a14b-413c40b880cd, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #10
+  - Player 854b3f4d-4bb2-4d39-886b-b6d9f03beeb7 cards=[2c, 7s], shouldSeeFlop=true
+  - Player cbd40f8a-b8e4-40a3-bd2b-21f437c0bc30 cards=[9c, Qd], shouldSeeFlop=true
+  - Player 1e8b9191-ab4f-4657-8eef-b2a265967bc4 cards=[8c, 3d], shouldSeeFlop=true
+  - Player 17c858ab-c1d1-42e8-a40f-2f0341be60d2 cards=[5c, 3s], shouldSeeFlop=true
+ = Community Cards: [6h, 8d, 4c, 2h, 8h]
+ = Winner: [2h, 3s, 4c, 5c, 6h], handType=STRAIGHT, playerID=17c858ab-c1d1-42e8-a40f-2f0341be60d2, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #11
+  - Player 71aead5d-e8d1-4267-aaf7-dada03ef77bc cards=[Ah, 5d], shouldSeeFlop=true
+  - Player 98123166-c512-4567-b72b-39511acffae0 cards=[Ks, 4h], shouldSeeFlop=true
+  - Player 9e1af115-2677-400f-b96a-845dab5e3e26 cards=[6s, Ts], shouldSeeFlop=true
+  - Player 0c364e12-57b2-4737-9dec-85b86df1c62a cards=[8c, 2d], shouldSeeFlop=true
+ = Community Cards: [2c, Qc, 5h, 3s, 9c]
+ = Winner: [2d, 2c, 3s, 8c, 9c], handType=PAIR, playerID=0c364e12-57b2-4737-9dec-85b86df1c62a, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #12
+  - Player 7c16dfd5-c1dd-41f5-8b39-816e5658ea77 cards=[Jc, Qd], shouldSeeFlop=true
+  - Player f866f5fa-b4fc-44b3-ae62-b047b31bb634 cards=[Jd, 6s], shouldSeeFlop=true
+  - Player d27c8d91-c578-4c37-8bcf-45a9cd3a13d5 cards=[Kc, 7d], shouldSeeFlop=true
+  - Player c42f939b-f944-4e43-bcea-481a2c1c2232 cards=[Qs, 4h], shouldSeeFlop=true
+ = Community Cards: [9d, Js, Ks, Qh, Ts]
+ = Winner: [9d, Ts, Jc, Qd, Ks], handType=STRAIGHT, playerID=7c16dfd5-c1dd-41f5-8b39-816e5658ea77, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #13
+  - Player 16a5b3a1-2674-4c8c-93bb-86e2df21c8ea cards=[Kh, 3d], shouldSeeFlop=true
+  - Player d1f57ef5-5cec-450f-9682-ccfeda09762c cards=[8c, 3c], shouldSeeFlop=true
+  - Player 4f41dd68-eeb5-4bb3-99ff-0b780a528ecb cards=[Td, Ks], shouldSeeFlop=true
+  - Player 2393f1f1-6c59-465d-b72b-f302d6b5a1d9 cards=[7c, 5d], shouldSeeFlop=true
+ = Community Cards: [9s, 6s, Th, 6d, Ac]
+ = Winner: [6s, 6d, Td, Th, Ks], handType=TWO_PAIR, playerID=4f41dd68-eeb5-4bb3-99ff-0b780a528ecb, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #14
+  - Player 73d19643-f58f-4efa-a2f6-7a19ced6a829 cards=[3d, 6c], shouldSeeFlop=true
+  - Player 62ac810c-2235-4819-a192-48d272b6e862 cards=[Ks, 3c], shouldSeeFlop=true
+  - Player d23172e5-b944-46e6-89b8-011c725c3526 cards=[8c, 2d], shouldSeeFlop=true
+  - Player 4422157f-a949-45d0-9986-bdd58859f25b cards=[Kh, 3s], shouldSeeFlop=true
+ = Community Cards: [Ac, 2c, 7c, 9d, 9c]
+ = Winner: [2d, 2c, 8c, 9d, 9c], handType=TWO_PAIR, playerID=d23172e5-b944-46e6-89b8-011c725c3526, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #15
+  - Player 5c04a7c6-503b-42ac-beff-849109e3c11b cards=[8d, Td], shouldSeeFlop=true
+  - Player cd285195-6807-46bb-9641-69581104159f cards=[6s, Ks], shouldSeeFlop=true
+  - Player 7f4782ba-e7af-4211-837e-244863b71968 cards=[9d, Ad], shouldSeeFlop=true
+  - Player 1ffd7ac1-9803-4106-9d80-bf2c726bb6f3 cards=[Th, 4h], shouldSeeFlop=true
+ = Community Cards: [Jd, 8s, 5d, 3c, 5s]
+ = Winner: [5d, 5s, 8d, 8s, Td], handType=TWO_PAIR, playerID=5c04a7c6-503b-42ac-beff-849109e3c11b, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #16
+  - Player d7766b74-0185-402a-a053-32a5f2df598f cards=[Ad, 2s], shouldSeeFlop=true
+  - Player fcca9431-8f31-49cf-8dcd-65bcca5e2343 cards=[Jh, 4s], shouldSeeFlop=true
+  - Player 0f1c22a8-c55e-440c-bed5-d88858b301d6 cards=[5s, Kh], shouldSeeFlop=true
+  - Player bca44014-36c0-41ca-a584-cd03d6a5bd4f cards=[Qc, Qh], shouldSeeFlop=true
+ = Community Cards: [3h, Ac, 7d, 8s, 5h]
+ = Winner: [5h, 7d, 8s, Qc, Qh], handType=PAIR, playerID=bca44014-36c0-41ca-a584-cd03d6a5bd4f, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #17
+  - Player 2f53c9f4-96ed-4ec5-8ade-52113304cde1 cards=[Qh, 3d], shouldSeeFlop=true
+  - Player 40fdd935-7bae-4929-a1a7-d90ae460ef34 cards=[Jc, 5h], shouldSeeFlop=true
+  - Player 2c337bf3-78ac-4c36-b9b1-f8d9f13a1eaa cards=[As, 7c], shouldSeeFlop=true
+  - Player 71772c0e-9bcd-4019-8881-8c7480da072d cards=[Ts, 8d], shouldSeeFlop=true
+ = Community Cards: [3h, 6d, Kc, Jh, 2d]
+ = Winner: [2d, 5h, Jc, Jh, Kc], handType=PAIR, playerID=40fdd935-7bae-4929-a1a7-d90ae460ef34, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #18
+  - Player fc59a0d2-369a-4099-ab7e-6d5f4459752f cards=[4c, 5d], shouldSeeFlop=true
+  - Player 293e31be-5e49-44f6-aa39-fdfff2feb72c cards=[Qd, 6c], shouldSeeFlop=true
+  - Player 386cd292-859f-4b50-9847-aa29f86d91b6 cards=[3c, Jc], shouldSeeFlop=true
+  - Player 39001a0b-cccf-4714-bf5a-2a0b6c9ad23e cards=[Ad, Kc], shouldSeeFlop=true
+ = Community Cards: [5s, 3s, 7d, Td, 2c]
+ = Winner: [2c, 3c, 3s, 7d, Jc], handType=PAIR, playerID=386cd292-859f-4b50-9847-aa29f86d91b6, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #19
+  - Player f225c722-134a-4b7e-bbf7-78dd13dad93e cards=[6h, 8s], shouldSeeFlop=true
+  - Player dabd63cf-0e17-4355-8f98-ac3f623b9a21 cards=[Qd, 8h], shouldSeeFlop=true
+  - Player 16d62bfd-a712-4ad1-9495-1a871725e51c cards=[2c, Kd], shouldSeeFlop=true
+  - Player b84317ab-ed8e-4724-9c9a-37d66659c562 cards=[3d, Jc], shouldSeeFlop=true
+ = Community Cards: [6s, Ac, 5d, Tc, As]
+ = Winner: [6h, 6s, 8s, Ac, As], handType=TWO_PAIR, playerID=f225c722-134a-4b7e-bbf7-78dd13dad93e, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #20
+  - Player d973f6bc-262f-48cb-999f-1c4e900cd19c cards=[8s, 3c], shouldSeeFlop=true
+  - Player 89383045-b6e9-4abd-b022-eec5dc495a36 cards=[5s, 8h], shouldSeeFlop=true
+  - Player e9896bc7-72ed-43f0-978c-3e73b6daed04 cards=[8c, 4d], shouldSeeFlop=true
+  - Player b3be4621-3e5d-4efe-9f01-67b4ff7fb42a cards=[9s, 7c], shouldSeeFlop=true
+ = Community Cards: [9h, Jd, Qd, Ah, 2d]
+ = Winner: [2d, 7c, 9s, 9h, Ah], handType=PAIR, playerID=b3be4621-3e5d-4efe-9f01-67b4ff7fb42a, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #21
+  - Player f4c01b3f-00c8-448f-9b48-a8c4166ed0b0 cards=[2h, Qc], shouldSeeFlop=true
+  - Player 0e617291-da3e-4256-ba7f-06fcdae5c6dc cards=[6c, 6s], shouldSeeFlop=true
+  - Player d9c81677-683c-433f-a0af-7b4170763195 cards=[8c, Jh], shouldSeeFlop=true
+  - Player f685a225-4287-4575-b9f6-906552e75550 cards=[As, Jc], shouldSeeFlop=true
+ = Community Cards: [Tc, 5d, 4s, Th, Qh]
+ = Winner: [6c, 6s, Tc, Th, Qh], handType=TWO_PAIR, playerID=0e617291-da3e-4256-ba7f-06fcdae5c6dc, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #22
+  - Player d62ab1d3-c226-4e5d-947a-aeed7fd7a73a cards=[2c, 4d], shouldSeeFlop=true
+  - Player bc99cf54-e3cb-4e4b-99d4-f7c92db48bf2 cards=[Kh, 8d], shouldSeeFlop=true
+  - Player 8848470a-ab49-4a3c-908c-d91142e40c82 cards=[Ks, 5d], shouldSeeFlop=true
+  - Player 5c9517ca-157b-4b56-b33b-49f3a8e979ca cards=[6s, Tc], shouldSeeFlop=true
+ = Community Cards: [5s, 7h, 6c, 7c, 3s]
+ = Winner: [2c, 3s, 4d, 5s, 6c], handType=STRAIGHT, playerID=d62ab1d3-c226-4e5d-947a-aeed7fd7a73a, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #23
+  - Player 4198c121-ced3-4e52-941e-1ec595d1f441 cards=[Ah, 4h], shouldSeeFlop=true
+  - Player 7824b62e-b5dd-4035-b2ca-8e9c8aa24aa8 cards=[Qh, 9c], shouldSeeFlop=true
+  - Player 5285d6bf-9463-4235-821a-0c157973ed63 cards=[Ad, 6c], shouldSeeFlop=true
+  - Player 759f9c2a-94e4-4265-ac2e-b22f8a517955 cards=[As, 6s], shouldSeeFlop=true
+ = Community Cards: [5d, Ks, Js, 3c, 2d]
+ = Winner: [2d, 3c, 6s, Js, As], handType=HIGH_CARD, playerID=759f9c2a-94e4-4265-ac2e-b22f8a517955, qualifiesForHH=false
+
+=============== Table e041e76d-3ae8-4931-9ae8-4423df837ebe Hand #24
+  - Player 5122edd6-f952-4d61-9115-4d4bc60bb896 cards=[2c, 9c], shouldSeeFlop=true
+  - Player e420e7d9-4d11-4740-a0e1-094e9ce56316 cards=[2d, Th], shouldSeeFlop=true
+  - Player 7f6125b9-c0fd-4739-b7d3-3bfe0b4f95ab cards=[Ah, As], shouldSeeFlop=true
+  - Player d4922b37-d676-45c4-8fb1-7755acc38fa2 cards=[3s, 7h], shouldSeeFlop=true
+ = Community Cards: [6d, 5c, Kd, Kc, Qc]
+ = Winner: [2c, 5c, 9c, Qc, Kc], handType=FLUSH, playerID=5122edd6-f952-4d61-9115-4d4bc60bb896, qualifiesForHH=false
+
+=============================================
+=== TableHighHandWinner: null
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #0
+  - Player 773b6025-01b9-4aba-a05b-5f9fd5226429 cards=[2d, 6c], shouldSeeFlop=true
+  - Player bafc7d3a-159b-445f-a189-28ab8047d082 cards=[4h, Jd], shouldSeeFlop=true
+  - Player 6bb0930c-2f03-4e40-94a3-c6b1f3d30052 cards=[Th, 3c], shouldSeeFlop=true
+  - Player 527f3469-24b4-44ff-84b4-2baf3c91e7e9 cards=[Ks, 2h], shouldSeeFlop=true
+ = Community Cards: [4c, Qs, Js, 5h, Jh]
+ = Winner: [4h, 4c, Jd, Js, Jh], handType=FULL_HOUSE, playerID=bafc7d3a-159b-445f-a189-28ab8047d082, qualifiesForHH=true
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #1
+  - Player d50f42ba-a297-41b2-890d-893f3f0a16ca cards=[Th, Tc], shouldSeeFlop=true
+  - Player 8bfb38e3-249a-4e29-9e9f-6bd9236416c0 cards=[6d, 7d], shouldSeeFlop=true
+  - Player fcf79493-1d5d-4565-a0ae-5ee2b643c46f cards=[Js, Ac], shouldSeeFlop=true
+  - Player 5dfe77c2-fd52-4e11-8072-1eb612aaaa5b cards=[7h, 8h], shouldSeeFlop=true
+ = Community Cards: [4s, Kc, 9d, 9h, 5s]
+ = Winner: [5s, 9d, 9h, Th, Tc], handType=TWO_PAIR, playerID=d50f42ba-a297-41b2-890d-893f3f0a16ca, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #2
+  - Player dbc10442-570f-482f-9d85-7eb660eeb7cb cards=[Ac, Ah], shouldSeeFlop=true
+  - Player fd4bfc45-f827-432b-9997-6ee9fd892b26 cards=[Ts, Qc], shouldSeeFlop=true
+  - Player f0e8df6d-3ce7-4894-964d-76ee87493554 cards=[3s, Ks], shouldSeeFlop=true
+  - Player 84fd2f0e-dae0-499a-b756-f583195d0d22 cards=[4s, 3d], shouldSeeFlop=true
+ = Community Cards: [4h, 7d, 6s, Qd, Kd]
+ = Winner: [3d, 4s, 4h, Qd, Kd], handType=PAIR, playerID=84fd2f0e-dae0-499a-b756-f583195d0d22, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #3
+  - Player b86e37df-3d0a-4fc2-b270-9584e56fd345 cards=[3c, 7s], shouldSeeFlop=true
+  - Player 74a14cff-690b-492c-b3e2-62dc73c000a0 cards=[9h, 6h], shouldSeeFlop=true
+  - Player 2e3c3a39-d561-4f17-ae4b-2fba1e8b14cb cards=[8s, Qh], shouldSeeFlop=true
+  - Player 3ae6466d-1764-4a27-b98f-3e70db533faf cards=[Ad, 7h], shouldSeeFlop=true
+ = Community Cards: [2d, 8d, Ah, 2s, 3s]
+ = Winner: [2d, 2s, 7h, Ad, Ah], handType=TWO_PAIR, playerID=3ae6466d-1764-4a27-b98f-3e70db533faf, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #4
+  - Player 81fff0b7-2ecf-4f94-9e55-467bf01c8413 cards=[Ad, 3s], shouldSeeFlop=true
+  - Player e5acd109-7858-45e2-bbae-4a50068d6f8a cards=[5c, Jc], shouldSeeFlop=true
+  - Player f89a75cd-dee3-44a7-a796-56e3297ec354 cards=[6s, 3c], shouldSeeFlop=true
+  - Player 673049ce-cab9-4da9-9377-6624286b5c6b cards=[Kh, 2d], shouldSeeFlop=true
+ = Community Cards: [Kd, 6c, 9c, 4h, Js]
+ = Winner: [2d, 4h, Js, Kh, Kd], handType=PAIR, playerID=673049ce-cab9-4da9-9377-6624286b5c6b, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #5
+  - Player 5a1111fd-f391-4616-8371-19c2d3766281 cards=[Qd, 3s], shouldSeeFlop=true
+  - Player 0fbbd6ee-9c52-419d-be9d-ebcecde6a03b cards=[Th, 2d], shouldSeeFlop=true
+  - Player b046819f-29db-47aa-bac0-02cca945e6a9 cards=[Kh, Js], shouldSeeFlop=true
+  - Player 0ca6876c-4259-4f6c-b8a0-68ec7c2c0cc8 cards=[6d, 2h], shouldSeeFlop=true
+ = Community Cards: [Tc, 5c, 7s, Jd, Ks]
+ = Winner: [7s, Js, Jd, Kh, Ks], handType=TWO_PAIR, playerID=b046819f-29db-47aa-bac0-02cca945e6a9, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #6
+  - Player f6418e3d-9031-4dfd-8435-5d2603826613 cards=[4s, 3c], shouldSeeFlop=true
+  - Player 71f11faa-6978-4a6b-bc94-95751c4ed968 cards=[9h, 8d], shouldSeeFlop=true
+  - Player 279febca-97e6-4966-b3bf-7c177609a3f7 cards=[5s, 4h], shouldSeeFlop=true
+  - Player efe49b05-9575-4f30-95dc-84975dde62cf cards=[6d, 5c], shouldSeeFlop=true
+ = Community Cards: [Th, 2s, 7d, 7s, Qh]
+ = Winner: [5c, 6d, 7d, 7s, Qh], handType=PAIR, playerID=efe49b05-9575-4f30-95dc-84975dde62cf, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #7
+  - Player 537ac856-f2c0-4b2e-aab9-efd405ec73aa cards=[Td, Th], shouldSeeFlop=true
+  - Player 4370efbb-fa97-4094-8e3f-f0802867d510 cards=[2c, 4s], shouldSeeFlop=true
+  - Player 1dbd538a-16d6-4599-828f-44a66da86254 cards=[3h, Ts], shouldSeeFlop=true
+  - Player 3581b8bb-5883-4292-9923-1cea8456b57c cards=[4c, 6s], shouldSeeFlop=true
+ = Community Cards: [9c, Js, 9d, Ks, As]
+ = Winner: [9c, 9d, Td, Th, As], handType=TWO_PAIR, playerID=537ac856-f2c0-4b2e-aab9-efd405ec73aa, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #8
+  - Player ce10104f-3e46-4d14-9b97-15e4398e0216 cards=[Tc, 9s], shouldSeeFlop=true
+  - Player 461d9e5e-397d-495f-9b73-191b44f95f67 cards=[Kh, 8c], shouldSeeFlop=true
+  - Player 93942681-f836-4c2a-8674-a099dfac87c9 cards=[9c, 5d], shouldSeeFlop=true
+  - Player c95875b6-e779-4add-9d2f-21962ed81eca cards=[2d, 3s], shouldSeeFlop=true
+ = Community Cards: [As, Qc, 8d, Ac, 2c]
+ = Winner: [2d, 2c, 3s, As, Ac], handType=TWO_PAIR, playerID=c95875b6-e779-4add-9d2f-21962ed81eca, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #9
+  - Player e34b47ef-743f-429f-89b4-f1d3cd6bae98 cards=[As, 6c], shouldSeeFlop=true
+  - Player 401dfb57-258c-4bf0-9ccd-91848509c647 cards=[8h, 2s], shouldSeeFlop=true
+  - Player a2c91738-6d9f-4a1f-9829-f4cec1932151 cards=[8c, 5h], shouldSeeFlop=true
+  - Player 357ab8a3-db76-4576-80f6-c20facd43f5b cards=[Kh, 5d], shouldSeeFlop=true
+ = Community Cards: [Qd, 3h, 8d, 6h, Ac]
+ = Winner: [6c, 6h, 8d, As, Ac], handType=TWO_PAIR, playerID=e34b47ef-743f-429f-89b4-f1d3cd6bae98, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #10
+  - Player 14265c0c-3e87-4b56-8c2c-63c49778276e cards=[Ks, Qs], shouldSeeFlop=true
+  - Player 290aa49b-3723-4882-a612-c3d94ca69c52 cards=[2s, 7d], shouldSeeFlop=true
+  - Player f2a46d6f-ef8a-460f-93dd-d000c1ae8728 cards=[6h, 5h], shouldSeeFlop=true
+  - Player 6ad1c513-aac7-4dbb-a17e-a57d3d59a3f2 cards=[3s, 3d], shouldSeeFlop=true
+ = Community Cards: [Kd, 4s, 2c, Ah, 5d]
+ = Winner: [2c, 3s, 3d, 5d, Ah], handType=PAIR, playerID=6ad1c513-aac7-4dbb-a17e-a57d3d59a3f2, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #11
+  - Player 9a75f7a5-6b8f-4e14-a6e9-2e10c28be2a6 cards=[9c, 7d], shouldSeeFlop=true
+  - Player b8bb6f93-df3f-4de2-b1db-3caf535184d9 cards=[Tc, 6c], shouldSeeFlop=true
+  - Player a099ce8c-8c77-4dcd-bcba-96f59575db78 cards=[3c, Td], shouldSeeFlop=true
+  - Player 01e37098-b783-4d12-b98a-df5ae9c41e72 cards=[4h, 9d], shouldSeeFlop=true
+ = Community Cards: [Kh, 9h, Qd, Ts, Qh]
+ = Winner: [4h, 9d, 9h, Qd, Qh], handType=TWO_PAIR, playerID=01e37098-b783-4d12-b98a-df5ae9c41e72, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #12
+  - Player a603d447-7320-4e70-8fac-c394938c60f6 cards=[Qh, 3s], shouldSeeFlop=true
+  - Player 32480e30-5735-4d94-af3e-c8888ff07a7f cards=[2h, Qd], shouldSeeFlop=true
+  - Player ec58d6f5-815a-49ce-8a0e-6e2c23868d91 cards=[2s, 5d], shouldSeeFlop=true
+  - Player b2fd988d-9736-4a81-a2d5-2bf358cec694 cards=[9s, 2c], shouldSeeFlop=true
+ = Community Cards: [Jd, 7h, Ks, Ts, 7s]
+ = Winner: [2c, 7h, 7s, 9s, Ks], handType=PAIR, playerID=b2fd988d-9736-4a81-a2d5-2bf358cec694, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #13
+  - Player 2edf6c2a-60a8-462c-ba97-eff119e8f9aa cards=[4c, 5d], shouldSeeFlop=true
+  - Player 9347ed91-7eb9-4099-8c14-ee6fe2b395d3 cards=[3d, 8c], shouldSeeFlop=true
+  - Player c501931b-7f67-40f4-81d1-4017a6ab40b8 cards=[Th, 8d], shouldSeeFlop=true
+  - Player 3750a21f-f7c2-434d-8e8f-aa6e3823d3bc cards=[2s, 7s], shouldSeeFlop=true
+ = Community Cards: [3c, 7h, Qs, 4d, 2c]
+ = Winner: [2s, 2c, 7s, 7h, Qs], handType=TWO_PAIR, playerID=3750a21f-f7c2-434d-8e8f-aa6e3823d3bc, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #14
+  - Player eb9d8584-237e-468e-8511-9a7a10238462 cards=[2s, 6d], shouldSeeFlop=true
+  - Player c1360443-ba16-481f-bb26-ab8e6ba1bf2f cards=[Ah, 2h], shouldSeeFlop=true
+  - Player b4c1716d-b784-4e68-817b-34cca1990890 cards=[7h, 5c], shouldSeeFlop=true
+  - Player 0356dca5-d0f5-4a6e-8b2a-dc790eda0f45 cards=[7s, 8d], shouldSeeFlop=true
+ = Community Cards: [Th, 6c, Qc, 4s, 3s]
+ = Winner: [3s, 4s, 5c, 6c, 7h], handType=STRAIGHT, playerID=b4c1716d-b784-4e68-817b-34cca1990890, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #15
+  - Player 598d56ec-94ac-48f4-b6da-5dc3942cc110 cards=[6h, 4d], shouldSeeFlop=true
+  - Player 2f97381c-1c83-4351-b82f-f60f4bf4be16 cards=[Ah, 2d], shouldSeeFlop=true
+  - Player 7e65146a-bb5e-4e21-8bb4-ab1d9f4728c5 cards=[8s, Tc], shouldSeeFlop=true
+  - Player 4beb9837-98f1-4036-bbfc-91a16d414ceb cards=[7s, As], shouldSeeFlop=true
+ = Community Cards: [9s, 5h, 6c, 9d, 7d]
+ = Winner: [6c, 7d, 8s, 9d, Tc], handType=STRAIGHT, playerID=7e65146a-bb5e-4e21-8bb4-ab1d9f4728c5, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #16
+  - Player c99254d2-bba6-438b-9120-847d3596021c cards=[As, Qc], shouldSeeFlop=true
+  - Player 705be6d4-ae42-43fb-b8ec-c0f160ad5eee cards=[8d, 4s], shouldSeeFlop=true
+  - Player 61465003-d8c7-4f13-b494-4c09cdd3800e cards=[Qs, Kc], shouldSeeFlop=true
+  - Player 74df1434-0547-402a-8407-ce2ee195ec73 cards=[3c, Kd], shouldSeeFlop=true
+ = Community Cards: [9d, 5s, 8s, Ah, Qd]
+ = Winner: [8s, Qc, Qd, As, Ah], handType=TWO_PAIR, playerID=c99254d2-bba6-438b-9120-847d3596021c, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #17
+  - Player 1f352a14-62d8-469b-852c-0c31cd41fb46 cards=[5d, 4d], shouldSeeFlop=true
+  - Player 9d34c776-d3f7-417d-80a2-f38e74a7232e cards=[Qc, Js], shouldSeeFlop=true
+  - Player 1005bf1c-84a5-46e0-bd7b-b11af1f3ecc3 cards=[4h, 2h], shouldSeeFlop=true
+  - Player bc017c53-a6e0-4fdf-bc21-91cd1304b92d cards=[5h, 2d], shouldSeeFlop=true
+ = Community Cards: [7h, 9h, 7d, 9s, 9c]
+ = Winner: [2d, 5h, 9h, 9s, 9c], handType=SET, playerID=bc017c53-a6e0-4fdf-bc21-91cd1304b92d, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #18
+  - Player 98a27c09-7d36-4a09-9342-b26f0a552866 cards=[7h, Tc], shouldSeeFlop=true
+  - Player 9b9efbe9-fd73-4e11-931d-47da2020cc89 cards=[4s, 8s], shouldSeeFlop=true
+  - Player e7160457-b6b3-4c7b-ab06-ff9546834ad1 cards=[2d, Jh], shouldSeeFlop=true
+  - Player c198cfb7-2327-42d9-b57e-c3482fe958dd cards=[4h, 2h], shouldSeeFlop=true
+ = Community Cards: [7c, Qh, Ac, 5s, Th]
+ = Winner: [5s, 7h, 7c, Tc, Th], handType=TWO_PAIR, playerID=98a27c09-7d36-4a09-9342-b26f0a552866, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #19
+  - Player e93c7246-02b1-4e7f-ae77-4f9d2e755cdd cards=[3s, 4d], shouldSeeFlop=true
+  - Player a2065db5-043d-407f-8e5f-cb219a4ff79b cards=[4s, 5d], shouldSeeFlop=true
+  - Player 1bce9fc6-8997-487b-bc4f-359abdbb1b8b cards=[3h, 6c], shouldSeeFlop=true
+  - Player 7c9ca5d1-3838-4408-a0e3-6f8175dbe8d4 cards=[7c, 2h], shouldSeeFlop=true
+ = Community Cards: [2c, 8c, 8h, 7d, 4c]
+ = Winner: [2h, 7c, 7d, 8c, 8h], handType=TWO_PAIR, playerID=7c9ca5d1-3838-4408-a0e3-6f8175dbe8d4, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #20
+  - Player 9c6bb2a5-43a3-46df-8746-2ae097ef7925 cards=[4s, Ad], shouldSeeFlop=true
+  - Player 7f48c6d3-f59d-4d7b-97e5-209d078fcc73 cards=[3c, Qs], shouldSeeFlop=true
+  - Player 625b36fa-837d-4a6d-b248-b8cb201ecfa2 cards=[Kd, 2h], shouldSeeFlop=true
+  - Player 85fb36b0-8b68-4c48-8aee-05f6d1978a15 cards=[As, 3h], shouldSeeFlop=true
+ = Community Cards: [4d, Td, 6s, 9h, 6h]
+ = Winner: [4s, 4d, 6s, 6h, Ad], handType=TWO_PAIR, playerID=9c6bb2a5-43a3-46df-8746-2ae097ef7925, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #21
+  - Player 3d0c4f00-2514-4ead-8423-d2cc5f5e4699 cards=[7c, Jh], shouldSeeFlop=true
+  - Player a751a601-c24d-468c-a2a1-1feb15ae1af2 cards=[Ah, 8d], shouldSeeFlop=true
+  - Player a251d7e5-954e-4e52-830a-06ddb208a62b cards=[Ts, 7s], shouldSeeFlop=true
+  - Player ac614799-8524-4afe-b884-765193730069 cards=[3s, Tc], shouldSeeFlop=true
+ = Community Cards: [3d, Qc, Kh, 9c, 9d]
+ = Winner: [3s, 3d, 9c, 9d, Tc], handType=TWO_PAIR, playerID=ac614799-8524-4afe-b884-765193730069, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #22
+  - Player 3faddb00-d2a2-4c5c-bd2b-7177809db70d cards=[Ah, Kd], shouldSeeFlop=true
+  - Player f2574846-ca64-49b0-9177-3d353f7f4549 cards=[7d, 4h], shouldSeeFlop=true
+  - Player bf0fad33-e6ae-4a06-94c6-088e955438d4 cards=[5h, Tc], shouldSeeFlop=true
+  - Player 1fee51b9-c890-4df1-8bbb-61f324ba1d11 cards=[5c, Th], shouldSeeFlop=true
+ = Community Cards: [7h, 9d, 8h, 2s, 8c]
+ = Winner: [4h, 7d, 7h, 8h, 8c], handType=TWO_PAIR, playerID=f2574846-ca64-49b0-9177-3d353f7f4549, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #23
+  - Player 3be1f36f-2b3a-4fff-b9b9-c7f684a94b40 cards=[2h, 3c], shouldSeeFlop=true
+  - Player 80c47f5f-eb69-46e3-a957-1e977b9c7b3a cards=[3d, Qc], shouldSeeFlop=true
+  - Player bbff7c44-c5ce-43c1-9788-620fa349de9d cards=[Th, Ah], shouldSeeFlop=true
+  - Player 83f40788-2f2e-4c45-b859-83084121887e cards=[4s, 8c], shouldSeeFlop=true
+ = Community Cards: [6d, Td, 3s, Jc, 2s]
+ = Winner: [2h, 2s, 3c, 3s, Jc], handType=TWO_PAIR, playerID=3be1f36f-2b3a-4fff-b9b9-c7f684a94b40, qualifiesForHH=false
+
+=============== Table aa73a0c8-b8a6-4153-a748-203afd825a85 Hand #24
+  - Player 05d46bbe-6b0b-47f2-aaee-588ab6856edf cards=[Ts, 9s], shouldSeeFlop=true
+  - Player a1344114-7b93-42d8-9fa4-6f14ff60cf97 cards=[8s, Qc], shouldSeeFlop=true
+  - Player a1368548-47c5-4ab2-8814-0f87d0b1ecb9 cards=[3s, 9c], shouldSeeFlop=true
+  - Player 4595e87b-ef4d-4d47-9891-dd90e50455f2 cards=[As, 9h], shouldSeeFlop=true
+ = Community Cards: [5h, Jh, 4c, 3d, Js]
+ = Winner: [3s, 3d, 9c, Jh, Js], handType=TWO_PAIR, playerID=a1368548-47c5-4ab2-8814-0f87d0b1ecb9, qualifiesForHH=false
+
+=============================================
+=== TableHighHandWinner: [4h, 4c, Jd, Js, Jh]
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #0
+  - Player b0510d78-7d11-477c-8abc-ee917922aed3 cards=[3s, 9d, Qd, Qh], shouldSeeFlop=true
+  - Player cb2fd8f7-0b3f-4d68-8b35-4452de93b86f cards=[Ac, 4h, 2c, 3h], shouldSeeFlop=true
+  - Player 2f0e7545-d840-4c97-9b7f-cf86ee12865b cards=[Qs, Jh, Tc, Jd], shouldSeeFlop=true
+  - Player 727ca365-9a38-4fc1-af14-a3c9668d2ce5 cards=[Qc, 6h, 8d, 5s], shouldSeeFlop=true
+ = Community Cards: [6c, 6s, 4c, Th, 8c]
+ = Winner: [6h, 6c, 6s, 8d, 8c], handType=FULL_HOUSE, playerID=727ca365-9a38-4fc1-af14-a3c9668d2ce5, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #1
+  - Player c175ae76-729f-46b8-92e4-fed4d8f91d50 cards=[6h, 9s, 4s, 5h], shouldSeeFlop=true
+  - Player 595bbb3a-8101-4332-be29-ead5855434ae cards=[6c, 6s, 2h, Jc], shouldSeeFlop=true
+  - Player 9ec682ac-3e11-4c78-8341-06b56e15646f cards=[7c, Kd, 8c, Qs], shouldSeeFlop=true
+  - Player 38a561d2-624a-4ca6-88b6-ed5c66a846cd cards=[9c, 7s, Jh, 9h], shouldSeeFlop=true
+ = Community Cards: [5s, Jd, 6d, Ah, Kc]
+ = Winner: [6c, 6s, 6d, Kc, Ah], handType=SET, playerID=595bbb3a-8101-4332-be29-ead5855434ae, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #2
+  - Player e5ef9333-5079-4d07-bc05-3add28a4305e cards=[5c, 6s, 7s, Kh], shouldSeeFlop=true
+  - Player 7cde66e0-8b2b-468f-81e3-8753dfa69742 cards=[Js, Qs, Kc, 2s], shouldSeeFlop=true
+  - Player 90a2b925-8946-484c-b9b8-b3be0dea6a1e cards=[9s, 9c, Jd, 3s], shouldSeeFlop=true
+  - Player e8cf9d18-df74-4b51-a10e-fe412e1c0e83 cards=[3c, 5h, 7h, As], shouldSeeFlop=true
+ = Community Cards: [Kd, 2d, 3h, 9d, 4d]
+ = Winner: [2d, 3h, 4d, 5c, 6s], handType=STRAIGHT, playerID=e5ef9333-5079-4d07-bc05-3add28a4305e, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #3
+  - Player 7704ba96-70b8-4c13-b3fe-0b60e2ada77f cards=[5d, 9h, 7s, 3c], shouldSeeFlop=true
+  - Player 3fe18ba6-8a36-4ad8-90f7-4e8e45fa294e cards=[8s, Js, Ts, Th], shouldSeeFlop=true
+  - Player 42915840-7a7f-47b7-a466-74690c13ef08 cards=[Td, Jh, 6s, 2h], shouldSeeFlop=true
+  - Player 426825b9-38b4-4300-b734-8789254ff970 cards=[9s, 8c, 8h, 7h], shouldSeeFlop=true
+ = Community Cards: [Ah, Kd, 4h, 6c, 5c]
+ = Winner: [4h, 5c, 6c, 7h, 8h], handType=STRAIGHT, playerID=426825b9-38b4-4300-b734-8789254ff970, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #4
+  - Player f5d33469-e052-49a3-8748-cb3de2bc7b8a cards=[Tc, 4d, 4h, 7s], shouldSeeFlop=true
+  - Player 22c50ba4-cfd6-4b08-b464-a79d1ef86c8a cards=[7c, 2h, Kd, 2s], shouldSeeFlop=true
+  - Player ddca10a0-6ee1-4dc6-8ae6-c600952a2701 cards=[6s, 5c, 2d, 7d], shouldSeeFlop=true
+  - Player cf4c2010-0e3d-4414-baea-1e54fab0e9b2 cards=[Ac, 3h, 8h, 9s], shouldSeeFlop=true
+ = Community Cards: [8c, 5h, Js, 6d, Jh]
+ = Winner: [4h, 5h, 6d, 7s, 8c], handType=STRAIGHT, playerID=f5d33469-e052-49a3-8748-cb3de2bc7b8a, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #5
+  - Player 67e53cf6-14c2-400a-a138-5ad874cf40ec cards=[Jd, 7d, 8s, 3s], shouldSeeFlop=true
+  - Player 241ba468-068c-4ef4-a6b9-27ed31ab5a0c cards=[Qs, Ad, Kh, 5s], shouldSeeFlop=true
+  - Player 5e78b4b1-1c61-43fa-95db-c370d14d295b cards=[6s, 7s, 9d, 3d], shouldSeeFlop=true
+  - Player a6d7d2e8-0964-41ec-9ddc-2fe734d27a96 cards=[6d, Ah, 9c, 2s], shouldSeeFlop=true
+ = Community Cards: [9s, Js, Jc, 6c, 9h]
+ = Winner: [6s, 6c, 9d, 9s, 9h], handType=FULL_HOUSE, playerID=5e78b4b1-1c61-43fa-95db-c370d14d295b, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #6
+  - Player 6c444713-52a8-4fba-9e70-919768b5fd92 cards=[Jd, 9c, 2c, Qc], shouldSeeFlop=true
+  - Player 85b38404-4411-41ff-acd7-4f8b5e933eec cards=[5d, 9d, 7c, 7s], shouldSeeFlop=true
+  - Player 3f419228-25f8-4227-bf09-cd6e32bd7530 cards=[Td, 4h, 6s, 3s], shouldSeeFlop=true
+  - Player b21a0cab-6a2b-41c8-bbb0-6f5dbbded623 cards=[4d, 7h, 6d, Ah], shouldSeeFlop=true
+ = Community Cards: [Jh, 9s, 5h, 9h, 8d]
+ = Winner: [9c, 9s, 9h, Jd, Jh], handType=FULL_HOUSE, playerID=6c444713-52a8-4fba-9e70-919768b5fd92, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #7
+  - Player 3e8299a1-795e-4929-a345-885b5dc700f9 cards=[7s, Ks, 4c, Jc], shouldSeeFlop=true
+  - Player 4dc5c4bc-591f-48c9-9967-eb0a4b837352 cards=[7h, 8h, Qd, 2h], shouldSeeFlop=true
+  - Player 9f871cb8-ef64-48f4-bd42-82b8d5230517 cards=[2s, Qc, 8c, 6d], shouldSeeFlop=true
+  - Player ca272940-bb8f-4b76-aeeb-377231f6c4c1 cards=[9c, 8s, 3c, As], shouldSeeFlop=true
+ = Community Cards: [Ac, 5c, Qs, 5s, Td]
+ = Winner: [Td, Jc, Qs, Ks, Ac], handType=STRAIGHT, playerID=3e8299a1-795e-4929-a345-885b5dc700f9, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #8
+  - Player 4f771c07-0ca5-4a58-a2a5-e728da22f8e3 cards=[Ts, Kc, 8h, 6c], shouldSeeFlop=true
+  - Player 5eb3284a-deda-46bb-877b-1622243407d8 cards=[Qs, Ad, 8d, 5h], shouldSeeFlop=true
+  - Player 3178b7b0-4e77-4dc0-b815-20fd91b46dcd cards=[Kh, 8c, 8s, 2s], shouldSeeFlop=true
+  - Player 0975b0d3-3603-4362-a5e3-b31243e14bcb cards=[7s, 4d, 7d, 5d], shouldSeeFlop=true
+ = Community Cards: [Tc, Kd, 6h, Jc, Qd]
+ = Winner: [Tc, Jc, Qs, Kd, Ad], handType=STRAIGHT, playerID=5eb3284a-deda-46bb-877b-1622243407d8, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #9
+  - Player 439a9775-684f-498e-9613-772568c29217 cards=[7h, 6s, 4c, 5s], shouldSeeFlop=true
+  - Player 00eca17b-6d42-4266-88f7-b97b0f60d810 cards=[Kc, Ks, 5h, 7c], shouldSeeFlop=true
+  - Player d5e49ed2-832f-498f-9256-926fbbe06052 cards=[Kd, 3s, Jh, 7d], shouldSeeFlop=true
+  - Player 512c17b7-e24d-4e89-8bc5-4a87e833af28 cards=[9s, As, 7s, 2d], shouldSeeFlop=true
+ = Community Cards: [8c, 9h, Jc, 6h, Ac]
+ = Winner: [7c, 8c, Jc, Kc, Ac], handType=FLUSH, playerID=00eca17b-6d42-4266-88f7-b97b0f60d810, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #10
+  - Player b3d8e989-0ff1-4aa5-957e-c2ed9b52d761 cards=[6s, 5d, 2s, 2c], shouldSeeFlop=true
+  - Player 4b02b888-1580-4c80-b967-702bd67c1956 cards=[Jc, 7s, 4c, Kd], shouldSeeFlop=true
+  - Player 3b52668c-75f9-4889-9c88-55291cf6f506 cards=[Th, 2d, Ks, 4s], shouldSeeFlop=true
+  - Player ebce436f-dfe3-471d-a30f-0f23142d2c03 cards=[Jd, 6d, 9s, Kh], shouldSeeFlop=true
+ = Community Cards: [As, 8s, Ts, Kc, Td]
+ = Winner: [Th, Ts, Td, Ks, Kc], handType=FULL_HOUSE, playerID=3b52668c-75f9-4889-9c88-55291cf6f506, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #11
+  - Player 59e85d20-d9ee-41bf-a330-5911491d9ada cards=[4s, 4h, 5d, Jc], shouldSeeFlop=true
+  - Player d9bf78bc-1f64-4082-8de0-d264f68ec544 cards=[As, Js, 8c, 9c], shouldSeeFlop=true
+  - Player 68333178-bf79-4e8e-a8de-330314f0f676 cards=[8h, 2s, 6s, 5h], shouldSeeFlop=true
+  - Player e61ba4ee-33fe-45ed-adf2-c9c862bc3021 cards=[Ks, Td, Qh, 7d], shouldSeeFlop=true
+ = Community Cards: [Jd, 9d, Jh, Ts, Tc]
+ = Winner: [9c, 9d, Js, Jd, Jh], handType=FULL_HOUSE, playerID=d9bf78bc-1f64-4082-8de0-d264f68ec544, qualifiesForHH=true
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #12
+  - Player 60915491-8312-454b-ada7-45e9a3d2a72a cards=[5h, 8s, 6s, Ks], shouldSeeFlop=true
+  - Player c0d4e83c-b413-41f3-827b-7f7f4b234250 cards=[Qs, 3s, 3h, 5s], shouldSeeFlop=true
+  - Player c5aa95a2-65bf-457c-bfee-8ea2af05f5c6 cards=[Ac, 5c, 7h, 2h], shouldSeeFlop=true
+  - Player af4b178f-8270-405e-8fca-b86a17de17d3 cards=[Qd, 9d, Jh, Ts], shouldSeeFlop=true
+ = Community Cards: [Th, 4c, 5d, Qh, 6d]
+ = Winner: [6d, Ts, Th, Qd, Qh], handType=TWO_PAIR, playerID=af4b178f-8270-405e-8fca-b86a17de17d3, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #13
+  - Player 0d7b2073-7c3d-4c8a-8846-a50b1369d2de cards=[9d, 8c, 4d, 5h], shouldSeeFlop=true
+  - Player c05af6f6-4603-4054-82c6-6687b8b06d67 cards=[Tc, Js, 3s, Qc], shouldSeeFlop=true
+  - Player 31834430-d25c-4eb0-bc3c-7675f08bd3f5 cards=[4s, 8d, 7s, 5d], shouldSeeFlop=true
+  - Player 5ba68d1a-c27f-499a-ae2b-da0376f2ec9e cards=[7d, 5c, Qs, 6c], shouldSeeFlop=true
+ = Community Cards: [Qd, 4h, 5s, 6h, 3d]
+ = Winner: [3d, 4h, 5s, 6c, 7d], handType=STRAIGHT, playerID=5ba68d1a-c27f-499a-ae2b-da0376f2ec9e, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #14
+  - Player 5d4f05e1-429a-4579-afb5-beccbb9989cf cards=[6c, Ac, 8c, 2d], shouldSeeFlop=true
+  - Player a4ed872b-bb5f-42ee-9559-f5626cb4e79a cards=[Jd, Js, Tc, As], shouldSeeFlop=true
+  - Player 4dfdd830-3cb2-4b9f-b7f4-d710d6c9e64a cards=[8s, Ks, 3d, Qc], shouldSeeFlop=true
+  - Player df6ff8d1-0ade-4298-80b2-3b5c6fa83a8b cards=[4c, Jh, Th, 3h], shouldSeeFlop=true
+ = Community Cards: [5s, Qs, 9h, Jc, 4h]
+ = Winner: [4h, 9h, Jd, Js, Jc], handType=SET, playerID=a4ed872b-bb5f-42ee-9559-f5626cb4e79a, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #15
+  - Player c0437acd-afc7-4195-9481-98b4ac687bc1 cards=[Qd, 7d, 8c, 5d], shouldSeeFlop=true
+  - Player e1a83872-6ddf-436b-b409-c5f90eb69626 cards=[4c, Js, 2c, 4s], shouldSeeFlop=true
+  - Player 400d5faf-2768-43b1-b811-edff9c8ce7f8 cards=[8h, Ac, Ks, 7h], shouldSeeFlop=true
+  - Player 95424fef-316c-426a-a34f-04f187b39b05 cards=[Jd, Kd, 3s, Ah], shouldSeeFlop=true
+ = Community Cards: [4h, 8d, Td, 9h, As]
+ = Winner: [4c, 4s, 4h, 9h, As], handType=SET, playerID=e1a83872-6ddf-436b-b409-c5f90eb69626, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #16
+  - Player f25944b1-46c6-4754-b07b-fdf1dfac5994 cards=[Ah, 6s, 5s, Ks], shouldSeeFlop=true
+  - Player 6b26fb90-41b4-4e38-8a1a-22c2b689dde4 cards=[As, Kc, 7d, 6c], shouldSeeFlop=true
+  - Player ac4b7419-1c8b-4ca2-b9b5-52ea090a90ca cards=[4d, 5c, Ad, Jh], shouldSeeFlop=true
+  - Player 12caed8e-58da-4229-b8cc-8ffc226ce4b3 cards=[Ts, 2h, 3h, 8c], shouldSeeFlop=true
+ = Community Cards: [Jd, 7s, Th, 2d, 6d]
+ = Winner: [2d, 4d, 6d, Jd, Ad], handType=FLUSH, playerID=ac4b7419-1c8b-4ca2-b9b5-52ea090a90ca, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #17
+  - Player c1248cb7-18be-448c-8d18-87515a70d780 cards=[Ts, 6d, As, Jd], shouldSeeFlop=true
+  - Player cef0e6d6-1a86-4675-bc1b-32dfa489a8a8 cards=[7c, 7s, Th, 9d], shouldSeeFlop=true
+  - Player a84c5917-262c-4a3d-a14c-95831dafea5b cards=[Js, 9h, 6s, 2d], shouldSeeFlop=true
+  - Player 3328d193-373b-462e-955e-69ce653e83c0 cards=[5h, Tc, 4s, Jh], shouldSeeFlop=true
+ = Community Cards: [2h, 8c, Ks, 9s, 2c]
+ = Winner: [2d, 2h, 2c, 9h, 9s], handType=FULL_HOUSE, playerID=a84c5917-262c-4a3d-a14c-95831dafea5b, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #18
+  - Player 4fdf4bb9-14e9-465f-b95d-492cafc4407a cards=[7d, 4h, 9s, Th], shouldSeeFlop=true
+  - Player a70668ff-0142-4047-b3c5-e599a33055c3 cards=[Jc, 2h, Ah, 6d], shouldSeeFlop=true
+  - Player bd257015-79d0-4173-bc18-db0623d59d6b cards=[4c, 8s, Kc, 8h], shouldSeeFlop=true
+  - Player 9396787f-9068-4154-8a2f-1637d23d7c4a cards=[9c, 8c, 5h, 5s], shouldSeeFlop=true
+ = Community Cards: [Jd, 8d, 7c, 2s, Tc]
+ = Winner: [7c, 8c, 9c, Tc, Jd], handType=STRAIGHT, playerID=9396787f-9068-4154-8a2f-1637d23d7c4a, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #19
+  - Player e60f339d-7631-472d-aaeb-334385ce78fa cards=[Jh, 3c, Ac, 4h], shouldSeeFlop=true
+  - Player 6565d083-f84c-41d3-ada4-18c37f436efc cards=[Jc, 6s, 5s, 7c], shouldSeeFlop=true
+  - Player 18550a0a-7b57-48c6-bffa-d0e096c69ac0 cards=[6c, Ks, 4s, 2h], shouldSeeFlop=true
+  - Player 4b7e63f0-a2be-428e-801b-ee731ae986c8 cards=[9h, 6d, 9c, 4d], shouldSeeFlop=true
+ = Community Cards: [8c, Ts, Qs, Kd, 2c]
+ = Winner: [Ts, Jh, Qs, Kd, Ac], handType=STRAIGHT, playerID=e60f339d-7631-472d-aaeb-334385ce78fa, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #20
+  - Player eabd744c-98e5-44dc-8cbd-0dcef39115c0 cards=[2h, Qd, 9h, 5h], shouldSeeFlop=true
+  - Player 4538db73-ecbe-4e81-83a8-b8001b3507fc cards=[Js, 8c, Tc, 3d], shouldSeeFlop=true
+  - Player d5b60d6a-973a-4f96-91ad-bd11f246f39c cards=[Th, 9d, 9c, 5c], shouldSeeFlop=true
+  - Player cb39b9ee-568a-437f-bd24-85b17e6acc95 cards=[4d, 8d, As, Kc], shouldSeeFlop=true
+ = Community Cards: [7h, Jh, 7d, 8s, 5d]
+ = Winner: [7d, 8s, 9c, Th, Jh], handType=STRAIGHT, playerID=d5b60d6a-973a-4f96-91ad-bd11f246f39c, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #21
+  - Player 21847b24-5231-47c0-880a-7d4f75551008 cards=[Ad, 4d, 4s, Tc], shouldSeeFlop=true
+  - Player b31da3dc-63cc-4832-8f50-99a49a18eaf2 cards=[2d, Kd, 8c, Ah], shouldSeeFlop=true
+  - Player 23d1d990-326a-4f55-9a6b-29994d7559ca cards=[9d, 9c, Td, Jh], shouldSeeFlop=true
+  - Player 30cff0bf-f199-45f4-88fd-c4c37627230d cards=[8s, 9s, 7s, 4c], shouldSeeFlop=true
+ = Community Cards: [Js, 3s, As, Ks, 6d]
+ = Winner: [3s, 7s, 9s, Ks, As], handType=FLUSH, playerID=30cff0bf-f199-45f4-88fd-c4c37627230d, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #22
+  - Player b62582eb-8d8a-490e-83bc-63c98bf9fecd cards=[4c, Th, Qs, 8c], shouldSeeFlop=true
+  - Player 76c03ec2-021d-4694-8d98-6248743c46ab cards=[3d, 2h, 6h, 5s], shouldSeeFlop=true
+  - Player f23732d0-b9d2-448f-8132-373cdd6628ca cards=[8d, 2s, 9c, 4d], shouldSeeFlop=true
+  - Player c6b52284-5a69-40bd-942b-6f3b5b5ba903 cards=[Jd, 4h, Ac, Ad], shouldSeeFlop=true
+ = Community Cards: [Ts, 7s, 7c, 7h, Qh]
+ = Winner: [7s, 7c, 7h, Ac, Ad], handType=FULL_HOUSE, playerID=c6b52284-5a69-40bd-942b-6f3b5b5ba903, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #23
+  - Player 34b842ad-59da-4b57-9c04-4848430157cb cards=[8c, 9d, 2s, Qs], shouldSeeFlop=true
+  - Player 72269f74-4962-4f37-8082-2adce2b7af24 cards=[4h, 3d, Tc, Th], shouldSeeFlop=true
+  - Player e8694ad2-b801-4995-9d78-df31f1df02cf cards=[Ac, Ah, 4d, Kd], shouldSeeFlop=true
+  - Player 56219945-b30f-49bc-8576-faf9ce8f1e2a cards=[4c, 4s, 6d, Ks], shouldSeeFlop=true
+ = Community Cards: [8s, Kc, 9h, Kh, 8d]
+ = Winner: [8c, 8s, 8d, 9d, 9h], handType=FULL_HOUSE, playerID=34b842ad-59da-4b57-9c04-4848430157cb, qualifiesForHH=false
+
+=============== Table 20294248-2105-4180-b8a9-89eec7abb71e Hand #24
+  - Player 2893f499-0804-4c11-9eec-ba5cfd5f9ed9 cards=[Ks, Ad, 5c, 9h], shouldSeeFlop=true
+  - Player 3f6fbb13-a156-4c6b-abe8-027305af0560 cards=[5h, Ac, 3c, 9c], shouldSeeFlop=true
+  - Player 19c331db-d1d4-4b93-9ef9-575c4b8f6f6e cards=[2d, Tc, 7s, 8d], shouldSeeFlop=true
+  - Player 2ea4a57d-c19d-4d95-8fbf-e282a6b8ec37 cards=[7h, Jh, 4d, 8h], shouldSeeFlop=true
+ = Community Cards: [4h, Kc, Qd, Td, Th]
+ = Winner: [8d, Tc, Td, Th, Qd], handType=SET, playerID=19c331db-d1d4-4b93-9ef9-575c4b8f6f6e, qualifiesForHH=false
+
+=============================================
+=== TableHighHandWinner: [9c, 9d, Js, Jd, Jh]
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #0
+  - Player c3461095-412d-42de-8e5d-f8179345e3df cards=[9c, 3s, 4c, 3h], shouldSeeFlop=true
+  - Player 0b87a068-5524-4275-8281-f7d9f3e24fcd cards=[Jh, Td, Ah, 7c], shouldSeeFlop=true
+  - Player e13b98e1-2ff7-47b0-88f1-fee07660e8c4 cards=[Ac, 2s, 5h, 2d], shouldSeeFlop=true
+  - Player 2b4f0abb-d643-4a61-a27c-9ef96c4f7087 cards=[6s, As, 4s, 8d], shouldSeeFlop=true
+ = Community Cards: [Qh, Th, Kh, Kd, 2h]
+ = Winner: [Th, Jh, Qh, Kh, Ah], handType=STRAIGHT_FLUSH, playerID=0b87a068-5524-4275-8281-f7d9f3e24fcd, qualifiesForHH=true
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #1
+  - Player 0f460f3d-82ab-4396-ae18-2d093e0defe7 cards=[9d, 5h, Qh, 7h], shouldSeeFlop=true
+  - Player f50f9ab8-ebc7-4ed1-b9bd-299199f0b40e cards=[As, 9s, 3d, 5c], shouldSeeFlop=true
+  - Player 4698d60c-fbbe-48c7-9a08-95595d563576 cards=[Ts, 5s, Js, 4s], shouldSeeFlop=true
+  - Player c9a8fec1-ffa8-46e6-be98-7ce4f60c873d cards=[6c, 3s, 4h, Kd], shouldSeeFlop=true
+ = Community Cards: [7c, Kc, 6h, 8c, 7s]
+ = Winner: [4s, 5s, 6h, 7s, 8c], handType=STRAIGHT, playerID=4698d60c-fbbe-48c7-9a08-95595d563576, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #2
+  - Player e15bb85b-face-405a-a68a-8f354d95769f cards=[3h, 3c, 6c, 9h], shouldSeeFlop=true
+  - Player 3d5aac23-dbce-49fa-971f-e22ab536eea2 cards=[Tc, 9d, 9s, Js], shouldSeeFlop=true
+  - Player 86e80489-f550-4fe3-a9e2-a375235c5965 cards=[Ks, Kd, Jd, 8s], shouldSeeFlop=true
+  - Player 74463b77-0ed9-48f8-ae66-9bda823b997a cards=[Jc, 2h, Td, 5d], shouldSeeFlop=true
+ = Community Cards: [Ah, 5h, 6d, 4h, 6h]
+ = Winner: [3h, 4h, 5h, 6h, 9h], handType=FLUSH, playerID=e15bb85b-face-405a-a68a-8f354d95769f, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #3
+  - Player 54d36588-4be7-466b-a4f3-edb5f9728959 cards=[Jh, 9d, Kd, 4d], shouldSeeFlop=true
+  - Player 20b44899-51dc-4d88-bff8-0dd43b583624 cards=[Ts, Ac, 6c, 8d], shouldSeeFlop=true
+  - Player 26da27cd-bc10-4f28-b4dd-9e17bd503eda cards=[5s, 6h, Qd, Qh], shouldSeeFlop=true
+  - Player 876c971c-2a94-404c-85e7-0862ce7b73bc cards=[9c, Tc, 9s, 8s], shouldSeeFlop=true
+ = Community Cards: [Ah, 3d, Jd, 4s, 2h]
+ = Winner: [2h, 3d, 4s, 5s, 6h], handType=STRAIGHT, playerID=26da27cd-bc10-4f28-b4dd-9e17bd503eda, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #4
+  - Player 1275af70-e35c-470d-bea1-cf64ae85dcad cards=[5c, 9s, 6d, 9c], shouldSeeFlop=true
+  - Player 6cfcad6f-94a9-4d0e-9949-72d0b85eb87d cards=[Ts, 8d, 7d, Jh], shouldSeeFlop=true
+  - Player 482b53b8-418a-42c9-ba5a-1a212d20d485 cards=[Td, 3c, 5h, 3d], shouldSeeFlop=true
+  - Player 8f8a9f97-fb84-4cb9-b4b5-2d28fbf0d5c4 cards=[4h, Ad, 7s, 8c], shouldSeeFlop=true
+ = Community Cards: [4d, 7c, Ah, Qh, 4s]
+ = Winner: [4h, 4d, 4s, Ad, Ah], handType=FULL_HOUSE, playerID=8f8a9f97-fb84-4cb9-b4b5-2d28fbf0d5c4, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #5
+  - Player a25662b4-31c0-402b-8279-b4a570e114af cards=[Qs, Tc, Kc, Ad], shouldSeeFlop=true
+  - Player a54572fe-abc9-4fed-adfa-fd806f6209d6 cards=[7d, 9h, Qc, 2d], shouldSeeFlop=true
+  - Player 5a1be6a3-c91e-46da-9303-e8e581ea5f1f cards=[Js, 2s, As, 9c], shouldSeeFlop=true
+  - Player 492b04b7-dad4-4cdb-a3b0-596989b40c6b cards=[7s, 6h, 5d, 8c], shouldSeeFlop=true
+ = Community Cards: [5c, 7c, 9d, 2c, Td]
+ = Winner: [2c, 5c, 7c, Tc, Kc], handType=FLUSH, playerID=a25662b4-31c0-402b-8279-b4a570e114af, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #6
+  - Player 3d041577-05d7-4900-8254-ca99ed571e0f cards=[3c, 4h, Th, Ks], shouldSeeFlop=true
+  - Player 767ca613-b17e-4eb9-a5d5-06ffb2278b2c cards=[8h, Qh, Ad, 8c], shouldSeeFlop=true
+  - Player fd94e406-e95e-48c6-b814-20cb512d2524 cards=[5c, 9s, 8s, Jc], shouldSeeFlop=true
+  - Player 885aa573-6e1d-4553-aa68-ec003bd5a3df cards=[Ac, Qd, 6d, Kd], shouldSeeFlop=true
+ = Community Cards: [5d, 6s, 9h, Kc, 5h]
+ = Winner: [5c, 5d, 5h, 9s, 9h], handType=FULL_HOUSE, playerID=fd94e406-e95e-48c6-b814-20cb512d2524, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #7
+  - Player d7284f60-ee1c-4403-9c63-69847505493c cards=[Qd, 7c, Ac, 6d], shouldSeeFlop=true
+  - Player d5ba2aae-c29f-4464-96d4-5bd1e8e58459 cards=[2h, 6c, 2c, Kd], shouldSeeFlop=true
+  - Player dbc22975-5283-446e-9526-eccf406dbf17 cards=[7h, 9s, 5c, Jh], shouldSeeFlop=true
+  - Player b7e57933-9109-40dc-b70f-aa87e8eb2c19 cards=[Kh, 7s, Js, 8s], shouldSeeFlop=true
+ = Community Cards: [3s, 9h, Ad, 9c, 6h]
+ = Winner: [9s, 9h, 9c, Jh, Ad], handType=SET, playerID=dbc22975-5283-446e-9526-eccf406dbf17, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #8
+  - Player 2a2868ea-4888-4745-aaba-50bfba10cdb1 cards=[8d, 2d, Jc, Kh], shouldSeeFlop=true
+  - Player 1028f79b-7aa1-419f-ba86-309556d59c75 cards=[Th, Tc, Qs, As], shouldSeeFlop=true
+  - Player 5560914e-6f2c-4ee2-af1b-7a3e1e9a5d1e cards=[Qh, 5c, Ad, 3h], shouldSeeFlop=true
+  - Player ab2f0867-c181-45b7-954c-a2821530a41e cards=[3s, 2c, Td, 9c], shouldSeeFlop=true
+ = Community Cards: [Ah, Js, 5s, 7s, 6d]
+ = Winner: [5s, 7s, Js, Qs, As], handType=FLUSH, playerID=1028f79b-7aa1-419f-ba86-309556d59c75, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #9
+  - Player e1624b85-df37-42be-a5cf-5ac787f64fd4 cards=[Qh, 3c, Ah, 4s], shouldSeeFlop=true
+  - Player 5613438a-7500-4a92-beef-c52c6d8b2e8e cards=[Ks, Kc, Kh, 6h], shouldSeeFlop=true
+  - Player da443c3a-6d29-4bcc-bdd5-5702fdb059cb cards=[Th, 5d, 3h, Kd], shouldSeeFlop=true
+  - Player b538d7d7-1790-4598-97ab-578f0f6aaeae cards=[Qc, Qd, Tc, 5s], shouldSeeFlop=true
+ = Community Cards: [6d, 7h, 9d, 5c, 6s]
+ = Winner: [3c, 4s, 5c, 6s, 7h], handType=STRAIGHT, playerID=e1624b85-df37-42be-a5cf-5ac787f64fd4, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #10
+  - Player d2550cc9-afd2-4a38-927c-2ef445cb8f8b cards=[Jh, Kd, 4c, 4s], shouldSeeFlop=true
+  - Player ca4595ae-b635-4d1e-84bd-499f6cdb6f86 cards=[3c, Ks, 8s, 4d], shouldSeeFlop=true
+  - Player 3bfbec77-e337-4a0a-8e1f-88ab844f4ced cards=[7h, 6c, 9h, Qh], shouldSeeFlop=true
+  - Player 5dbe8488-7ca1-4801-9cad-fe4ff0ee630c cards=[6d, Ah, 9d, Ts], shouldSeeFlop=true
+ = Community Cards: [4h, 7s, 3h, 5h, As]
+ = Winner: [3h, 4h, 5h, 9h, Qh], handType=FLUSH, playerID=3bfbec77-e337-4a0a-8e1f-88ab844f4ced, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #11
+  - Player 97c88f2f-a1b6-4e29-a1e0-4d4a564c2ceb cards=[2d, 6d, Qs, 2s], shouldSeeFlop=true
+  - Player 4bf5d6e6-babc-430c-946f-af91ae1d844c cards=[Ad, 8h, Jd, 9c], shouldSeeFlop=true
+  - Player 32d77539-e7ce-4d7d-827c-e1d9e5994238 cards=[Jh, 3c, 4s, Td], shouldSeeFlop=true
+  - Player 0f2ab7ec-553a-42b6-bc58-e8edcfd73a28 cards=[8d, 3d, Tc, 9h], shouldSeeFlop=true
+ = Community Cards: [6h, 7d, 6c, Qh, 5s]
+ = Winner: [6d, 6h, 6c, Qs, Qh], handType=FULL_HOUSE, playerID=97c88f2f-a1b6-4e29-a1e0-4d4a564c2ceb, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #12
+  - Player 7a0c7df7-47ea-4507-ad8d-5659c7444266 cards=[9h, 3h, 3s, 4h], shouldSeeFlop=true
+  - Player 5658269b-31d0-4d95-a8f0-ef5e675ec391 cards=[8d, 4s, Th, 9c], shouldSeeFlop=true
+  - Player b5496152-4cec-47cb-a2f6-0bc1d7a7a76f cards=[Qd, Jc, 9d, Js], shouldSeeFlop=true
+  - Player 5c93aca9-c818-46d5-b1e6-edd625681adb cards=[7d, 6d, 7s, Ad], shouldSeeFlop=true
+ = Community Cards: [8s, 7h, Tc, 2c, 6h]
+ = Winner: [7h, 8s, 9d, Tc, Js], handType=STRAIGHT, playerID=b5496152-4cec-47cb-a2f6-0bc1d7a7a76f, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #13
+  - Player 0b62b7dc-add6-4931-a69b-75b1c66b4768 cards=[4d, 3d, As, Js], shouldSeeFlop=true
+  - Player a0cae79f-271f-4166-a0b0-bd433adcfe48 cards=[Qs, 6d, 4h, 5s], shouldSeeFlop=true
+  - Player 6e531d57-50fa-48a8-b209-addd6a27343a cards=[Tc, 9s, 4s, 3s], shouldSeeFlop=true
+  - Player 2073b2b3-778b-4966-96bb-c28a450bf218 cards=[9h, 9c, 2h, Ac], shouldSeeFlop=true
+ = Community Cards: [3h, Td, Qh, 5h, Ts]
+ = Winner: [3s, 3h, Tc, Td, Ts], handType=FULL_HOUSE, playerID=6e531d57-50fa-48a8-b209-addd6a27343a, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #14
+  - Player a863840f-4c81-4380-bbae-c6cbf148be9a cards=[6s, 8d, Ts, 8h], shouldSeeFlop=true
+  - Player 55618f67-e02b-4766-9480-ee07c1532420 cards=[Kd, 7d, Qc, Ad], shouldSeeFlop=true
+  - Player 20188ba3-52a7-4e7c-8c8c-68dfcbe85a2b cards=[3s, Jh, Ks, 6h], shouldSeeFlop=true
+  - Player 8a9aa0ea-c3fd-4782-990a-a2653ff88c4d cards=[3h, Qs, 5s, Qh], shouldSeeFlop=true
+ = Community Cards: [Kh, 7h, As, 9c, 5h]
+ = Winner: [3h, 5h, 7h, Qh, Kh], handType=FLUSH, playerID=8a9aa0ea-c3fd-4782-990a-a2653ff88c4d, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #15
+  - Player 9e876b38-dd90-4750-97df-4f321da2cdf5 cards=[5c, 4c, Ks, 5s], shouldSeeFlop=true
+  - Player cd8c3c88-86b8-4341-bf77-bddea59182da cards=[4h, Th, Jd, 4s], shouldSeeFlop=true
+  - Player 510e7524-5f8c-490e-bf3c-10e4d2216ef4 cards=[Tc, 2d, 8d, 4d], shouldSeeFlop=true
+  - Player 275faf7f-934d-416a-9ea5-8f5bb47fe55b cards=[8c, Ts, Qc, Ad], shouldSeeFlop=true
+ = Community Cards: [Kh, Qh, 3d, Kc, Jc]
+ = Winner: [Ts, Jc, Qh, Kc, Ad], handType=STRAIGHT, playerID=275faf7f-934d-416a-9ea5-8f5bb47fe55b, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #16
+  - Player ac1a3b56-aade-4b72-9e0b-22216349e296 cards=[Tc, Th, 6c, Kd], shouldSeeFlop=true
+  - Player 0aa6c537-acef-44e7-aeb0-b3911343d5a0 cards=[Td, 3d, 7s, 4c], shouldSeeFlop=true
+  - Player f7492afe-ada6-43a7-b80f-a9acbe26b92c cards=[5s, Qc, 2s, 8h], shouldSeeFlop=true
+  - Player ca811ccb-0a86-41bc-a6f3-48b3a58aca5c cards=[7d, 6h, 4h, As], shouldSeeFlop=true
+ = Community Cards: [Qs, Ks, Jh, 9h, 4d]
+ = Winner: [9h, Th, Jh, Qs, Kd], handType=STRAIGHT, playerID=ac1a3b56-aade-4b72-9e0b-22216349e296, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #17
+  - Player 1342c5aa-caa3-4037-a491-b70c41c739a0 cards=[Js, 5c, Kh, 4c], shouldSeeFlop=true
+  - Player 2ab5930c-1e4c-4f3a-ad14-89d1c31d657f cards=[7c, Ah, 6h, 2h], shouldSeeFlop=true
+  - Player dc42abf2-d387-4061-b906-d617df578b05 cards=[2c, Ad, 6s, Jd], shouldSeeFlop=true
+  - Player b3c8794e-1c68-474a-b01a-80b0b42c6831 cards=[3c, 2d, 9c, 6c], shouldSeeFlop=true
+ = Community Cards: [8c, Qh, 6d, 9d, 8h]
+ = Winner: [6c, 6d, 8h, 9c, 9d], handType=TWO_PAIR, playerID=b3c8794e-1c68-474a-b01a-80b0b42c6831, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #18
+  - Player 2fd1ca65-97a0-41a9-85c7-381cfb16697c cards=[Ah, 2s, Ts, 5c], shouldSeeFlop=true
+  - Player 602688a6-bbfd-4401-8514-6dd0b51da7e5 cards=[Ad, Ks, 4d, Ac], shouldSeeFlop=true
+  - Player c2b44833-c753-4b86-8963-9de33ff32d05 cards=[2h, 4s, Tc, 8s], shouldSeeFlop=true
+  - Player bd9061dc-cc9e-4975-a902-0440d3f8f096 cards=[8d, Kd, 3c, Td], shouldSeeFlop=true
+ = Community Cards: [4h, 5s, Qh, 3d, 7h]
+ = Winner: [3c, 3d, 7h, Td, Qh], handType=PAIR, playerID=bd9061dc-cc9e-4975-a902-0440d3f8f096, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #19
+  - Player b4fc998f-3dfa-4417-a875-d84ac75bf6fb cards=[6s, 5d, Th, 2s], shouldSeeFlop=true
+  - Player b1d50893-c2b9-4ee4-85af-e8cd9a0ede3f cards=[8h, 3h, 7c, 4c], shouldSeeFlop=true
+  - Player 7954f8d7-9d26-43a9-a6b6-3a9602e81de5 cards=[9c, Qs, 8s, 7s], shouldSeeFlop=true
+  - Player 2cd73f87-90a0-42d7-a13d-d4946a15ffd1 cards=[Qc, 6c, 7h, Td], shouldSeeFlop=true
+ = Community Cards: [Kh, Ts, 9h, 2c, Ks]
+ = Winner: [7h, Td, Ts, Kh, Ks], handType=TWO_PAIR, playerID=2cd73f87-90a0-42d7-a13d-d4946a15ffd1, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #20
+  - Player c152a764-caa0-45ea-a010-e9a36cc7aca0 cards=[2c, 4d, Qd, Kh], shouldSeeFlop=true
+  - Player 728bc8d0-a014-4f01-896c-3184161a2fd3 cards=[Th, 7s, 4h, Ad], shouldSeeFlop=true
+  - Player 72e00308-6947-48a0-b6e6-f573c68a364a cards=[As, Jd, 5h, 3s], shouldSeeFlop=true
+  - Player a377d7bd-fc23-4670-a675-9e312882fea4 cards=[5d, 2d, 8d, Ah], shouldSeeFlop=true
+ = Community Cards: [6s, 3h, Qs, Ks, 5c]
+ = Winner: [3s, 6s, Qs, Ks, As], handType=FLUSH, playerID=72e00308-6947-48a0-b6e6-f573c68a364a, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #21
+  - Player 9e62c04a-dcfd-4597-ac99-77ddb76db57f cards=[Kh, 8c, Ah, Qd], shouldSeeFlop=true
+  - Player 3b6e1286-9036-4837-8c20-b37819c0376d cards=[As, Ac, 2c, Ks], shouldSeeFlop=true
+  - Player 45f2b2c4-f45b-43e7-932e-f2fe4cb41e81 cards=[7d, Jd, 3d, 4s], shouldSeeFlop=true
+  - Player aad4f017-0694-44e5-9e0b-f5b6ae739c0c cards=[9h, Kc, 3h, 6c], shouldSeeFlop=true
+ = Community Cards: [7s, 8s, 9s, Tc, 5h]
+ = Winner: [7s, 8s, 9s, Ks, As], handType=FLUSH, playerID=3b6e1286-9036-4837-8c20-b37819c0376d, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #22
+  - Player d812e057-3e69-4533-bbf2-a98918fa23b1 cards=[6d, 9s, 3s, Js], shouldSeeFlop=true
+  - Player 08136d50-d1d9-4ceb-9419-4f8c56c5584f cards=[Kd, Ks, 3c, 3h], shouldSeeFlop=true
+  - Player 39b73918-f199-471b-b987-8a71e8e66577 cards=[Tc, Ad, 6h, Qh], shouldSeeFlop=true
+  - Player aefb563e-114a-4408-b217-f7d3c16fd161 cards=[2d, Qd, 9d, Ts], shouldSeeFlop=true
+ = Community Cards: [8s, 5s, 8d, 9c, Ah]
+ = Winner: [8s, 8d, 9d, 9c, Ts], handType=TWO_PAIR, playerID=aefb563e-114a-4408-b217-f7d3c16fd161, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #23
+  - Player 1cc3bb9f-9bd5-4e64-abe7-e23a2dcbe506 cards=[Ts, 3s, 7c, Td], shouldSeeFlop=true
+  - Player 1adc216e-5fb6-475f-9174-c7a2005c5b03 cards=[8s, 5c, 8h, 3c], shouldSeeFlop=true
+  - Player 8919de91-f64d-40c7-9909-3b8bac7a6b57 cards=[Kc, 2s, Jc, 9s], shouldSeeFlop=true
+  - Player ea7b2567-9015-4ef2-af0f-119e82b94710 cards=[Js, 2c, Qd, 3h], shouldSeeFlop=true
+ = Community Cards: [4c, 9d, 6h, Jd, 2h]
+ = Winner: [2h, 3c, 4c, 5c, 6h], handType=STRAIGHT, playerID=1adc216e-5fb6-475f-9174-c7a2005c5b03, qualifiesForHH=false
+
+=============== Table 8a6dfe21-e559-43f6-8dc6-b9258574255f Hand #24
+  - Player fcb04851-d120-433c-af49-f53478cd0de9 cards=[2c, 6c, 9d, 3d], shouldSeeFlop=true
+  - Player 3a4ac15b-2b0f-40fc-9ac0-5c545142940a cards=[4h, Qh, Kd, 2s], shouldSeeFlop=true
+  - Player c18d51a2-af10-40ad-ae2d-2df4b39622a5 cards=[3c, Ts, 3h, Qc], shouldSeeFlop=true
+  - Player 1dde4064-f455-4224-80e5-25a902dd6ada cards=[8c, 4c, Jd, Ac], shouldSeeFlop=true
+ = Community Cards: [5c, Js, 2d, 3s, Td]
+ = Winner: [2d, 3c, 3h, 3s, Td], handType=SET, playerID=c18d51a2-af10-40ad-ae2d-2df4b39622a5, qualifiesForHH=false
+
+=============================================
+=== TableHighHandWinner: [Th, Jh, Qh, Kh, Ah]
+=============== SIMULATION RESULTS ===============
+[Hour=0, Hand=[PokerHand: handType=STRAIGHT_FLUSH {Th Jh Qh Kh Ah} (flopped=true)], isPlo=true]
+
+numPloWins=1
+numNlhWins=0
+
+=============== SIMULATION RESULTS ===============
+8 Total NLH Players spread over 2 NLH tables
+8 Total PLO Players spread over 2 PLO tables
+NLH won HH 0/1 times (0.00%)
+PLO won HH 1/1 times (100.00%)
+Odds Ratio (NLH vs PLO): (0.00)
+
+
+Process finished with exit code 0
