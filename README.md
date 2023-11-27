@@ -17,7 +17,7 @@ TODO
 | `-hhd,--highHandDuration <arg>`         | High hand time period. Defaults to PT1H                                                              |
 | `-nlhrl,--includeNlhRiverLikelihood`   | If this option is added, terminates NLH hands early if likely to fold IRL *[NOT YET IMPLEMENTED]*    |
 | `-nlhT,--numNlhTables <arg>`            | Number of NLH Tables to simulate. Defaults to 8                                                       |
-| `-npfr,--noPloFlopRestriction`          | If this option is added, removes restriction that PLO must flop the HH to qualify *[NOT YET IMPLEMENTED]* |
+| `-npfr,--noPloFlopRestriction`          | If this option is added, removes restriction that PLO must flop the HH to qualify  |
 | `-p,--numPlayersPerTable <arg>`         | Number of players per table to simulate. Defaults to 8                                                |
 | `-ploT,--numPloTables <arg>`            | Number of PLO Tables to simulate. Defaults to 4                                                       |
 | `-sfp,--shouldFilterPreflop`            | If this option is added, filters players' cards to fold pre-flop if they are not within an individually-randomly-assigned VPIP between 10% and 50% *[NOT YET IMPLEMENTED]* |
