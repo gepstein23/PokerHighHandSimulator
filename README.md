@@ -3,7 +3,7 @@
 ## Problem Overview
 
 NLH and PLO players pay the same rake to compete for the same High Hands. 
-Therefore, 
+Therefore, a NLH and PLO player should have the same chances to win.
 
 ## Algorithm Description
 TODO
@@ -96,6 +96,6 @@ TODO
 | Run | Description                                  | Command                                       | Output File         |
 |-----|----------------------------------------------|-----------------------------------------------|---------------------|
 | A   | PLO Table Mechanics      | `--simulationDuration 1 --numHandsPerHour 25 --highHandMinimumQualifier 22233 --highHandDuration 1 --numNlhTables 0 --numPloTables 1 --numPlayersPerTable 3`         | [runA_output.txt](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/results/runA_output.txt)     |
-| B   | NLH Table Mechanics     | `--simulationDuration 1 --numHandsPerHour 25 --highHandMinimumQualifier 22233 --highHandDuration 1 --numNlhTables 1 --numPloTables 0 --numPlayersPerTable 3`   | [runB_output.txt](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/results/runA_output.txt)[runA_output.txt](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/results/runB_output.txt)     |
+| B   | NLH Table Mechanics     | `--simulationDuration 1 --numHandsPerHour 25 --highHandMinimumQualifier 22233 --highHandDuration 1 --numNlhTables 1 --numPloTables 0 --numPlayersPerTable 3`   | [runB_output.txt](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/results/runB_output.txt)     |
 | C   | NLH & PLO Basic Test     | `--simulationDuration 1 --numHandsPerHour 25 --highHandMinimumQualifier 22233 --highHandDuration 1 --numNlhTables 2 --numPloTables 2 --numPlayersPerTable 4`   | [runC_output.txt](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/results/runC_output.txt)     |
 | D   | Minimum Qualifier      | `--simulationDuration 2 --numHandsPerHour 30 --highHandMinimumQualifier 33339 --highHandDuration 1 --numNlhTables 2 --numPloTables 2 --numPlayersPerTable 4` | [runD_output.txt](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/results/runD_output.txt)     |
