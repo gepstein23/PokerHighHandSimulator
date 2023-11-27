@@ -126,7 +126,7 @@ public class Main {
 
         final HighHand highHand = new HighHand(highHandMinimumQualifier, highHandDuration);
         final HighHandSimulator highHandSimulator = new HighHandSimulator(numNlhTables, numPloTables, numHandsPerHour,
-                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration);
+                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction);
         highHandSimulator.runSimulation();
     }
 

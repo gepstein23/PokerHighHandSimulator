@@ -70,7 +70,7 @@ public class PokerHand {
             return HandType.SET;
         }
         if (isTwoPair(fiveHandCards)) {
-            return HandType.SET;
+            return HandType.TWO_PAIR;
         }
         if (isPair(fiveHandCards)) {
             return HandType.PAIR;
