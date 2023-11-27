@@ -38,4 +38,13 @@ public enum CardValue {
     public void setFriendlyName(String friendlyName) {
         this.friendlyName = friendlyName;
     }
+
+    public static CardValue fromFriendlyName(final String friendlyName) {
+        for (CardValue card : CardValue.values()) {
+            if (card.friendlyName.equals(friendlyName)) {
+                return card;
+            }
+        }
+        return null;
+    }
 }

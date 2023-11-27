@@ -11,14 +11,17 @@ import java.time.Duration;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static main.Utils.debug;
 import static main.Utils.log;
 
 public abstract class PokerTable {
+    private UUID tableID;
     protected int numPlayers;
     protected double tableHandsPerHour;
     protected boolean shouldFilterPreflop;
 
     public PokerTable(int numPlayers, double tableHandsPerHour, boolean shouldFilterPreflop) {
+        this.tableID = UUID.randomUUID();
         this.tableHandsPerHour = tableHandsPerHour;
         this.numPlayers = numPlayers;
         this.shouldFilterPreflop = shouldFilterPreflop;
@@ -44,18 +47,24 @@ public abstract class PokerTable {
     private PokerHand playHourOfHands(double tableHandsPerHour, HighHand highHand) {
         PokerHand tableHighHandWinner = null;
         for (int i = 0; i < tableHandsPerHour; i++) {
+            debug("\n=============== Table %s Hand #%s", tableID, i);
             // Play out one hand
             final Deck deck = new Deck();
             final Collection<PokerPlayer> players = filterPlayersPrePreflop(dealPlayers(deck));
             final List<Card> communityCards = dealCommunityCards(deck);
-            final PokerHand winner = determineWinningHand(players, communityCards);
-            final boolean qualifiesForHighHand = isQualifyingHighHand(winner, highHand);
+            debug(" = Community Cards: %s", Card.getCardStr(communityCards.toArray(new Card[0])));
+            final Map<UUID, PokerHand> winner = determineWinningHand(players, communityCards);
+            final PokerHand winningHand = winner.values().iterator().next();
+            final boolean qualifiesForHighHand = isQualifyingHighHand(winningHand, highHand);
+            debug(" = Winner: %s, handType=%s, playerID=%s, qualifiesForHH=%s", Card.getCardStr(winningHand.getFiveHandCards()),
+                    winningHand.getHandType(), winner.keySet().iterator().next(), qualifiesForHighHand);
             if (qualifiesForHighHand) {
-                if (tableHighHandWinner == null || winner.compare(tableHighHandWinner) > 0) {
-                    tableHighHandWinner = winner;
+                if (tableHighHandWinner == null || winningHand.compare(tableHighHandWinner) > 0) {
+                    tableHighHandWinner = winningHand;
                 }
             }
         }
+        debug("\n=============================================\n=== TableHighHandWinner: %s", tableHighHandWinner == null ? "null" : Card.getCardStr(tableHighHandWinner.getFiveHandCards()));
         return tableHighHandWinner;
     }
 
@@ -71,19 +80,27 @@ public abstract class PokerTable {
 
     protected abstract boolean isQualifyingHighHand(PokerHand winner, HighHand highHand);
 
-    protected PokerHand determineWinningHand(Collection<PokerPlayer> players, List<Card> communityCards) {
+    /**
+     * Returns winning hand to winning playerID
+     */
+    protected Map<UUID, PokerHand> determineWinningHand(Collection<PokerPlayer> players, List<Card> communityCards) {
         PokerHand winningHand = null;
+        UUID winningPlayerUUID = null;
         for (PokerPlayer pokerPlayer : players) {
             PokerHand pokerPlayerBestHand = pokerPlayer.getBestHand(communityCards);
             if (winningHand == null) {
                 winningHand = pokerPlayerBestHand;
+                winningPlayerUUID = pokerPlayer.getPlayerID();
                 continue;
             }
             if (pokerPlayerBestHand.compare(winningHand) > 0) {
                 winningHand = pokerPlayerBestHand;
+                winningPlayerUUID = pokerPlayer.getPlayerID();
             }
         }
-        return winningHand;
+        final HashMap<UUID, PokerHand> res = new HashMap<>();
+        res.put(winningPlayerUUID, winningHand);
+        return res;
     }
 
     private List<Card> dealCommunityCards(Deck deck) {

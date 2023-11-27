@@ -20,12 +20,13 @@ public class HighHandSimulator {
     private final int numPloTables;
     private final int numHandsPerHour;
     private final int numPlayersPerTable;
+    private final Duration highHandDuration;
     private final Duration simulationDuration;
     private final HighHand highHand;
     private final boolean shouldFilterPreflop;
 
     public HighHandSimulator(int numNlhTables, int numPloTables, int numHandsPerHour, int numPlayersPerTable,
-                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop) {
+                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration) {
         this.numNlhTables = numNlhTables;
         this.numPloTables = numPloTables;
         this.numHandsPerHour = numHandsPerHour;
@@ -33,20 +34,47 @@ public class HighHandSimulator {
         this.simulationDuration = simulationDuration;
         this.highHand = highHand;
         this.shouldFilterPreflop = shouldFilterPreflop; //TODO
+        this.highHandDuration = highHandDuration; //TODO
     }
 
     public void runSimulation() {
-        final Collection<PokerTable> tables = createTables(numNlhTables, numPloTables, numHandsPerHour, shouldFilterPreflop);
+        final Collection<PokerTable> tables = createTables(numNlhTables, numPloTables, numHandsPerHour, shouldFilterPreflop, numPlayersPerTable);
         log(this.toString());
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
         System.out.println(data);
 
         final int totalNumNlhPlayers = numNlhTables * numPlayersPerTable;
         final int totalNumPloPlayers = numPloTables * numPlayersPerTable;
-        final long nlhWinRatio = data.getNumNlhWins() / totalNumNlhPlayers;
-        final long ploWinRatio = data.getNumPloWins() / totalNumPloPlayers;
-        log(String.format("totalNumNlhPlayers=%s, totalNumPloPlayers=%s\nnlhWinRatio=%s\nploWinRatio=%s",
-                totalNumNlhPlayers, totalNumPloPlayers, nlhWinRatio, ploWinRatio));
+        final long totalNumHH = simulationDuration.toHours() / highHandDuration.toHours();
+        final long numPloWins = data.getNumPloWins();
+        final long numNlhWins = data.getNumNlhWins();
+        final double nlhWinPercent = (numNlhWins * 1.0 / totalNumHH * 1.0) * 100.0;
+        final double ploWinPercent = (numPloWins * 1.0 / totalNumHH * 1.0) * 100.0;
+// Calculate the Odds of winning the HH as a NLH player
+        double nlhOdds = (totalNumNlhPlayers - data.getNumNlhWins() != 0) ?
+                (data.getNumNlhWins() * 1.0 / (totalNumNlhPlayers - data.getNumNlhWins())) :
+                -1;
+
+// Calculate the Odds of winning the HH as a PLO player
+        double ploOdds = (totalNumPloPlayers - data.getNumPloWins() != 0) ?
+                (data.getNumPloWins() * 1.0 / (totalNumPloPlayers - data.getNumPloWins())) :
+                -1;
+
+        log(String.format("""
+                        =============== SIMULATION RESULTS ===============
+                        %s Total NLH Players spread over %s NLH tables
+                        %s Total PLO Players spread over %s PLO tables
+                        NLH won HH %s/%s times (%.2f%%)
+                        PLO won HH %s/%s times (%.2f%%)
+                        Odds of winning the HH as a NLH player: %.4f (1 in %.0f)
+                        Odds of winning the HH as a PLO player: %.4f (1 in %.0f)
+                        """,
+                totalNumNlhPlayers, numNlhTables,
+                totalNumPloPlayers, numPloTables,
+                data.getNumNlhWins(), totalNumHH, nlhWinPercent,
+                data.getNumPloWins(), totalNumHH, ploWinPercent,
+                nlhOdds, (nlhOdds != -1) ? 1.0 / nlhOdds : -1,
+                ploOdds, (ploOdds != -1) ? 1.0 / ploOdds : -1));
     }
 
     private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) {
@@ -57,14 +85,15 @@ public class HighHandSimulator {
         return determineSimulationWinners(tableSimulationDatas);
     }
 
-    private static Collection<PokerTable> createTables(int numNlhTables, int numPloTables, double tableHandsPerHour, boolean shouldFilterPreflop) {
+    private static Collection<PokerTable> createTables(int numNlhTables, int numPloTables, double tableHandsPerHour,
+                                                       boolean shouldFilterPreflop, int numPlayersPerTable) {
         final Collection<PokerTable> tables = new ArrayList<>();
         for (int i = 0; i < numNlhTables; i++) {
-            final PokerTable nlhTable = new NLHTable(numNlhTables, tableHandsPerHour, shouldFilterPreflop);
+            final PokerTable nlhTable = new NLHTable(numPlayersPerTable, tableHandsPerHour, shouldFilterPreflop);
             tables.add(nlhTable);
         }
         for (int i = 0; i < numPloTables; i++) {
-            final PokerTable ploTable = new PLOTable(numPloTables, tableHandsPerHour, shouldFilterPreflop);
+            final PokerTable ploTable = new PLOTable(numPlayersPerTable, tableHandsPerHour, shouldFilterPreflop);
             tables.add(ploTable);
         }
         return tables;

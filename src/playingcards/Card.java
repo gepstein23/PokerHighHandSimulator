@@ -16,6 +16,17 @@ public class Card implements Comparable<Card> {
         return new Card(value, null);
     }
 
+    public static String getCardStr(Card[] cards) {
+        StringBuilder holeCardStr = new StringBuilder("[");
+        for (int i = 0; i < cards.length; i++) {
+            if (i != 0) {
+                holeCardStr.append(", ");
+            }
+            holeCardStr.append(cards[i].toString());
+        }
+        return holeCardStr.append("]").toString();
+    }
+
     public CardValue getValue() {
         return value;
     }

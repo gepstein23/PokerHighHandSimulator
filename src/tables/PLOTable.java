@@ -21,11 +21,6 @@ public class PLOTable extends PokerTable {
     }
 
     @Override
-    protected Collection<PokerPlayer> filterPlayersPrePreflop(Collection<PokerPlayer> dealtPlayers) {
-        return null;
-    }
-
-    @Override
     protected boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
         return winner.compare(highHand.getMinimumQualifyingHand()) > 0 && winner.isFlopped();
     }

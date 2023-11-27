@@ -63,9 +63,19 @@ public class Main {
         COMMAND_LINE_OPTIONS.addOption(highHandDuration);
 
         final Option shouldFilterPreflop = new Option("sfp", "shouldFilterPreflop", false,
-                "If this option is added, filters players' cards to fold pre-flop if they are not within an individually-randomly-assigned VPIP between 10% and 50%");
+                "If this option is added, filters players' cards to fold pre-flop if they are not within an individually-randomly-assigned VPIP between 10% and 50% [NOT YET IMPLEMENTED]");
         highHandDuration.setRequired(false);
         COMMAND_LINE_OPTIONS.addOption(shouldFilterPreflop);
+
+        final Option includeNlhRiverLikelihood = new Option("nlhrl", "includeNlhRiverLikelihood", false,
+                "If this option is added, terminates NLH hands early if likely to fold IRL [NOT YET IMPLEMENTED]");
+        highHandDuration.setRequired(false);
+        COMMAND_LINE_OPTIONS.addOption(includeNlhRiverLikelihood);
+
+        final Option noPloFlopRestriction = new Option("npfr", "noPloFlopRestriction", false,
+                "If this option is added, removes restriction that PLO must flop the HH to qualify [NOT YET IMPLEMENTED]");
+        highHandDuration.setRequired(false);
+        COMMAND_LINE_OPTIONS.addOption(noPloFlopRestriction);
     }
 
     public static void main(String[] args) {
@@ -108,9 +118,15 @@ public class Main {
         final String inputShouldFilterPreflop = cmd.getOptionValue("shouldFilterPreflop");
         final boolean shouldFilterPreflop = inputShouldFilterPreflop != null;
 
+        final String inputNoPloFlopRestriction = cmd.getOptionValue("noPloFlopRestriction");
+        final boolean noPloFlopRestriction = inputNoPloFlopRestriction != null;
+
+        final String inputIncludeNlhRiverLikelihood = cmd.getOptionValue("includeNlhRiverLikelihood");
+        final boolean includeNlhRiverLikelihood = inputIncludeNlhRiverLikelihood != null;
+
         final HighHand highHand = new HighHand(highHandMinimumQualifier, highHandDuration);
         final HighHandSimulator highHandSimulator = new HighHandSimulator(numNlhTables, numPloTables, numHandsPerHour,
-                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop);
+                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration);
         highHandSimulator.runSimulation();
     }
 

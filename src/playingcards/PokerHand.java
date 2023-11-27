@@ -7,12 +7,21 @@ import java.util.*;
  */
 public class PokerHand {
     private Card[] fiveHandCards;
+
+    public HandType getHandType() {
+        return handType;
+    }
+
+    public void setHandType(HandType handType) {
+        this.handType = handType;
+    }
+
     private HandType handType;
     private Boolean flopped;
 
     public PokerHand(Card... cards) {
         if (cards.length != 5) {
-            throw new AssertionError("Invalid num cards" + cards.length);
+            throw new AssertionError("Invalid num cards " + cards.length);
         }
         List<Card> cardsList = Arrays.asList(cards);
         Collections.sort(cardsList);
@@ -25,7 +34,18 @@ public class PokerHand {
     }
 
     public static PokerHand from(String inputHighHandMinimumQualifier) {
-        return null; // TODO
+        final char[] chars = inputHighHandMinimumQualifier.toCharArray();
+        if (chars.length != 5) {
+            throw new AssertionError("Invalid inputHighHandMinimumQualifier " + inputHighHandMinimumQualifier + ", must be 5 cards.");
+        }
+        final Card[] cards = new Card[5];
+        for (int i = 0; i < 5; i++) {
+            final String val = String.valueOf(chars[i]);
+            final CardValue cardValue = CardValue.fromFriendlyName(val);
+            final Card card = Card.card(cardValue);
+            cards[i] = card;
+        }
+        return new PokerHand(cards);
     }
 
     private HandType determineHandType() {

@@ -6,6 +6,9 @@ import playingcards.PokerHand;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
+
+import static main.Utils.debug;
 
 public abstract class PokerPlayer {
     protected static final List<List<Integer>> communityCardIndexCombos = new ArrayList<>();
@@ -34,10 +37,17 @@ public abstract class PokerPlayer {
     protected int vpip;
     private boolean shouldFilterPreflop;
 
+    public UUID getPlayerID() {
+        return playerID;
+    }
+
+    private final UUID playerID;
+
     public PokerPlayer(Card[] holeCards, boolean shouldFilterPreflop) {
         this.shouldFilterPreflop = shouldFilterPreflop;
         this.holeCards = holeCards;
         this.vpip = getRandomVpip();
+        this.playerID = UUID.randomUUID();
     }
 
     protected abstract int getRandomVpip();
@@ -49,10 +59,12 @@ public abstract class PokerPlayer {
     }
 
     public boolean shouldSeeFlop() {
-        if (!shouldFilterPreflop) {
-            return true;
+        boolean shouldSeeFlop = true;
+        if (shouldFilterPreflop) {
+            shouldSeeFlop = areHoleCardsInRange(getHoleCardRanking());
         }
-        return areHoleCardsInRange(getHoleCardRanking());
+        debug("  - Player %s cards=%s, shouldSeeFlop=%s", playerID, Card.getCardStr(holeCards), shouldSeeFlop);
+        return shouldSeeFlop;
     }
 
     protected boolean areHoleCardsInRange(int holeCardRanking) {
