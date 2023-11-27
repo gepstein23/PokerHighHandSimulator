@@ -23,12 +23,30 @@ Is it fair that NLH players and PLO players compete for the same high hand?
 
 | Run | Description                                  | Command                                       | Output File         |
 |-----|----------------------------------------------|-----------------------------------------------|---------------------|
-| [1](####Run 1)   | Description of the first run parameters      | `java YourProgram -d 5 -h 25 -nlhT 6`         | run1_output.txt     |
-| [2](####Run 2)   | Description of the second run parameters     | `java YourProgram -d 8 -h 30 -ploT 4 -sfp`   | run2_output.txt     |
-| [3](####Run 3)   | Description of the third run parameters      | `java YourProgram -d 12 -h 20 -nlhT 10 -npfr` | run3_output.txt     |
+| [1](#Run-1)   | Description of the first run parameters      | `java YourProgram -d 5 -h 25 -nlhT 6`         | run1_output.txt     |
+| [2](#Run-2)   | Description of the second run parameters     | `java YourProgram -d 8 -h 30 -ploT 4 -sfp`   | run2_output.txt     |
+| [3](#Run-3)   | Description of the third run parameters      | `java YourProgram -d 12 -h 20 -nlhT 10 -npfr` | run3_output.txt     |
 | ... | ...                                          | ...                                           | ...                 |
 
 #### Run 1
+```
+                        %s Total NLH Players spread over %s NLH tables
+                        %s Total PLO Players spread over %s PLO tables
+                        NLH won HH %s/%s times (%.2f%%)
+                        PLO won HH %s/%s times (%.2f%%)
+                        Odds of winning the HH as a NLH player: %.4f (1 in %.0f)
+                        Odds of winning the HH as a PLO player: %.4f (1 in %.0f)                 
+```
+#### Run 2
+```
+                        %s Total NLH Players spread over %s NLH tables
+                        %s Total PLO Players spread over %s PLO tables
+                        NLH won HH %s/%s times (%.2f%%)
+                        PLO won HH %s/%s times (%.2f%%)
+                        Odds of winning the HH as a NLH player: %.4f (1 in %.0f)
+                        Odds of winning the HH as a PLO player: %.4f (1 in %.0f)                 
+```
+#### Run 3
 ```
                         %s Total NLH Players spread over %s NLH tables
                         %s Total PLO Players spread over %s PLO tables
