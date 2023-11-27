@@ -24,6 +24,10 @@ public class PokerHand {
         this.flopped = flopped;
     }
 
+    public static PokerHand from(String inputHighHandMinimumQualifier) {
+        return null; // TODO
+    }
+
     private HandType determineHandType() {
         final boolean isStraight = isStraight(fiveHandCards);
         final boolean isFlush = isFlush(fiveHandCards);

@@ -16,10 +16,12 @@ import static main.Utils.log;
 public abstract class PokerTable {
     protected int numPlayers;
     protected double tableHandsPerHour;
+    protected boolean shouldFilterPreflop;
 
-    public PokerTable(int numPlayers, double tableHandsPerHour) {
+    public PokerTable(int numPlayers, double tableHandsPerHour, boolean shouldFilterPreflop) {
         this.tableHandsPerHour = tableHandsPerHour;
         this.numPlayers = numPlayers;
+        this.shouldFilterPreflop = shouldFilterPreflop;
     }
 
     public TableSimulationData runSimulation(HighHand highHand, Duration duration) {
@@ -92,7 +94,7 @@ public abstract class PokerTable {
         currIndex += 1;
 
         // Flop
-        communityCards.add(deck.get(currIndex)); // TODO make sure this is in order
+        communityCards.add(deck.get(currIndex));
         currIndex += 1;
         communityCards.add(deck.get(currIndex));
         currIndex += 1;

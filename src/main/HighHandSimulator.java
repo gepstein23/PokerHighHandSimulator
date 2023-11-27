@@ -22,19 +22,21 @@ public class HighHandSimulator {
     private final int numPlayersPerTable;
     private final Duration simulationDuration;
     private final HighHand highHand;
+    private final boolean shouldFilterPreflop;
 
     public HighHandSimulator(int numNlhTables, int numPloTables, int numHandsPerHour, int numPlayersPerTable,
-                             Duration simulationDuration, HighHand highHand) {
+                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop) {
         this.numNlhTables = numNlhTables;
         this.numPloTables = numPloTables;
         this.numHandsPerHour = numHandsPerHour;
         this.numPlayersPerTable = numPlayersPerTable;
         this.simulationDuration = simulationDuration;
         this.highHand = highHand;
+        this.shouldFilterPreflop = shouldFilterPreflop; //TODO
     }
 
     public void runSimulation() {
-        final Collection<PokerTable> tables = createTables(numNlhTables, numPloTables, numHandsPerHour);
+        final Collection<PokerTable> tables = createTables(numNlhTables, numPloTables, numHandsPerHour, shouldFilterPreflop);
         log(this.toString());
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
         System.out.println(data);
@@ -55,14 +57,14 @@ public class HighHandSimulator {
         return determineSimulationWinners(tableSimulationDatas);
     }
 
-    private static Collection<PokerTable> createTables(int numNlhTables, int numPloTables, double tableHandsPerHour) {
+    private static Collection<PokerTable> createTables(int numNlhTables, int numPloTables, double tableHandsPerHour, boolean shouldFilterPreflop) {
         final Collection<PokerTable> tables = new ArrayList<>();
         for (int i = 0; i < numNlhTables; i++) {
-            final PokerTable nlhTable = new NLHTable(numNlhTables, tableHandsPerHour);
+            final PokerTable nlhTable = new NLHTable(numNlhTables, tableHandsPerHour, shouldFilterPreflop);
             tables.add(nlhTable);
         }
         for (int i = 0; i < numPloTables; i++) {
-            final PokerTable ploTable = new PLOTable(numPloTables, tableHandsPerHour);
+            final PokerTable ploTable = new PLOTable(numPloTables, tableHandsPerHour, shouldFilterPreflop);
             tables.add(ploTable);
         }
         return tables;
@@ -101,7 +103,8 @@ public class HighHandSimulator {
                 + "numHandsPerHour=%s\n"
                 + "numPlayersPerTable=%s\n"
                 + "simulationDuration=%s\n"
-                + "highHand=%s\n",
-                numNlhTables, numPloTables, numHandsPerHour, numPlayersPerTable, simulationDuration, highHand);
+                + "highHand=%s\n"
+                + "shouldFilterPreflop=%s\n",
+                numNlhTables, numPloTables, numHandsPerHour, numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop);
     }
 }

@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 public class PLOPokerPlayer extends PokerPlayer {
-    public PLOPokerPlayer(Card[] holeCards) {
-        super(holeCards);
+    public PLOPokerPlayer(Card[] holeCards, boolean shouldFilterPreflop) {
+        super(holeCards, shouldFilterPreflop);
         if (holeCards.length != 4) {
             throw new AssertionError("Expected 4 player hole cards for PLO.");
         }

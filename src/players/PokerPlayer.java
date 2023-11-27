@@ -32,8 +32,10 @@ public abstract class PokerPlayer {
     }
     protected Card[] holeCards;
     protected int vpip;
+    private boolean shouldFilterPreflop;
 
-    public PokerPlayer(Card[] holeCards) {
+    public PokerPlayer(Card[] holeCards, boolean shouldFilterPreflop) {
+        this.shouldFilterPreflop = shouldFilterPreflop;
         this.holeCards = holeCards;
         this.vpip = getRandomVpip();
     }
@@ -47,6 +49,9 @@ public abstract class PokerPlayer {
     }
 
     public boolean shouldSeeFlop() {
+        if (!shouldFilterPreflop) {
+            return true;
+        }
         return areHoleCardsInRange(getHoleCardRanking());
     }
 

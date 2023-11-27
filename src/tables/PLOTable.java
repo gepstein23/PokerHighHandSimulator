@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class PLOTable extends PokerTable {
-    public PLOTable(int numPlayers, double tableHandsPerHour) {
-        super(numPlayers, tableHandsPerHour);
+    public PLOTable(int numPlayers, double tableHandsPerHour, boolean shouldFilterPreflop) {
+        super(numPlayers, tableHandsPerHour, shouldFilterPreflop);
     }
 
     @Override
@@ -43,7 +43,7 @@ public class PLOTable extends PokerTable {
             final Card holeCard3 = deck.get(holeCard3Index);
             final Card holeCard4 = deck.get(holeCard4Index);
             final PLOPokerPlayer ploPokerPlayer =
-                    new PLOPokerPlayer(new Card[] { holeCard1, holeCard2, holeCard3, holeCard4});
+                    new PLOPokerPlayer(new Card[] { holeCard1, holeCard2, holeCard3, holeCard4}, shouldFilterPreflop);
             dealtPlayers.add(ploPokerPlayer);
         }
         return dealtPlayers;

@@ -10,6 +10,7 @@ import java.time.Duration;
 public class HighHand {
     private PokerHand minimumQualifyingHand;
     private Duration highHandPeriod;
+    // TODO implement price incentive
 
     public HighHand(PokerHand minimumQualifyingHand, Duration highHandPeriod) {
         this.minimumQualifyingHand = minimumQualifyingHand;

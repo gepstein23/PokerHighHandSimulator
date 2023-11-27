@@ -11,8 +11,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 public class NLHTable extends PokerTable {
-    public NLHTable(int numPlayers, double tableHandsPerHour) {
-        super(numPlayers, tableHandsPerHour);
+    public NLHTable(int numPlayers, double tableHandsPerHour, boolean shouldFilterPreflop) {
+        super(numPlayers, tableHandsPerHour, shouldFilterPreflop);
     }
 
     @Override
@@ -34,7 +34,7 @@ public class NLHTable extends PokerTable {
             final Card holeCard1 = deck.get(holeCard1Index);
             final Card holeCard2 = deck.get(holeCard2Index);
             final NLHPokerPlayer nlhPokerPlayer =
-                    new NLHPokerPlayer(new Card[] { holeCard1, holeCard2});
+                    new NLHPokerPlayer(new Card[] { holeCard1, holeCard2}, shouldFilterPreflop);
             dealtPlayers.add(nlhPokerPlayer);
         }
         return dealtPlayers;

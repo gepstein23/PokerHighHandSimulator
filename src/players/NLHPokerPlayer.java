@@ -7,8 +7,8 @@ import java.util.List;
 import java.util.Random;
 
 public class NLHPokerPlayer extends PokerPlayer {
-    public NLHPokerPlayer(Card[] holeCards) {
-        super(holeCards);
+    public NLHPokerPlayer(Card[] holeCards, boolean shouldFilterPreflop) {
+        super(holeCards, shouldFilterPreflop);
         if (holeCards.length != 2) {
             throw new AssertionError("Expected 2 player hole cards for NLH.");
         }
