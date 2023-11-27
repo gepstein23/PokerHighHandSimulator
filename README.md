@@ -78,14 +78,13 @@ NLH won HH 8108/10000 times (81.08%)
 PLO won HH 1892/10000 times (18.92%)
 Odds Ratio (NLH vs PLO): (0.99)               
 ```
-#### Run 6
+#### Run 6 (PLO does not need to flop the high hand)
 ```
-                        %s Total NLH Players spread over %s NLH tables
-                        %s Total PLO Players spread over %s PLO tables
-                        NLH won HH %s/%s times (%.2f%%)
-                        PLO won HH %s/%s times (%.2f%%)
-                        Odds of winning the HH as a NLH player: %.4f (1 in %.0f)
-                        Odds of winning the HH as a PLO player: %.4f (1 in %.0f)                 
+64 Total NLH Players spread over 8 NLH tables
+64 Total PLO Players spread over 8 PLO tables
+NLH won HH 1582/10000 times (15.82%)
+PLO won HH 8418/10000 times (84.18%)
+Odds Ratio (NLH vs PLO): (1.03) ????????             
 ```
 
 ### Proof the Algorithm Works

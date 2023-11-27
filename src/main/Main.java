@@ -115,14 +115,9 @@ public class Main {
         final Duration highHandDuration = inputHighHandDuration == null ? DEFAULT_HIGH_HAND_DURATION
                 : Duration.ofHours(Integer.parseInt(inputHighHandDuration));
 
-        final String inputShouldFilterPreflop = cmd.getOptionValue("shouldFilterPreflop");
-        final boolean shouldFilterPreflop = inputShouldFilterPreflop != null;
-
-        final String inputNoPloFlopRestriction = cmd.getOptionValue("noPloFlopRestriction");
-        final boolean noPloFlopRestriction = inputNoPloFlopRestriction != null;
-
-        final String inputIncludeNlhRiverLikelihood = cmd.getOptionValue("includeNlhRiverLikelihood");
-        final boolean includeNlhRiverLikelihood = inputIncludeNlhRiverLikelihood != null;
+        final boolean shouldFilterPreflop = cmd.hasOption("shouldFilterPreflop");
+        final boolean noPloFlopRestriction = cmd.hasOption("noPloFlopRestriction");
+        final boolean includeNlhRiverLikelihood = cmd.hasOption("includeNlhRiverLikelihood");
 
         final HighHand highHand = new HighHand(highHandMinimumQualifier, highHandDuration);
         final HighHandSimulator highHandSimulator = new HighHandSimulator(numNlhTables, numPloTables, numHandsPerHour,
