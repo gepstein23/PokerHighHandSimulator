@@ -8,22 +8,28 @@ import java.time.Duration;
  * Represents a high hand promotion.
  */
 public class HighHand {
-    private PokerHand minimumQualifyingHand;
+
+    private final PokerHand nlhMinimumQualifyingHand;
+    private PokerHand ploMinimumQualifyingHand;
     private Duration highHandPeriod;
     // TODO implement price incentive
 
-    public HighHand(PokerHand minimumQualifyingHand, Duration highHandPeriod) {
-        this.minimumQualifyingHand = minimumQualifyingHand;
+    public HighHand(PokerHand nlhMinimumQualifyingHand, PokerHand ploMinimumQualifyingHand, Duration highHandPeriod) {
+        this.nlhMinimumQualifyingHand = nlhMinimumQualifyingHand;
+        this.ploMinimumQualifyingHand = ploMinimumQualifyingHand;
         this.highHandPeriod = highHandPeriod;
     }
+    public PokerHand getNlhMinimumQualifyingHand() {
+        return nlhMinimumQualifyingHand;
+    }
 
-    public PokerHand getMinimumQualifyingHand() {
-        return minimumQualifyingHand;
+    public PokerHand getPloMinimumQualifyingHand() {
+        return ploMinimumQualifyingHand;
     }
 
     @Override
     public String toString() {
-        return String.format("[HighHand: minimumQualifyingHand=%s, highHandPeriod=%s]",
-                minimumQualifyingHand, highHandPeriod);
+        return String.format("[HighHand: nlhMinimumQualifyingHand=%s, ploMinimumQualifyingHand=%s, highHandPeriod=%s]",
+                nlhMinimumQualifyingHand, ploMinimumQualifyingHand, highHandPeriod);
     }
 }

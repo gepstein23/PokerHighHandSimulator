@@ -211,14 +211,16 @@ public class PokerHand {
                 final CardValue otherFullOfValue = thisFullValues[1];
                 return otherFullOfValue.compareTo(thisFullOfValue);
             case QUADS:
-                final CardValue thisQuadsValue = this.fiveHandCards[0].getValue();
-                final CardValue otherQuadsValue = otherHand.fiveHandCards[0].getValue();
+                final CardValue[] thisQuadsValues = getQuadsValues(this);
+                final CardValue[] otherQuadsValues = getQuadsValues(otherHand);
+                final CardValue thisQuadsValue = thisQuadsValues[0];
+                final CardValue otherQuadsValue = otherQuadsValues[0];
                 if (thisQuadsValue != otherQuadsValue) {
                     return otherQuadsValue.compareTo(thisQuadsValue);
                 }
-                final CardValue thisKickerValue = this.fiveHandCards[4].getValue();
-                final CardValue otherKickerValue = otherHand.fiveHandCards[4].getValue();
-                return thisKickerValue.compareTo(otherKickerValue);
+                final CardValue thisKickerValue = thisQuadsValues[1];
+                final CardValue otherKickerValue = otherQuadsValues[1];
+                return otherKickerValue.compareTo(thisKickerValue);
             case STRAIGHT_FLUSH:
                 return otherHand.fiveHandCards[0].getValue().compareTo(this.fiveHandCards[0].getValue());
             default:
@@ -231,6 +233,24 @@ public class PokerHand {
         Map<CardValue, Integer> valueToNumOccurrencesMap = getValueToNumOccurrencesMap(pokerHand.getFiveHandCards());
         for (Map.Entry<CardValue, Integer> entry : valueToNumOccurrencesMap.entrySet()) {
             if (entry.getValue().equals(3)) {
+                result[0] = entry.getKey();
+            } else {
+                result[1] = entry.getKey();
+            }
+        }
+        return result;
+    }
+
+    /**
+     * Returns [QuadValue, KickerValue]
+     * @param pokerHand
+     * @return
+     */
+    private static CardValue[] getQuadsValues(PokerHand pokerHand) {
+        final CardValue[] result = new CardValue[2];
+        Map<CardValue, Integer> valueToNumOccurrencesMap = getValueToNumOccurrencesMap(pokerHand.getFiveHandCards());
+        for (Map.Entry<CardValue, Integer> entry : valueToNumOccurrencesMap.entrySet()) {
+            if (entry.getValue().equals(4)) {
                 result[0] = entry.getKey();
             } else {
                 result[1] = entry.getKey();

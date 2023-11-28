@@ -22,7 +22,7 @@ public class NLHTable extends PokerTable {
 
     @Override
     protected boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
-        return winner.compare(highHand.getMinimumQualifyingHand()) > 0;
+        return winner.compare(highHand.getNlhMinimumQualifyingHand()) > 0;
     }
 
     @Override
