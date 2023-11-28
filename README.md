@@ -3,7 +3,10 @@
 ## Problem Overview
 
 NLH and PLO players pay the same rake to compete for the same High Hands. 
-Therefore, a NLH and PLO player should have the same chances to win.
+Therefore, a NLH and PLO player should have the same chances to win under identical circumstances.
+
+## Project Description
+This program allows the user to simulate HH promotions being run at a Poker Room with NLH and PLO tables. The program plays through poker hands per table, stores qualifying HHs per period, and compares them to qualifying HHs from other tables during the same period. Once the simulation concludes, the program outputs the winning statistics per game type for the simulation duration.
 
 ## Algorithm Description
 TODO
@@ -25,6 +28,8 @@ TODO
 ## Results
 
 ### Conclusive Data
+
+For a typical HH promotion, where PLO players must *flop* the high hand but NLH players must not, and the simulation assumes all players make it to the river, it is 2x easier to get a HH as a NLH player than as a PLO player.
 
 | Run | Description                                  | Command                                       | Output File         |
 |-----|----------------------------------------------|-----------------------------------------------|---------------------|
