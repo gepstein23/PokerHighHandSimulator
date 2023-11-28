@@ -84,7 +84,7 @@ Odds Ratio (NLH vs PLO): (0.99)
 64 Total PLO Players spread over 8 PLO tables
 NLH won HH 1582/10000 times (15.82%)
 PLO won HH 8418/10000 times (84.18%)
-Odds Ratio (NLH vs PLO): (1.03) ????????             
+Odds Ratio (NLH vs PLO): (1.03)             
 ```
 
 ### Proof the Algorithm Works
