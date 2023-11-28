@@ -46,21 +46,11 @@ Odds Ratio (NLH vs PLO): (0.99)
 ```
 #### Run 2
 ```
-                        %s Total NLH Players spread over %s NLH tables
-                        %s Total PLO Players spread over %s PLO tables
-                        NLH won HH %s/%s times (%.2f%%)
-                        PLO won HH %s/%s times (%.2f%%)
-                        Odds of winning the HH as a NLH player: %.4f (1 in %.0f)
-                        Odds of winning the HH as a PLO player: %.4f (1 in %.0f)                 
+            TODO (in progress)        
 ```
 #### Run 3
 ```
-                        %s Total NLH Players spread over %s NLH tables
-                        %s Total PLO Players spread over %s PLO tables
-                        NLH won HH %s/%s times (%.2f%%)
-                        PLO won HH %s/%s times (%.2f%%)
-                        Odds of winning the HH as a NLH player: %.4f (1 in %.0f)
-                        Odds of winning the HH as a PLO player: %.4f (1 in %.0f)                 
+            TODO (in progress)
 ```
 #### Run 4
 ```
