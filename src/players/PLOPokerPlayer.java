@@ -29,7 +29,9 @@ public class PLOPokerPlayer extends PokerPlayer {
                 final Card communityCard1 = communityCards.get(communityCardIndices.get(0));
                 final Card communityCard2 = communityCards.get(communityCardIndices.get(1));
                 final Card communityCard3 = communityCards.get(communityCardIndices.get(2));
-                final PokerHand pokerHand = new PokerHand(isFlopped(communityCardIndices), holdCard1, holdCard2, communityCard1, communityCard2, communityCard3);
+                boolean isTurned = isTurned(communityCardIndices);
+                boolean isFlopped = isFlopped(communityCardIndices);
+                final PokerHand pokerHand = new PokerHand(isFlopped, isTurned, holdCard1, holdCard2, communityCard1, communityCard2, communityCard3);
                 if (bestHand == null) {
                     bestHand = pokerHand;
                     continue;

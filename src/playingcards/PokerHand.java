@@ -18,6 +18,7 @@ public class PokerHand {
 
     private HandType handType;
     private Boolean flopped;
+    private Boolean turned;
 
     public PokerHand(Card... cards) {
         if (cards.length != 5) {
@@ -28,6 +29,12 @@ public class PokerHand {
         fiveHandCards = cardsList.toArray(new Card[0]);
         this.handType = determineHandType();
     }
+    public PokerHand(boolean flopped, boolean turned, Card... cards) {
+        this(cards);
+        this.flopped = flopped;
+        this.turned = turned;
+    }
+
     public PokerHand(boolean flopped, Card... cards) {
         this(cards);
         this.flopped = flopped;
@@ -162,6 +169,10 @@ public class PokerHand {
         this.flopped = flopped;
     }
 
+    public Boolean isTurned() {
+        return turned;
+    }
+
     public enum HandType {
         HIGH_CARD(0),
         PAIR(1),
@@ -263,6 +274,7 @@ public class PokerHand {
     @Override
     public String toString() {
         final String floppedAddOn = flopped == null ? "" : String.format(" (flopped=%s)", flopped);
+        //final String turnedAddOn = turned == null ? "" : String.format(" (turned=%s)", turned);
         return String.format("[PokerHand: handType=%s {%s %s %s %s %s}%s]",
                 handType, fiveHandCards[0],fiveHandCards[1], fiveHandCards[2], fiveHandCards[3], fiveHandCards[4],
                 floppedAddOn);

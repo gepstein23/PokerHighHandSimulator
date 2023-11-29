@@ -82,7 +82,7 @@ public class PokerHighHandSimulatorTests {
         final PokerHand flopped_TTTTJ =  new PokerHand(true, TEN, TEN, TEN, TEN, JACK);
         final PokerHand notFlopped_TTTTJ =  new PokerHand(false, TEN, TEN, TEN, TEN, JACK);
         final PLOTable ploTableFlopRestriction =
-                new PLOTable(1, 25, false, /*noPloFlopRestriction*/ false);
+                new PLOTable(1, 25, false, /*noPloFlopRestriction*/ false, false);
 
         boolean doesEqualFloppedHHQualify = ploTableFlopRestriction.isQualifyingHighHand(flopped_TTTT9, HIGH_HAND);
         assertTrue(doesEqualFloppedHHQualify);
@@ -105,7 +105,7 @@ public class PokerHighHandSimulatorTests {
         final PokerHand TTTT8 =  new PokerHand(TEN, TEN, TEN, TEN, EIGHT);
         final PokerHand TTTTJ =  new PokerHand(TEN, TEN, TEN, TEN, JACK);
         final PLOTable ploTableNoFlopRestriction =
-                new PLOTable(1, 25, false, /*noPloFlopRestriction*/ true);
+                new PLOTable(1, 25, false, /*noPloFlopRestriction*/ true, false);
         boolean doesEqualHHQualify = ploTableNoFlopRestriction.isQualifyingHighHand(TTTT9, HIGH_HAND);
         assertTrue(doesEqualHHQualify);
         boolean doesLowerHHQualify = ploTableNoFlopRestriction.isQualifyingHighHand(TTTT8, HIGH_HAND);
@@ -147,7 +147,7 @@ public class PokerHighHandSimulatorTests {
 
     private static void testDealCardDeckPlo() {
         final PLOTable ploTable =
-                new PLOTable(4, 25, false, /*noPloFlopRestriction*/ true);
+                new PLOTable(4, 25, false, /*noPloFlopRestriction*/ true, false);
         final Deck deck = new Deck();
         System.out.println(deck);
         Collection<PokerPlayer> players = ploTable.dealPlayers(deck);

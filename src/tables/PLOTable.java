@@ -12,9 +12,11 @@ import java.util.Collection;
 
 public class PLOTable extends PokerTable {
     boolean noPloFlopRestriction;
-    public PLOTable(int numPlayers, double tableHandsPerHour, boolean shouldFilterPreflop, boolean noPloFlopRestriction) {
+    boolean ploTurnRestriction;
+    public PLOTable(int numPlayers, double tableHandsPerHour, boolean shouldFilterPreflop, boolean noPloFlopRestriction, boolean ploTurnRestriction) {
         super(numPlayers, tableHandsPerHour, shouldFilterPreflop);
-        this.noPloFlopRestriction = noPloFlopRestriction;
+        this.noPloFlopRestriction = ploTurnRestriction || noPloFlopRestriction;
+        this.ploTurnRestriction = ploTurnRestriction;
     }
 
     @Override
@@ -25,7 +27,8 @@ public class PLOTable extends PokerTable {
     @Override
     public boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
         final boolean floppedConditionMet = noPloFlopRestriction || winner.isFlopped();
-        return winner.compare(highHand.getPloMinimumQualifyingHand()) >= 0 && floppedConditionMet;
+        final boolean turnConditionMet = !ploTurnRestriction || winner.isTurned();
+        return winner.compare(highHand.getPloMinimumQualifyingHand()) >= 0 && floppedConditionMet && turnConditionMet;
     }
 
     @Override

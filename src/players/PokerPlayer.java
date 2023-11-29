@@ -58,6 +58,10 @@ public abstract class PokerPlayer {
         return communityCardIndices.stream().allMatch(i -> i <= 2);
     }
 
+    protected static boolean isTurned(List<Integer> communityCardIndices) {
+        return communityCardIndices.stream().allMatch(i -> i <= 3);
+    }
+
     public boolean shouldSeeFlop() {
         boolean shouldSeeFlop = true;
         if (shouldFilterPreflop) {

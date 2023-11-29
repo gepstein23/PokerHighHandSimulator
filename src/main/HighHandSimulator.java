@@ -25,9 +25,10 @@ public class HighHandSimulator {
     private final HighHand highHand;
     private final boolean shouldFilterPreflop;
     private final boolean noPloFlopRestriction;
+    private final boolean ploTurnRestriction;
 
     public HighHandSimulator(int numNlhTables, int numPloTables, int numHandsPerHour, int numPlayersPerTable,
-                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration, boolean noPloFlopRestriction) {
+                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration, boolean noPloFlopRestriction, boolean ploTurnRestriction) {
         this.numNlhTables = numNlhTables;
         this.numPloTables = numPloTables;
         this.numHandsPerHour = numHandsPerHour;
@@ -35,13 +36,14 @@ public class HighHandSimulator {
         this.simulationDuration = simulationDuration;
         this.highHand = highHand;
         this.noPloFlopRestriction = noPloFlopRestriction;
+        this.ploTurnRestriction = ploTurnRestriction;
         this.shouldFilterPreflop = shouldFilterPreflop; //TODO
         this.highHandDuration = highHandDuration; //TODO
     }
 
     public void runSimulation() {
         final Collection<PokerTable> tables = createTables(numNlhTables, numPloTables, numHandsPerHour,
-                shouldFilterPreflop, numPlayersPerTable, noPloFlopRestriction);
+                shouldFilterPreflop, numPlayersPerTable, noPloFlopRestriction, ploTurnRestriction);
         log(this.toString());
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
         System.out.println(data);
@@ -72,14 +74,14 @@ public class HighHandSimulator {
     }
 
     private static Collection<PokerTable> createTables(int numNlhTables, int numPloTables, double tableHandsPerHour,
-                                                       boolean shouldFilterPreflop, int numPlayersPerTable, boolean noPloFlopRestriction) {
+                                                       boolean shouldFilterPreflop, int numPlayersPerTable, boolean noPloFlopRestriction, boolean ploTurnRestriction) {
         final Collection<PokerTable> tables = new ArrayList<>();
         for (int i = 0; i < numNlhTables; i++) {
             final PokerTable nlhTable = new NLHTable(numPlayersPerTable, tableHandsPerHour, shouldFilterPreflop);
             tables.add(nlhTable);
         }
         for (int i = 0; i < numPloTables; i++) {
-            final PokerTable ploTable = new PLOTable(numPlayersPerTable, tableHandsPerHour, shouldFilterPreflop, noPloFlopRestriction);
+            final PokerTable ploTable = new PLOTable(numPlayersPerTable, tableHandsPerHour, shouldFilterPreflop, noPloFlopRestriction, ploTurnRestriction);
             tables.add(ploTable);
         }
         return tables;

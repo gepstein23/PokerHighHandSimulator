@@ -28,6 +28,7 @@ public class Main {
     public static final String SHOULD_FILTER_PREFLOP = "shouldFilterPreflop";
     public static final String INCLUDE_NLH_RIVER_LIKELIHOOD = "includeNlhRiverLikelihood";
     public static final String NO_PLO_FLOP_RESTRICTION = "noPloFlopRestriction";
+    public static final String PLO_TURN_RESTRICTION = "ploTurnRestriction";
 
     static {
         final Option numNlhTables = new Option("nlhT", NUM_NLH_TABLES, true,
@@ -84,6 +85,11 @@ public class Main {
                 "If this option is added, removes restriction that PLO must flop the HH to qualify");
         noPloFlopRestriction.setRequired(false);
         COMMAND_LINE_OPTIONS.addOption(noPloFlopRestriction);
+
+        final Option ploTurnRestriction = new Option("ptr", PLO_TURN_RESTRICTION, false,
+                "If this option is added, PLO must get their HH by the turn to qualify. Overrides noPloFlopRestriction");
+        ploTurnRestriction.setRequired(false);
+        COMMAND_LINE_OPTIONS.addOption(ploTurnRestriction);
     }
 
     public static void main(String[] args) {
@@ -129,11 +135,12 @@ public class Main {
 
         final boolean shouldFilterPreflop = cmd.hasOption(SHOULD_FILTER_PREFLOP);
         final boolean noPloFlopRestriction = cmd.hasOption(NO_PLO_FLOP_RESTRICTION);
+        final boolean ploTurnRestriction = cmd.hasOption(PLO_TURN_RESTRICTION); // TODO consolidate
         // final boolean includeNlhRiverLikelihood = cmd.hasOption(INCLUDE_NLH_RIVER_LIKELIHOOD);
 
         final HighHand highHand = new HighHand(nlhHighHandMinimumQualifier, ploHighHandMinimumQualifier, highHandDuration);
         final HighHandSimulator highHandSimulator = new HighHandSimulator(numNlhTables, numPloTables, numHandsPerHour,
-                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction);
+                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction, ploTurnRestriction);
         highHandSimulator.runSimulation();
     }
 
