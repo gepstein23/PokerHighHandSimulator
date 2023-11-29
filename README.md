@@ -48,8 +48,7 @@ For a typical HH promotion, where PLO players must *flop* the high hand but NLH 
 
 ## Finding a Solution
 
-## Hypotheses
-It is clear the current default is unfair for PLO players. 
+### Hypotheses
 #### 1) Remove PLO Flop Restriction & Find Equalizing Respective Minimum HH Qualifiers
 Can we make the HH promotion equitable for both games if we remove the flop restriction for PLO (to isolate the exact odds of winning), and then come up with different minimum qualifying hands for both games in order to make the chances of winning equal?
 
@@ -75,13 +74,13 @@ Can we make the HH promotion equitable for both games if we update the flop rest
 | Run       | Description                                                                                                 | Options                                                                                                                               | Results   | Comments          |
 |-----------|-------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------------------|-----------|----------------------|
 | [B](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/results/runB_output.txt)         | 10000 HHs, 8 players, Equal 1 NLH/PLO tables, PLO turn restriction, 22233 qualifier NLH/PLO | `--numNlhTables 1 --numPloTables 1 --ploTurnRestriction` |   NLH 37.97%, PLO 61.90%     | PLO has an advantage even with the turn restriction. But maybe this turn restriction combined with PLO-specific minimum qualifier can produce a fairness equilibrium for all # players (certainly not but let's research the numbers anyways)       | 
-|
+
   
 
 #### 3) Continuously updated minimum qualifiers for PLO integrated with [PokerAtlas TableCaptain™](https://www.pokeratlas.com/info/table-captain)
 What if a system could be put in place where the HH minimum qualifier for PLO is automatically/continuously updated using data from TableCaptain about how many players of each type are currently playing.
-To accomplish this, a top-layer program must be implemented which tests different minimum PLO qualifiers for the given # of players until the fair qualifier is found.
-*Maybe*: We will keep a saved file to be re-used on future runs of known player # configurations' fair qualifiers -- in order to optimize the performance of this feature.
+To accomplish this, a top-layer function must be implemented which tests different minimum PLO qualifiers for the given # of players until the fair qualifier is found.
+*Maybe*: We will keep a save file to be re-used on future runs of known player # configurations' fair qualifiers -- in order to optimize the performance of this feature (output duplicates automatically & pick proximity starting qualifiers to test). After some time, this function would have `O(1)` execution time for most all realistic player # combinations.
 
 ## Program Implementation Details
 
