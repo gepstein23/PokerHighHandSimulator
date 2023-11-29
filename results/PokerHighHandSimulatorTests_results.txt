@@ -1,0 +1,77 @@
+C:\Users\Genevieve\.jdks\openjdk-15.0.1\bin\java.exe "-javaagent:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.3\lib\idea_rt.jar=49980:C:\Program Files\JetBrains\IntelliJ IDEA 2020.2.3\bin" -Dfile.encoding=UTF-8 -classpath C:\Users\Genevieve\Desktop\PokerHighHandSimulator\out\test\PokerHighHandSimulator;C:\Users\Genevieve\Desktop\PokerHighHandSimulator\out\production\PokerHighHandSimulator;C:\Users\Genevieve\Desktop\commons-cli-1.5.0.jar HandComparisonTests
+
+
+== TESTING testCompareFullHouses
+[PokerHand: handType=FULL_HOUSE {9 9 T T T}] beats [PokerHand: handType=FULL_HOUSE {8 8 T T T}] as expected
+[PokerHand: handType=FULL_HOUSE {9 9 T T T}] beats [PokerHand: handType=FULL_HOUSE {8 8 8 9 9}] as expected
+[PokerHand: handType=FULL_HOUSE {9 9 T T T}] beats [PokerHand: handType=FULL_HOUSE {9 9 9 T T}] as expected
+[PokerHand: handType=FULL_HOUSE {9 9 T T T}] equal to [PokerHand: handType=FULL_HOUSE {9 9 T T T}] as expected
+
+
+== TESTING testCompareQuads
+[PokerHand: handType=QUADS {9 T T T T}] beats [PokerHand: handType=QUADS {8 T T T T}] as expected
+[PokerHand: handType=QUADS {9 T T T T}] beats [PokerHand: handType=QUADS {8 8 8 8 9}] as expected
+[PokerHand: handType=QUADS {8 T T T T}] beats [PokerHand: handType=QUADS {8 8 8 8 T}] as expected
+[PokerHand: handType=QUADS {8 T T T T}] equal to [PokerHand: handType=QUADS {8 T T T T}] as expected
+
+
+== TESTING testCompareHandTypes
+[PokerHand: handType=QUADS {9 T T T T}] beats [PokerHand: handType=FULL_HOUSE {9 9 T T T}] as expected
+[PokerHand: handType=FULL_HOUSE {9 9 T T T}] beats [PokerHand: handType=SET {8 Ts Tc T J}] as expected
+
+
+== TESTING testQualifiesForWinningHandPloFlopRestriction
+true equal to true as expected
+false equal to false as expected
+true equal to true as expected
+false equal to false as expected
+false equal to false as expected
+false equal to false as expected
+
+
+== TESTING testQualifiesForWinningHandPloNoFlopRestriction
+true equal to true as expected
+false equal to false as expected
+true equal to true as expected
+
+
+== TESTING testQualifiesForWinningHandNlh
+true equal to true as expected
+false equal to false as expected
+true equal to true as expected
+
+
+== TESTING testGetBestHandPlo
+
+
+== TESTING testGetBestHandNlh
+
+
+== TESTING testShuffle (manual verification)
+=======Deck=======
+3s 3d Ac 6d 5s 2d Jc 7s 7c 5h Jh Kh Ah 8h 2s 8s 6h 2h 9c Kc Js Ts 4h 5d 8c 9h Qc Kd Ks 5c 8d 7h Ad 4c As 6c 7d Th Tc Qs 6s 9d 4d Td 3h 3c 2c Qh Jd Qd 9s 4s
+Shuffled deck
+=======Deck=======
+5d Qh Jd 7h Qc 5c 7s Qd Ad Ks 4s Kh 3d 2h 3h 3c 8c 4d 2d 8d Th 5h 7c 6d 6s Kd 9c Kc 2s 4h Td 3s As Qs 8h 9s Tc 6h 4c 7d 8s Jc 2c Ac Jh 9d 6c 5s Ts 9h Js Ah
+
+
+== TESTING testDealCardDeckNlh (manual verification)
+=======Deck=======
+2c 3s 2h Ts Jc 3h Qh Qs 9h 4h 8d 9c 6d 8s Jh 3c Qc 6c 4c 6s Ks 4s 9s 5d 5s Ad 7s 2s Kh 7h Td Jd As Ac Kd 9d Kc Qd 5h Ah 7c 8c 3d 2d 8h 4d Tc Th 6h Js 7d 5c
+~Player Cards~: 2c Jc
+~Player Cards~: 3s 3h
+~Player Cards~: 2h Qh
+~Player Cards~: Ts Qs
+Community Cards = [4h, 8d, 9c, 8s, 3c]
+
+
+== TESTING testDealCardDeckPlo (manual verification)
+=======Deck=======
+Tc 6h Td 3s Ks 6d 7h Qd Jd 5c 9h 8c 4h 6c 4s 4c 2s Kc Jc 4d 7d Ac 3d 3h 8h Ah As Qc 9d Qh 7s 8s Qs 2h 9s Ad 2c Ts Js 7c 6s 8d 3c Kh Kd 9c 2d 5s Jh Th 5h 5d
+~Player Cards~: Tc Ks Jd 4h
+~Player Cards~: 6h 6d 5c 6c
+~Player Cards~: Td 7h 9h 4s
+~Player Cards~: 3s Qd 8c 4c
+Community Cards = [Kc, Jc, 4d, Ac, 3h]
+
+Process finished with exit code 0

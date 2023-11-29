@@ -1,8 +1,8 @@
 # PokerHighHandSimulator
 
 ## Problem Overview
-Poker Rooms use High Hand (HH) promotions to attract No Limit Hold 'Em (NLH) and Pot Limit Omaha (PLO) players. 
-In these promotions, the player with the highest hand during a set period, usually an hour, wins a set monetary prize.
+Poker Rooms use High Hand (HH) promotions to attract [No Limit Hold 'Em (NLH)](https://en.wikipedia.org/wiki/Texas_hold_%27em) and [Pot Limit Omaha (PLO)](https://en.wikipedia.org/wiki/Omaha_hold_%27em) players. 
+In these promotions, the player with the [best ranked poker hand](https://www.britannica.com/story/poker-hands-ranked) during a set period, usually an hour, wins a set monetary prize.
 
 To be eligible, players pay a percentage fee ("rake") taken from qualifying pots. 
 The challenge arises because PLO and NLH have different odds of getting the strongest hands. 
