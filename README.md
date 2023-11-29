@@ -1,14 +1,14 @@
 # PokerHighHandSimulator
 
 ## Problem Overview
-Poker Rooms use [High Hand (HH) promotions](https://www.pokernews.com/strategy/casino-poker-for-beginners-high-hand-bonus-bad-beat-jackpot-21976.htm) to attract [No Limit Hold 'Em (NLH)](https://en.wikipedia.org/wiki/Texas_hold_%27em) and [Pot Limit Omaha (PLO)](https://en.wikipedia.org/wiki/Omaha_hold_%27em) players. 
+Poker rooms use [High Hand (HH) promotions](https://www.pokernews.com/strategy/casino-poker-for-beginners-high-hand-bonus-bad-beat-jackpot-21976.htm) to attract [No Limit Hold 'Em (NLH)](https://en.wikipedia.org/wiki/Texas_hold_%27em) and [Pot Limit Omaha (PLO)](https://en.wikipedia.org/wiki/Omaha_hold_%27em) players. 
 In these promotions, the player with the [best ranked poker hand](https://www.britannica.com/story/poker-hands-ranked) during a set period, usually an hour, wins a set monetary prize.
 
-To be eligible, players pay a percentage fee ("rake") taken from qualifying pots. 
+To be eligible, players pay a ["rake"](https://en.wikipedia.org/wiki/Rake_(poker)#:~:text=Rake%20is%20the%20scaled%20commission,casino%20to%20take%20the%20rake.) taken from qualifying pots. 
 The challenge arises because PLO and NLH have different odds of getting the strongest hands. 
-Some casinos address this discrepancy by restricting PLO players from winning the HH unless their hand utilizes the first 3 community cards.
+Some poker rooms address this discrepancy by restricting PLO players from winning the HH unless their hand utilizes the first 3 [community cards](https://upswingpoker.com/glossary/community-cards/).
 
-This project aims to find a fair solution for HH promotions and measure the fairness of different HH promotion configurations.
+This project aims to find a fair solution for HH promotions and quantify the fairness of different HH promotion configurations.
 
 ## Project Description
 This program allows the user to simulate HH promotions running at a Poker Room with NLH and PLO tables. 
