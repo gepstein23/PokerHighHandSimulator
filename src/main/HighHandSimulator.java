@@ -46,39 +46,21 @@ public class HighHandSimulator {
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
         System.out.println(data);
 
-        final int totalNumNlhPlayers = numNlhTables * numPlayersPerTable;
-        final int totalNumPloPlayers = numPloTables * numPlayersPerTable;
         final long totalNumHH = simulationDuration.toHours() / highHandDuration.toHours();
         final long numPloWins = data.getNumPloWins();
         final long numNlhWins = data.getNumNlhWins();
         final double nlhWinPercent = (numNlhWins * 1.0 / totalNumHH * 1.0) * 100.0;
         final double ploWinPercent = (numPloWins * 1.0 / totalNumHH * 1.0) * 100.0;
-        double oddsRatio = calculateOddsRatio(data.getNumNlhWins(), totalNumNlhPlayers, data.getNumPloWins(), totalNumPloPlayers);
         log(String.format("""
                         =============== SIMULATION RESULTS ===============
-                        %s Total NLH Players spread over %s NLH tables
-                        %s Total PLO Players spread over %s PLO tables
-                        NLH won HH %s/%s times (%.2f%%)
-                        PLO won HH %s/%s times (%.2f%%)
-                        Odds Ratio (NLH vs PLO): (%.2f)
+                        NLH won %s/%s times (%.2f%%)
+                        PLO won %s/%s times (%.2f%%)
+                        --------------------------------------------------
+                        NLH %.2f%%, PLO %.2f%%
+                        ==================================================
                         """,
-                totalNumNlhPlayers, numNlhTables,
-                totalNumPloPlayers, numPloTables,
                 data.getNumNlhWins(), totalNumHH, nlhWinPercent,
-                data.getNumPloWins(), totalNumHH, ploWinPercent,
-                oddsRatio));
-    }
-
-    private double calculateOddsRatio(long numNlhWins, int totalNumNlhPlayers, long numPloWins, int totalNumPloPlayers) {
-        double oddsNlh = (double) numNlhWins / (totalNumNlhPlayers - numNlhWins);
-        double oddsPlo = (double) numPloWins / (totalNumPloPlayers - numPloWins);
-
-        // Avoid division by zero
-        if (oddsPlo == 0) {
-            return Double.POSITIVE_INFINITY;
-        }
-
-        return oddsNlh / oddsPlo;
+                data.getNumPloWins(), totalNumHH, ploWinPercent, nlhWinPercent, ploWinPercent));
     }
 
     private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) {
