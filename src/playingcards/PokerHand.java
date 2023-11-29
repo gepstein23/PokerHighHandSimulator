@@ -111,7 +111,7 @@ public class PokerHand {
     private boolean isFlush(Card[] fiveHandCards) {
         CardSuit suit = fiveHandCards[0].getSuit();
         if (suit == null) {
-            return true;
+            return false;
         }
         for (Card card : fiveHandCards) {
             if (!suit.equals(card.getSuit())) {
@@ -197,8 +197,9 @@ public class PokerHand {
             case TWO_PAIR:
             case SET:
             case STRAIGHT:
+                return 1; // Don't care
             case FLUSH:
-                return 1; // TODO we don't really care for the time being
+                return otherHand.fiveHandCards[0].getValue().compareTo(this.fiveHandCards[0].getValue());
             case FULL_HOUSE:
                 final CardValue[] thisFullValues = getFullHouseFullCardValues(this);
                 final CardValue[] otherFullValues = getFullHouseFullCardValues(otherHand);
@@ -208,7 +209,7 @@ public class PokerHand {
                     return otherFullValue.compareTo(thisFullValue);
                 }
                 final CardValue thisFullOfValue = thisFullValues[1];
-                final CardValue otherFullOfValue = thisFullValues[1];
+                final CardValue otherFullOfValue = otherFullValues[1];
                 return otherFullOfValue.compareTo(thisFullOfValue);
             case QUADS:
                 final CardValue[] thisQuadsValues = getQuadsValues(this);

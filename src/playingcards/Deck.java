@@ -77,7 +77,11 @@ public class Deck {
         cards = shuffle();
     }
 
-    private List<Card> shuffle() {
+    public Deck(List<Card> cards) {
+        this.cards = cards;
+    }
+
+    public List<Card> shuffle() {
         final ArrayList<Card> copiedCards = new ArrayList<>(STANDARD_DECK);
         Collections.shuffle(copiedCards);
         return copiedCards;
@@ -85,5 +89,14 @@ public class Deck {
 
     public Card get(int index) {
         return cards.get(index);
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("=======Deck=======\n");
+        for (Card card : cards) {
+            str.append(card + " ");
+        }
+        return str.toString();
     }
 }

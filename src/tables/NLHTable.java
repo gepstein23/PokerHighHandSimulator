@@ -21,12 +21,12 @@ public class NLHTable extends PokerTable {
     }
 
     @Override
-    protected boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
-        return winner.compare(highHand.getNlhMinimumQualifyingHand()) > 0;
+    public boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
+        return winner.compare(highHand.getNlhMinimumQualifyingHand()) >= 0;
     }
 
     @Override
-    protected Collection<PokerPlayer> dealPlayers(Deck deck) {
+    public Collection<PokerPlayer> dealPlayers(Deck deck) {
         final Collection<PokerPlayer> dealtPlayers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
             final int holeCard1Index = i;

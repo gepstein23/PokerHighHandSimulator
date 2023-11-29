@@ -23,13 +23,13 @@ public class PLOTable extends PokerTable {
     }
 
     @Override
-    protected boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
+    public boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
         final boolean floppedConditionMet = noPloFlopRestriction || winner.isFlopped();
-        return winner.compare(highHand.getPloMinimumQualifyingHand()) > 0 && floppedConditionMet;
+        return winner.compare(highHand.getPloMinimumQualifyingHand()) >= 0 && floppedConditionMet;
     }
 
     @Override
-    protected Collection<PokerPlayer> dealPlayers(Deck deck) {
+    public Collection<PokerPlayer> dealPlayers(Deck deck) {
         final Collection<PokerPlayer> dealtPlayers = new ArrayList<>();
         for (int i = 0; i < this.numPlayers; i++) {
             final int holeCard1Index = i;

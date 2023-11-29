@@ -47,25 +47,31 @@ public abstract class PokerTable {
     private PokerHand playHourOfHands(double tableHandsPerHour, HighHand highHand) {
         PokerHand tableHighHandWinner = null;
         for (int i = 0; i < tableHandsPerHour; i++) {
-            debug("\n=============== Table %s Hand #%s", tableID, i);
-            // Play out one hand
-            final Deck deck = new Deck();
-            final Collection<PokerPlayer> players = filterPlayersPrePreflop(dealPlayers(deck));
-            final List<Card> communityCards = dealCommunityCards(deck);
-            debug(" = Community Cards: %s", Card.getCardStr(communityCards.toArray(new Card[0])));
-            final Map<UUID, PokerHand> winner = determineWinningHand(players, communityCards);
-            final PokerHand winningHand = winner.values().iterator().next();
-            final boolean qualifiesForHighHand = isQualifyingHighHand(winningHand, highHand);
-            debug(" = Winner: %s, handType=%s, playerID=%s, qualifiesForHH=%s", Card.getCardStr(winningHand.getFiveHandCards()),
-                    winningHand.getHandType(), winner.keySet().iterator().next(), qualifiesForHighHand);
-            if (qualifiesForHighHand) {
-                if (tableHighHandWinner == null || winningHand.compare(tableHighHandWinner) > 0) {
-                    tableHighHandWinner = winningHand;
-                }
-            }
+            tableHighHandWinner = playOneHand(i, tableHighHandWinner, highHand);
         }
         debug("\n=============================================\n=== TableHighHandWinner: %s", tableHighHandWinner == null ? "null" : Card.getCardStr(tableHighHandWinner.getFiveHandCards()));
         return tableHighHandWinner;
+    }
+
+    private PokerHand playOneHand(int handNum, PokerHand currentTableHighHandWinner, HighHand highHand) {
+        PokerHand newTableHighHandWinner = currentTableHighHandWinner;
+        debug("\n=============== Table %s Hand #%s", tableID, handNum);
+        // Play out one hand
+        final Deck deck = new Deck();
+        final Collection<PokerPlayer> players = filterPlayersPrePreflop(dealPlayers(deck));
+        final List<Card> communityCards = dealCommunityCards(deck);
+        debug(" = Community Cards: %s", Card.getCardStr(communityCards.toArray(new Card[0])));
+        final Map<UUID, PokerHand> winner = determineWinningHand(players, communityCards);
+        final PokerHand winningHand = winner.values().iterator().next();
+        final boolean qualifiesForHighHand = isQualifyingHighHand(winningHand, highHand);
+        debug(" = Winner: %s, handType=%s, playerID=%s, qualifiesForHH=%s", Card.getCardStr(winningHand.getFiveHandCards()),
+                winningHand.getHandType(), winner.keySet().iterator().next(), qualifiesForHighHand);
+        if (qualifiesForHighHand) {
+            if (currentTableHighHandWinner == null || winningHand.compare(currentTableHighHandWinner) > 0) {
+                newTableHighHandWinner = winningHand;
+            }
+        }
+        return newTableHighHandWinner;
     }
 
     /**
@@ -78,7 +84,7 @@ public abstract class PokerTable {
         return dealtPlayers.stream().filter(player -> player.shouldSeeFlop()).collect(Collectors.toList());
     }
 
-    protected abstract boolean isQualifyingHighHand(PokerHand winner, HighHand highHand);
+    public abstract boolean isQualifyingHighHand(PokerHand winner, HighHand highHand);
 
     /**
      * Returns winning hand to winning playerID
@@ -103,9 +109,10 @@ public abstract class PokerTable {
         return res;
     }
 
-    private List<Card> dealCommunityCards(Deck deck) {
+    public List<Card> dealCommunityCards(Deck deck) {
         final List<Card> communityCards = new ArrayList<>();
-        int currIndex = numPlayers * 4 + 1;
+        final int numPlayerCards = this instanceof PLOTable ? 4 : 2;
+        int currIndex = numPlayers * numPlayerCards;
 
         // Flop burn
         currIndex += 1;
@@ -133,5 +140,5 @@ public abstract class PokerTable {
         return communityCards;
     }
 
-    protected abstract Collection<PokerPlayer> dealPlayers(Deck deck);
+    public abstract Collection<PokerPlayer> dealPlayers(Deck deck);
 }

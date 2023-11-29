@@ -74,4 +74,13 @@ public abstract class PokerPlayer {
     private int getHoleCardRanking() {
         return 0;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder str = new StringBuilder("~Player Cards~: ");
+        for (Card card : holeCards) {
+            str.append(card).append(" ");
+        }
+        return str.toString();
+    }
 }
