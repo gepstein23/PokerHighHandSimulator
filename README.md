@@ -1,6 +1,6 @@
 # PokerHighHandSimulator
 
-![a](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/photos/royalflush.png)
+![image info](./photos/royalflush.png)
 
 ## Problem Overview
 Poker rooms use [High Hand (HH) promotions](https://www.pokernews.com/strategy/casino-poker-for-beginners-high-hand-bonus-bad-beat-jackpot-21976.htm) to attract [No Limit Hold 'Em (NLH)](https://en.wikipedia.org/wiki/Texas_hold_%27em) and [Pot Limit Omaha (PLO)](https://en.wikipedia.org/wiki/Omaha_hold_%27em) players. 
