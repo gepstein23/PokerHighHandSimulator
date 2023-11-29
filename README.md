@@ -11,7 +11,7 @@ Some poker rooms address this discrepancy by restricting PLO players from winnin
 This project aims to find a fair solution for HH promotions and quantify the fairness of different HH promotion configurations.
 
 ## Project Description
-This program allows the user to simulate HH promotions running at a Poker Room with NLH and PLO tables. 
+This program allows the user to simulate HH promotions running at a poker room with NLH and PLO tables. 
 The program plays through poker hands per table, stores qualifying HHs per period, 
 and compares them to qualifying HHs from other tables during the same period. Once the simulation concludes, 
 the program outputs the winning statistics per game type for the simulation duration.
