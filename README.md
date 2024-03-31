@@ -92,3 +92,13 @@ Players could exploit this if the # of players input to the program is taken at 
 
 ### Testing 
 See [PokerHighHandSimulatorTests.java](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/test/PokerHighHandSimulatorTests.java) and [PokerHighHandSimulatorTests_results.txt](https://github.com/gepstein23/PokerHighHandSimulator/blob/master/results/PokerHighHandSimulatorTests_results.txt)
+
+### Simulation Animation *(in-progress)*
+
+Per request, I'm in the process of generating an animation to go alongside any simulation.
+This will be beneficial for manual verification of gameplay mechanics. A preliminary 
+example is shown here: 
+
+[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
+
+[*Note that currently in the animation, "qualifying high hands" displayed do not consider the current high hand*]
