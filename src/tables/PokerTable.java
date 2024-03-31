@@ -1,10 +1,11 @@
 package tables;
 
+import animation.PlayedHandData;
+import main.HighHand;
+import players.PokerPlayer;
 import playingcards.Card;
 import playingcards.Deck;
-import main.HighHand;
 import playingcards.PokerHand;
-import players.PokerPlayer;
 import simulation_datas.TableSimulationData;
 
 import java.time.Duration;
@@ -12,13 +13,13 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import static main.Utils.debug;
-import static main.Utils.log;
 
 public abstract class PokerTable {
     private UUID tableID;
     protected int numPlayers;
     protected double tableHandsPerHour;
     protected boolean shouldFilterPreflop;
+    protected List<PlayedHandData> playedHands = new ArrayList<PlayedHandData>();
 
     public PokerTable(int numPlayers, double tableHandsPerHour, boolean shouldFilterPreflop) {
         this.tableID = UUID.randomUUID();
@@ -71,6 +72,7 @@ public abstract class PokerTable {
                 newTableHighHandWinner = winningHand;
             }
         }
+        recordPlayedHand(players, communityCards, winningHand, qualifiesForHighHand);
         return newTableHighHandWinner;
     }
 
@@ -141,4 +143,12 @@ public abstract class PokerTable {
     }
 
     public abstract Collection<PokerPlayer> dealPlayers(Deck deck);
+
+    public void recordPlayedHand(Collection<PokerPlayer> players, List<Card> communityCards, PokerHand winningHand, boolean qualifiesForHighHand) {
+        playedHands.add(new PlayedHandData(new ArrayList<>(players), communityCards, winningHand, qualifiesForHighHand));
+    }
+
+    public List<PlayedHandData> getPlayedHands() {
+        return playedHands;
+    }
 }

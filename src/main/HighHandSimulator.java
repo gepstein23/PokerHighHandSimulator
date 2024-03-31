@@ -1,5 +1,6 @@
 package main;
 
+import animation.PokerRoomAnimation;
 import playingcards.PokerHand;
 import simulation_datas.HourSimulationData;
 import simulation_datas.SimulationData;
@@ -63,6 +64,7 @@ public class HighHandSimulator {
                         """,
                 data.getNumNlhWins(), totalNumHH, nlhWinPercent,
                 data.getNumPloWins(), totalNumHH, ploWinPercent, nlhWinPercent, ploWinPercent));
+        displaySimulationResults(tables);
     }
 
     private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) {
@@ -123,5 +125,10 @@ public class HighHandSimulator {
                 + "highHand=%s\n"
                 + "shouldFilterPreflop=%s\n",
                 numNlhTables, numPloTables, numHandsPerHour, numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop);
+    }
+
+    private void displaySimulationResults(Collection<PokerTable> tables) {
+        final PokerRoomAnimation animation = new PokerRoomAnimation(new ArrayList<>(tables));
+        animation.initUI();
     }
 }

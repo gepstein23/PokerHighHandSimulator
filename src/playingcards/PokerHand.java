@@ -189,6 +189,10 @@ public class PokerHand {
         HandType(int rank) {
             this.rank = rank;
         }
+
+        public int rank() {
+            return rank;
+        }
     }
 
     public Card[] getFiveHandCards() {

@@ -87,4 +87,8 @@ public abstract class PokerPlayer {
         }
         return str.toString();
     }
+
+    public Card[] getHoleCards() {
+        return holeCards;
+    }
 }
