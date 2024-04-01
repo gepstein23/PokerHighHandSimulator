@@ -4,6 +4,8 @@ import players.PokerPlayer;
 import playingcards.Card;
 import playingcards.CardSuit;
 import playingcards.PokerHand;
+import simulation_datas.TableSimulationData;
+import tables.PokerTable;
 
 import javax.swing.*;
 import java.awt.*;
@@ -12,11 +14,16 @@ import java.util.Arrays;
 import java.util.List;
 
 public class PokerTablePanel extends JPanel {
+    private final TableSimulationData tableSimulationData;
+    private final List<PlayedHandData> playedHands;
     private PlayedHandData currentHandData;
 
     private List<PlayedHandData> tableHHQualifiers = new ArrayList<>();
+    private int currentHandIndex = 0;
 
-    public PokerTablePanel() {
+    public PokerTablePanel(TableSimulationData tableSimulationData, PokerTable table) {
+        this.playedHands = table.getPlayedHands();
+        this.tableSimulationData = tableSimulationData;
         setPreferredSize(new Dimension(800, 400));
     }
 
@@ -248,12 +255,16 @@ public class PokerTablePanel extends JPanel {
 
 
 
-    public void displayHand(PlayedHandData handData) {
-        this.currentHandData = handData;
+    public void displayHand() {
+        displayHand(playedHands.get(currentHandIndex));
+    }
+
+    public void displayHand(PlayedHandData currentHandData) {
+        this.currentHandData = currentHandData;
         // Clear current content
         this.removeAll();
 
-        for (Card card : handData.getCommunityCards()) {
+        for (Card card : currentHandData.getCommunityCards()) {
             JLabel cardLabel = new JLabel(card.toString());
             this.add(cardLabel);
         }
@@ -261,9 +272,18 @@ public class PokerTablePanel extends JPanel {
         // refresh the panel to show updates
         this.revalidate();
         this.repaint();
+        this.currentHandIndex++;
     }
 
     public List<PlayedHandData> getTableHHQualifiers() {
         return tableHHQualifiers;
+    }
+
+    public boolean hasHand() {
+        return currentHandIndex < playedHands.size();
+    }
+
+    public void displayLastHand() {
+        displayHand(playedHands.get(playedHands.size() - 1));
     }
 }

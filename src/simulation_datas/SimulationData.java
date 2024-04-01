@@ -41,4 +41,13 @@ public class SimulationData {
     public double getPloWinPercent() {
         return (getNumPloWins() * 1.0 / totalNumHH * 1.0) * 100.0;
     }
+
+    public List<TableSimulationData> getTableSimulationDatas() {
+        return tableSimulationDatas;
+    }
+
+    public Collection<HourSimulationData> getHourSimulationDatas() {
+        return hourSimulationDatas;
+    }
+
 }

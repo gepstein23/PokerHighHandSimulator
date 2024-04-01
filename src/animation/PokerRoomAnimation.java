@@ -1,20 +1,25 @@
 package animation;
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
+
+import simulation_datas.SimulationData;
+import simulation_datas.TableSimulationData;
 import tables.PokerTable;
 
 public class PokerRoomAnimation {
+    private final SimulationData data;
     private List<PokerTablePanel> tablePanels = new ArrayList<>();
     private JFrame frame;
     private JButton showNextHandsButton;
     private JButton showFinalResultsButton;
-    private int currentHandIndex = 0;
     private List<PokerTable> tables;
 
-    public PokerRoomAnimation(List<PokerTable> tables) {
+    public PokerRoomAnimation(List<PokerTable> tables, SimulationData data) {
         this.tables = tables;
+        this.data = data;
     }
 
     public void initUI() {
@@ -22,9 +27,12 @@ public class PokerRoomAnimation {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
 
+        final Map<UUID, TableSimulationData> tableUUIDToSimulationData =
+                data.getTableSimulationDatas().stream().collect(Collectors.toMap(TableSimulationData::getTableID, t -> t));
+
         JPanel tablesPanel = new JPanel(new GridLayout(0, 2)); // Adjust based on the number of tables
         for (PokerTable table : tables) {
-            PokerTablePanel panel = new PokerTablePanel();
+            PokerTablePanel panel = new PokerTablePanel(tableUUIDToSimulationData.get(table.getTableID()), table);
             tablePanels.add(panel);
             tablesPanel.add(panel);
         }
@@ -43,36 +51,27 @@ public class PokerRoomAnimation {
     }
 
     private void displayNextHand() {
-        if (!tables.isEmpty() && currentHandIndex < tables.get(0).getPlayedHands().size()) {
-            for (int i = 0; i < tables.size(); i++) {
-                PokerTable table = tables.get(i);
-                PokerTablePanel panel = tablePanels.get(i);
-                PlayedHandData handData = table.getPlayedHands().get(currentHandIndex);
-
-                panel.displayHand(handData);
+        boolean handsRemaining = false;
+        for (PokerTablePanel panel : tablePanels) {
+            boolean thisHandsRemaining = panel.hasHand();
+            handsRemaining |= thisHandsRemaining;
+            if (thisHandsRemaining) {
+                panel.displayHand();
             }
-            currentHandIndex++;
-        } else {
-            showNextHandsButton.setEnabled(false); // Disable button when no more hands to show
         }
-        if (currentHandIndex == tables.get(0).getPlayedHands().size()) {
+        if (!handsRemaining) {
+            showNextHandsButton.setEnabled(false);
+            showFinalResultsButton.setEnabled(false);
             displaySimulationResultsPanel();
         }
     }
 
     private void showFinalResults() {
-        if (tables.isEmpty() || currentHandIndex >= tables.get(0).getPlayedHands().size()) {
-            showFinalResultsButton.setEnabled(false);
-            return;
+        for (PokerTablePanel panel : tablePanels) {
+            panel.displayLastHand();
         }
-        currentHandIndex = tables.get(0).getPlayedHands().size() - 1;
-
-        for (int i = 0; i < tables.size(); i++) {
-                PokerTable table = tables.get(i);
-                PokerTablePanel panel = tablePanels.get(i);
-                PlayedHandData handData = table.getPlayedHands().get(currentHandIndex);
-                panel.displayHand(handData);
-        }
+        showNextHandsButton.setEnabled(false);
+        showFinalResultsButton.setEnabled(false);
         displaySimulationResultsPanel();
     }
 

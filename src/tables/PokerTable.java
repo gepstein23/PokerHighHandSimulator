@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 import static main.Utils.debug;
 
 public abstract class PokerTable {
+
     private UUID tableID;
     protected int numPlayers;
     protected double tableHandsPerHour;
@@ -40,7 +41,7 @@ public abstract class PokerTable {
              tableHighHandPerSimulationHour.put(clock.toHours(), tableHighHandCurrHour);
              clock = clock.minus(Duration.ofHours(1));
          }
-         return new TableSimulationData(tableHighHandPerSimulationHour, isPloTable());
+         return new TableSimulationData(tableID, tableHighHandPerSimulationHour, isPloTable());
     }
 
     protected abstract boolean isPloTable();
@@ -150,5 +151,8 @@ public abstract class PokerTable {
 
     public List<PlayedHandData> getPlayedHands() {
         return playedHands;
+    }
+    public UUID getTableID() {
+        return tableID;
     }
 }

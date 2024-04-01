@@ -124,7 +124,7 @@ public class HighHandSimulator {
     }
 
     private void displaySimulationResults(Collection<PokerTable> tables, SimulationData data) {
-        final PokerRoomAnimation animation = new PokerRoomAnimation(new ArrayList<>(tables));
+        final PokerRoomAnimation animation = new PokerRoomAnimation(new ArrayList<>(tables), data);
         animation.initUI();
     }
 }
