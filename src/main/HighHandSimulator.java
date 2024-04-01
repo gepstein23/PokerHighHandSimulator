@@ -47,24 +47,7 @@ public class HighHandSimulator {
                 shouldFilterPreflop, numPlayersPerTable, noPloFlopRestriction, ploTurnRestriction);
         log(this.toString());
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
-        System.out.println(data);
-
-        final long totalNumHH = simulationDuration.toHours() / highHandDuration.toHours();
-        final long numPloWins = data.getNumPloWins();
-        final long numNlhWins = data.getNumNlhWins();
-        final double nlhWinPercent = (numNlhWins * 1.0 / totalNumHH * 1.0) * 100.0;
-        final double ploWinPercent = (numPloWins * 1.0 / totalNumHH * 1.0) * 100.0;
-        log(String.format("""
-                        =============== SIMULATION RESULTS ===============
-                        NLH won %s/%s times (%.2f%%)
-                        PLO won %s/%s times (%.2f%%)
-                        --------------------------------------------------
-                        NLH %.2f%%, PLO %.2f%%
-                        ==================================================
-                        """,
-                data.getNumNlhWins(), totalNumHH, nlhWinPercent,
-                data.getNumPloWins(), totalNumHH, ploWinPercent, nlhWinPercent, ploWinPercent));
-        displaySimulationResults(tables);
+        displaySimulationResults(tables, data);
     }
 
     private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) {
@@ -111,7 +94,20 @@ public class HighHandSimulator {
             }
             hourSimulationDatas.add(new HourSimulationData(i, highHandAtHour, isPlo));
         }
-        return new SimulationData(hourSimulationDatas);
+
+        final long totalNumHH = simulationDuration.toHours() / highHandDuration.toHours();
+        final SimulationData data = new SimulationData(hourSimulationDatas, tableSimulationDatas, totalNumHH);
+        log(String.format("""
+                        =============== SIMULATION RESULTS ===============
+                        NLH won %s/%s times (%.2f%%)
+                        PLO won %s/%s times (%.2f%%)
+                        --------------------------------------------------
+                        NLH %.2f%%, PLO %.2f%%
+                        ==================================================
+                        """,
+                data.getNumNlhWins(), totalNumHH, data.getNlhWinPercent(),
+                data.getNumPloWins(), totalNumHH, data.getPloWinPercent(), data.getNlhWinPercent(), data.getPloWinPercent()));
+        return data;
     }
 
     @Override
@@ -127,7 +123,7 @@ public class HighHandSimulator {
                 numNlhTables, numPloTables, numHandsPerHour, numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop);
     }
 
-    private void displaySimulationResults(Collection<PokerTable> tables) {
+    private void displaySimulationResults(Collection<PokerTable> tables, SimulationData data) {
         final PokerRoomAnimation animation = new PokerRoomAnimation(new ArrayList<>(tables));
         animation.initUI();
     }

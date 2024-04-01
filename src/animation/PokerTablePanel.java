@@ -13,6 +13,7 @@ import java.util.List;
 
 public class PokerTablePanel extends JPanel {
     private PlayedHandData currentHandData;
+
     private List<PlayedHandData> tableHHQualifiers = new ArrayList<>();
 
     public PokerTablePanel() {
@@ -260,5 +261,9 @@ public class PokerTablePanel extends JPanel {
         // refresh the panel to show updates
         this.revalidate();
         this.repaint();
+    }
+
+    public List<PlayedHandData> getTableHHQualifiers() {
+        return tableHHQualifiers;
     }
 }
