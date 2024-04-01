@@ -99,6 +99,4 @@ Per request, I'm in the process of generating an animation to go alongside any s
 This will be beneficial for manual verification of gameplay mechanics. A preliminary 
 example is shown here: 
 
-[![IMAGE ALT TEXT HERE](https://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg)](https://www.youtube.com/watch?v=YOUTUBE_VIDEO_ID_HERE)
-
-[*Note that currently in the animation, "qualifying high hands" displayed do not consider the current high hand*]
+[![PokerHighHandSimulator Animation Preview [DRAFT]](https://img.youtube.com/vi/tE_P84CEc9I/0.jpg)](https://www.youtube.com/watch?v=tE_P84CEc9I)
