@@ -47,6 +47,7 @@ public class HighHandSimulator {
                 shouldFilterPreflop, numPlayersPerTable, noPloFlopRestriction, ploTurnRestriction);
         log(this.toString());
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
+        log(data.toString());
         displaySimulationResults(tables, data);
     }
 
@@ -96,7 +97,10 @@ public class HighHandSimulator {
         }
 
         final long totalNumHH = simulationDuration.toHours() / highHandDuration.toHours();
-        final SimulationData data = new SimulationData(hourSimulationDatas, tableSimulationDatas, totalNumHH);
+        final SimulationData data = new SimulationData(hourSimulationDatas, tableSimulationDatas, totalNumHH, numHandsPerHour);
+        final long totalNumHHWon = data.getNumNlhWins() + data.getNumPloWins();
+        final double nlhPercent = data.getNumNlhWins() * 1.0 / totalNumHHWon * 100.0;
+        final double ploPercent = data.getNumPloWins() * 1.0 / totalNumHHWon * 100.0;
         log(String.format("""
                         =============== SIMULATION RESULTS ===============
                         NLH won %s/%s times (%.2f%%)
@@ -105,8 +109,8 @@ public class HighHandSimulator {
                         NLH %.2f%%, PLO %.2f%%
                         ==================================================
                         """,
-                data.getNumNlhWins(), totalNumHH, data.getNlhWinPercent(),
-                data.getNumPloWins(), totalNumHH, data.getPloWinPercent(), data.getNlhWinPercent(), data.getPloWinPercent()));
+                data.getNumNlhWins(), totalNumHHWon, nlhPercent,
+                data.getNumPloWins(), totalNumHHWon, ploPercent, nlhPercent, ploPercent));
         return data;
     }
 

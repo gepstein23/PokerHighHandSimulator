@@ -7,11 +7,13 @@ public class SimulationData {
     private final List<TableSimulationData> tableSimulationDatas;
     private final long totalNumHH;
     private Collection<HourSimulationData> hourSimulationDatas;
+    private int numHandsPerHour;
 
-    public SimulationData(Collection<HourSimulationData> hourSimulationDatas, List<TableSimulationData> tableSimulationDatas, long totalNumHH) {
+    public SimulationData(Collection<HourSimulationData> hourSimulationDatas, List<TableSimulationData> tableSimulationDatas, long totalNumHH, int numHandsPerHour) {
         this.hourSimulationDatas = hourSimulationDatas;
         this.tableSimulationDatas = tableSimulationDatas;
         this.totalNumHH = totalNumHH;
+        this.numHandsPerHour = numHandsPerHour;
     }
 
     public long getNumPloWins() {
@@ -34,13 +36,13 @@ public class SimulationData {
                 + "numNlhWins=%s\n", getNumPloWins(), getNumNlhWins());
     }
 
-    public double getNlhWinPercent() {
-        return (getNumNlhWins() * 1.0 / totalNumHH * 1.0) * 100.0;
-    }
-
-    public double getPloWinPercent() {
-        return (getNumPloWins() * 1.0 / totalNumHH * 1.0) * 100.0;
-    }
+//    public double getNlhWinPercent() {
+//        return (getNumNlhWins() * 1.0 / totalNumHH * 1.0) * 100.0;
+//    }
+//
+//    public double getPloWinPercent() {
+//        return (getNumPloWins() * 1.0 / totalNumHH * 1.0) * 100.0;
+//    }
 
     public List<TableSimulationData> getTableSimulationDatas() {
         return tableSimulationDatas;
@@ -50,4 +52,7 @@ public class SimulationData {
         return hourSimulationDatas;
     }
 
+    public int getNumHandsPerHour() {
+        return numHandsPerHour;
+    }
 }
