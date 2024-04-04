@@ -100,4 +100,4 @@ Per request, I'm in the process of generating an animation to go alongside any s
 This will be beneficial for manual verification of gameplay mechanics. A preliminary 
 example is shown here: 
 
-[![PokerHighHandSimulator Animation Preview [DRAFT v2]](https://img.youtube.com/vi/ux2BfdrvDyg/0.jpg)](https://www.youtube.com/watch?v=ux2BfdrvDyg)
+[![PokerHighHandSimulator Animation Preview [v3 - no UI]](https://img.youtube.com/vi/3wAh1azKxZk/0.jpg)](https://www.youtube.com/watch?v=3wAh1azKxZk)
