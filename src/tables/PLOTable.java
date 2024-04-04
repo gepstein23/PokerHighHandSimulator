@@ -25,7 +25,7 @@ public class PLOTable extends PokerTable {
     }
 
     @Override
-    public boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
+    public boolean isQualifyingHighHand(PokerHand winner, HighHand highHand, boolean usesBothCards) {
         final boolean floppedConditionMet = noPloFlopRestriction || winner.isFlopped();
         final boolean turnConditionMet = !ploTurnRestriction || winner.isTurned();
         return winner.compare(highHand.getPloMinimumQualifyingHand()) >= 0 && floppedConditionMet && turnConditionMet;

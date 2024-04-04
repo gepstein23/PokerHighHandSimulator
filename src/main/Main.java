@@ -8,12 +8,12 @@ import playingcards.PokerHand;
 import java.time.Duration;
 
 public class Main {
-    private static final int DEFAULT_HANDS_PER_HOUR = 25;
+    public static final int DEFAULT_HANDS_PER_HOUR = 25;
     private static final int DEFAULT_NUM_PLAYERS = 8;
     private static final int DEFAULT_NUM_NLH_TABLES = 8;
     private static final int DEFAULT_NUM_PLO_TABLES = 4;
     private static final Duration DEFAULT_SIMULATION_DURATION = Duration.ofHours(10000);
-    private static final Duration DEFAULT_HIGH_HAND_DURATION = Duration.ofHours(1);
+    public static final Duration DEFAULT_HIGH_HAND_DURATION = Duration.ofHours(1);
     private static final PokerHand DEFAULT_MINIMUM_QUALIFYING_POKER_HAND = new PokerHand(card(CardValue.TWO),
             card(CardValue.TWO), card(CardValue.TWO), card(CardValue.THREE), card(CardValue.THREE));
     private static final Options COMMAND_LINE_OPTIONS = new Options();
@@ -29,6 +29,8 @@ public class Main {
     public static final String INCLUDE_NLH_RIVER_LIKELIHOOD = "includeNlhRiverLikelihood";
     public static final String NO_PLO_FLOP_RESTRICTION = "noPloFlopRestriction";
     public static final String PLO_TURN_RESTRICTION = "ploTurnRestriction";
+    private static final String MACHINE_LEARNING = "machineLearning";
+    private static final String SHOULD_DISPLAY_ANIMATION = "animate";
 
     static {
         final Option numNlhTables = new Option("nlhT", NUM_NLH_TABLES, true,
@@ -90,6 +92,16 @@ public class Main {
                 "If this option is added, PLO must get their HH by the turn to qualify. Overrides noPloFlopRestriction");
         ploTurnRestriction.setRequired(false);
         COMMAND_LINE_OPTIONS.addOption(ploTurnRestriction);
+
+        final Option animate = new Option("a", SHOULD_DISPLAY_ANIMATION, false,
+                "If this option is added, the animation will play once the simulation concludes");
+        animate.setRequired(false);
+        COMMAND_LINE_OPTIONS.addOption(animate);
+
+        final Option machineLearning = new Option("ml", MACHINE_LEARNING, false,
+                "If this option is added, initialize the machine learning algorithm");
+        machineLearning.setRequired(false);
+        COMMAND_LINE_OPTIONS.addOption(machineLearning);
     }
 
     public static void main(String[] args) {
@@ -103,6 +115,12 @@ public class Main {
             System.out.println(e.getMessage());
             formatter.printHelp("PokerHighHandSimulator", COMMAND_LINE_OPTIONS);
             System.exit(1);
+        }
+
+        final boolean runMachineLearning = cmd.hasOption(MACHINE_LEARNING);
+        if (runMachineLearning) {
+            runMachineLearning();
+            return;
         }
 
         final String inputNumNlhTables = cmd.getOptionValue(NUM_NLH_TABLES);
@@ -134,14 +152,19 @@ public class Main {
                 : Duration.ofHours(Integer.parseInt(inputHighHandDuration));
 
         final boolean shouldFilterPreflop = cmd.hasOption(SHOULD_FILTER_PREFLOP);
+        final boolean animate = cmd.hasOption(SHOULD_DISPLAY_ANIMATION);
         final boolean noPloFlopRestriction = cmd.hasOption(NO_PLO_FLOP_RESTRICTION);
         final boolean ploTurnRestriction = cmd.hasOption(PLO_TURN_RESTRICTION); // TODO consolidate
         // final boolean includeNlhRiverLikelihood = cmd.hasOption(INCLUDE_NLH_RIVER_LIKELIHOOD);
 
         final HighHand highHand = new HighHand(nlhHighHandMinimumQualifier, ploHighHandMinimumQualifier, highHandDuration);
         final HighHandSimulator highHandSimulator = new HighHandSimulator(numNlhTables, numPloTables, numHandsPerHour,
-                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction, ploTurnRestriction);
+                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction, ploTurnRestriction, animate);
         highHandSimulator.runSimulation();
+    }
+
+    private static void runMachineLearning() {
+        new MachineLearningHandler().initMl();
     }
 
     private static Card card(CardValue value) {

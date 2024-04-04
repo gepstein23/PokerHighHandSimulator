@@ -47,4 +47,21 @@ public enum CardValue {
         }
         return null;
     }
+
+    public static CardValue fromRank(final int rank) {
+        for (CardValue card : CardValue.values()) {
+            if (card.rank == rank) {
+                return card;
+            }
+        }
+        return null;
+    }
+
+    public CardValue getIncreasedValue() {
+        return fromRank(rank + 1);
+    }
+
+    public CardValue getDecreasedValue() {
+        return fromRank(rank - 1);
+    }
 }

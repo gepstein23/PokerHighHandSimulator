@@ -21,8 +21,8 @@ public class NLHTable extends PokerTable {
     }
 
     @Override
-    public boolean isQualifyingHighHand(PokerHand winner, HighHand highHand) {
-        return winner.compare(highHand.getNlhMinimumQualifyingHand()) >= 0;
+    public boolean isQualifyingHighHand(PokerHand winner, HighHand highHand, boolean usesBothCards) {
+        return winner.compare(highHand.getNlhMinimumQualifyingHand()) >= 0 && usesBothCards;
     }
 
     @Override

@@ -65,16 +65,33 @@ public abstract class PokerTable {
         debug(" = Community Cards: %s", Card.getCardStr(communityCards.toArray(new Card[0])));
         final Map<UUID, PokerHand> winner = determineWinningHand(players, communityCards);
         final PokerHand winningHand = winner.values().iterator().next();
-        final boolean qualifiesForHighHand = isQualifyingHighHand(winningHand, highHand);
-        debug(" = Winner: %s, handType=%s, playerID=%s, qualifiesForHH=%s", Card.getCardStr(winningHand.getFiveHandCards()),
-                winningHand.getHandType(), winner.keySet().iterator().next(), qualifiesForHighHand);
-        if (qualifiesForHighHand) {
-            if (currentTableHighHandWinner == null || winningHand.compare(currentTableHighHandWinner) > 0) {
-                newTableHighHandWinner = winningHand;
+        final boolean usesBothCards = usesThreeCommunityCards(winningHand, communityCards);
+        final boolean qualifiesForHighHand = winningHand != null && isQualifyingHighHand(winningHand, highHand, usesBothCards);
+        if (winningHand == null) {
+            debug("winningHand is null");
+        } else {
+            debug(" = Winner: %s, handType=%s, playerID=%s, qualifiesForHH=%s", Card.getCardStr(winningHand.getFiveHandCards()),
+                    winningHand.getHandType(), winner.keySet().iterator().next(), qualifiesForHighHand);
+            if (qualifiesForHighHand) {
+                if (currentTableHighHandWinner == null || winningHand.compare(currentTableHighHandWinner) > 0) {
+                    newTableHighHandWinner = winningHand;
+                }
             }
         }
+
         recordPlayedHand(players, communityCards, winningHand, qualifiesForHighHand);
         return newTableHighHandWinner;
+    }
+
+    private boolean usesThreeCommunityCards(PokerHand winner, List<Card> communityCards) {
+        if (winner == null) {
+            return false;
+        }
+        long numWinningCardsInCommunityCards = Arrays.stream(winner.getFiveHandCards()).filter(communityCards::contains).count();
+        if (numWinningCardsInCommunityCards == 3) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -87,7 +104,7 @@ public abstract class PokerTable {
         return dealtPlayers.stream().filter(player -> player.shouldSeeFlop()).collect(Collectors.toList());
     }
 
-    public abstract boolean isQualifyingHighHand(PokerHand winner, HighHand highHand);
+    public abstract boolean isQualifyingHighHand(PokerHand winner, HighHand highHand, boolean usesBothCards);
 
     /**
      * Returns winning hand to winning playerID

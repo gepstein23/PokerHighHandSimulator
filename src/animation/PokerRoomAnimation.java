@@ -4,10 +4,12 @@ import javax.swing.Timer;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.Duration;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import main.HighHand;
 import playingcards.PokerHand;
 import simulation_datas.HourSimulationData;
 import simulation_datas.SimulationData;
@@ -53,7 +55,12 @@ public class PokerRoomAnimation {
         final Map<UUID, TableSimulationData> tableUUIDToSimulationData =
                 data.getTableSimulationDatas().stream().collect(Collectors.toMap(TableSimulationData::getTableID, t -> t));
 
-        JPanel tablesPanel = new JPanel(new GridLayout(0, 2)); // Adjust based on the number of tables
+        // Determine the optimal number of rows and columns for the grid
+        int totalTables = tables.size();
+        int columns = (int) Math.ceil(Math.sqrt(totalTables));
+        int rows = (int) Math.ceil((double) totalTables / columns);
+
+        JPanel tablesPanel = new JPanel(new GridLayout(rows, columns)); // Adjust based on the number of tables dynamically
         for (PokerTable table : tables) {
             PokerTablePanel panel = new PokerTablePanel(tableUUIDToSimulationData.get(table.getTableID()), table);
             tablePanels.add(panel);
@@ -166,11 +173,12 @@ public class PokerRoomAnimation {
         this.numHours = hourSimulationDatas.size();
 
         initHighHandFrame();
-        
+
         initHighHandFrameSummaryFrame();
         initStatsFrame();
 
         frame.pack();
+        frame.setExtendedState(Frame.MAXIMIZED_BOTH);
         frame.setVisible(true);
     }
 

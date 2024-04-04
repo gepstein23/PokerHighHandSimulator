@@ -25,7 +25,7 @@ public class PokerTablePanel extends JPanel {
         Collections.reverse(table.getPlayedHands());
         this.playedHands = table.getPlayedHands();
         this.tableSimulationData = tableSimulationData;
-        setPreferredSize(new Dimension(650, 400));
+       // setPreferredSize(new Dimension(650, 400));
         this.tableId = table.getTableID();
     }
 
@@ -35,10 +35,9 @@ public class PokerTablePanel extends JPanel {
 
         drawTable(g);
         if (currentHandData != null) {
-            drawSeats(g);
+            drawSeatsAndCards(g);
             drawCommunityCards(g);
             drawTableID(g);
-            drawPlayersCards(g);
             drawWinningHand(g);
         }
 
@@ -47,17 +46,22 @@ public class PokerTablePanel extends JPanel {
 
     private void drawTableID(Graphics g) {
         g.setColor(Color.BLACK); // Set text color
-        g.setFont(new Font("SansSerif", Font.BOLD, 9)); // Set font
+
+        // Dynamically set font size based on panel width to ensure visibility
+        int fontSize = Math.max(9, getWidth() / 50); // Ensure a minimum font size of 9
+        g.setFont(new Font("SansSerif", Font.BOLD, fontSize));
 
         // Format the table ID string
         String tableIDString = "Table ID: " + this.tableId.toString();
 
-        // Calculate position (you might want to adjust these values)
-        int x = 400; // Horizontal position from the left
-        int y = 20; // Vertical position from the top
+        // Dynamically calculate position based on panel size
+        int x = getWidth() * 4/7; // Position it relative to panel width for consistent padding
+        int y = getHeight() / 20; // Similarly, position it relative to panel height
 
+        // Draw the string. Adjust x and y if you need the text positioned differently.
         g.drawString(tableIDString, x, y);
     }
+
 
 
     private void drawPanelOutline(Graphics g) {
@@ -66,36 +70,17 @@ public class PokerTablePanel extends JPanel {
     }
 
     private void drawTable(Graphics g) {
+        // Use relative dimensions for the table
+        int ovalWidth = getWidth() - getWidth() / 10;
+        int ovalHeight = getHeight() - getHeight() / 5;
         g.setColor(new Color(0, 128, 0));
-        g.fillOval(100, 50, this.getWidth() - 200, this.getHeight() - 100); // The oval table
+        g.fillOval(getWidth() / 20, getHeight() / 10, ovalWidth, ovalHeight);
         g.setColor(Color.BLACK);
-        g.drawOval(100, 50, this.getWidth() - 200, this.getHeight() - 100); // Border
+        g.drawOval(getWidth() / 20, getHeight() / 10, ovalWidth, ovalHeight);
     }
 
-    private void drawSeats(Graphics g) {
-        if (currentHandData == null || currentHandData.getPlayers().isEmpty()) {
-            return;
-        }
 
-        int numberOfPlayers = currentHandData.getPlayers().size();
-        int seatSpacing = this.getWidth() / numberOfPlayers;
-        g.setColor(Color.GRAY);
 
-        for (int i = 0; i < numberOfPlayers; i++) {
-            int seatSize = 50;
-            int x = seatSpacing * i + (seatSpacing - seatSize) / 2;
-            int y = getHeight() - 100;
-
-            // Draw the seat with a filled oval
-            g.fillOval(x, y, seatSize, seatSize);
-
-            // Draw a darker grey border around the seat
-            g.setColor(new Color(64, 64, 64));
-            g.drawOval(x, y, seatSize, seatSize);
-
-            g.setColor(Color.GRAY);
-        }
-    }
 
     private void drawCommunityCards(Graphics g) {
         final List<Card> communityCards = currentHandData.getCommunityCards();
@@ -116,48 +101,49 @@ public class PokerTablePanel extends JPanel {
         }
     }
 
-    private void drawPlayersCards(Graphics g) {
-        List<PokerPlayer> players = currentHandData.getPlayers();
-        if (players != null) {
-            Dimension cardSize = getCardSize(); // Use the dynamic card size
-            int cardWidth = cardSize.width * 3/7;
-            int cardHeight = cardSize.height * 3/7;
-            int gap = 5; // Gap between cards
+    private void drawSeatsAndCards(Graphics g) {
+        g.setColor(Color.DARK_GRAY);
+        int numberOfPlayers = currentHandData.getPlayers().size();
+        int panelWidth = getWidth();
+        int seatDiameter = Math.min(panelWidth / numberOfPlayers, getHeight() / 5); // Adjust seat size based on panel width
+        int cardWidth = seatDiameter / 4; // Adjust card size to fit within seats
+        int cardHeight = cardWidth * 3 / 2; // Maintain card aspect ratio
 
-            for (PokerPlayer player : players) {
-                Card[] holeCards = player.getHoleCards();
-                // Determine the base positioning for the cards
-                int seatSpacing = this.getWidth() / players.size();
-                int xBase = seatSpacing * players.indexOf(player) + (seatSpacing - cardWidth) / 2;
-                int yBase = this.getHeight() - cardHeight - 50; // Adjust as necessary
+        // Calculate horizontal space needed for all seats including margins
+        int totalSpaceNeeded = numberOfPlayers * seatDiameter + (numberOfPlayers + 1) * (seatDiameter / 5);
+        // If total space needed exceeds panel width, adjust seat diameter
+        if (totalSpaceNeeded > panelWidth) {
+            seatDiameter = (panelWidth / numberOfPlayers) - (seatDiameter / 5); // Reduce seat size to fit
+            cardWidth = seatDiameter / 3; // Adjust card size accordingly
+            cardHeight = cardWidth * 3 / 2;
+        }
 
-                if (holeCards.length == 4) {
-                    // Display in a 2x2 grid
-                    for (int i = 0; i < holeCards.length; i++) {
-                        int x = xBase + (i % 2) * (cardWidth + gap);
-                        int y = yBase + (i / 2) * (cardHeight + gap);
-                        drawCard(g, holeCards[i], x, y, cardWidth, cardHeight);
-                    }
-                } else {
-                    // Display in a single row
-                    for (int i = 0; i < holeCards.length; i++) {
-                        int x = xBase + i * (cardWidth + gap);
-                        drawCard(g, holeCards[i], x, yBase, cardWidth, cardHeight);
-                    }
-                }
+        for (int i = 0; i < numberOfPlayers; i++) {
+            PokerPlayer player = currentHandData.getPlayers().get(i);
+            Card[] holeCards = player.getHoleCards();
+            // Space seats evenly, including margin at the start
+            int seatX = (i * (seatDiameter + (seatDiameter / 5))) + (seatDiameter / 5);
+            int seatY = getHeight() - seatDiameter - (seatDiameter / 5); // Position seats above the bottom edge
+
+            // Draw seat
+            g.setColor(Color.DARK_GRAY);
+            g.fillOval(seatX, seatY, seatDiameter, seatDiameter);
+
+            // Draw player's cards in a 2x2 grid for PLO within each seat
+            for (int cardIndex = 0; cardIndex < holeCards.length; cardIndex++) {
+                int x = seatX + (cardIndex % 2) * (cardWidth + (cardWidth / 4)) + seatDiameter/5;
+                int y = seatY + (cardIndex / 2) * (cardHeight + (cardHeight / 10)) + seatDiameter/5;
+                drawCard(g, holeCards[cardIndex], x, y, cardWidth, cardHeight);
             }
         }
     }
 
 
-    private Dimension getCardSize() {
-        // Adjust these values based on your layout needs
-        int baseWidth = getWidth() / 20; // Example proportion
-        int baseHeight = (int) (baseWidth * 1.4); // Maintain card aspect ratio
 
-        // Ensure a minimum size
-        baseWidth = Math.max(baseWidth, 50);
-        baseHeight = Math.max(baseHeight, 70);
+    private Dimension getCardSize() {
+        // Scale card size based on panel width, maintaining aspect ratio
+        int baseWidth = getWidth() / 20; // Dynamic scaling factor
+        int baseHeight = (int) (baseWidth * 1.4); // Preserve aspect ratio
 
         return new Dimension(baseWidth, baseHeight);
     }
@@ -168,41 +154,50 @@ public class PokerTablePanel extends JPanel {
         g.fillRect(x, y, width, height);
         g.setColor(Color.BLACK);
         g.drawRect(x, y, width, height);
+
+        // Adjust color for the suit symbols
         if (card.getSuit() == CardSuit.HEARTS || card.getSuit() == CardSuit.DIAMONDS) {
             g.setColor(Color.RED);
         } else {
             g.setColor(Color.BLACK);
         }
-        Font valueFont = new Font("SansSerif", Font.BOLD, height / 3);
+
+        // Simplified font size calculation
+        int fontSize = Math.min(width / 2, height / 2); // Ensure the font size is proportional to card size
+
+        // Draw card value in the top half
+        Font valueFont = new Font("Serif", Font.BOLD, fontSize);
         g.setFont(valueFont);
         String valueString = card.getValue().getFriendlyName();
-        g.drawString(valueString, x + 5, y + g.getFontMetrics().getAscent());
+        // Center text horizontally and position it within the top half vertically
+        int valueTextWidth = g.getFontMetrics(valueFont).stringWidth(valueString);
+        int valueX = x + (width - valueTextWidth) / 2;
+        int valueY = y + fontSize + (height / 4 - fontSize / 2); // Adjust to vertically center in the top half
+        g.drawString(valueString, valueX, valueY);
 
-        int suitFontSize = width > 50 ? height / 2 : height / 3;
-        Font suitFont = new Font("SansSerif", Font.PLAIN, suitFontSize);
+        // Draw suit symbol in the bottom half
+        Font suitFont = new Font("Serif", Font.PLAIN, fontSize);
         g.setFont(suitFont);
         String suitSymbol = getSuitSymbol(card.getSuit());
-        int centerX = x + width / 2;
-        int centerY = y + height / 2;
-        int suitX = centerX - g.getFontMetrics().stringWidth(suitSymbol) / 2;
-        int suitY = centerY + g.getFontMetrics().getAscent() / 2;
+        // Center text horizontally and position it within the bottom half vertically
+        int suitTextWidth = g.getFontMetrics(suitFont).stringWidth(suitSymbol);
+        int suitX = x + (width - suitTextWidth) / 2;
+        int suitY = y + 3 * height / 4 + (fontSize / 2); // Adjust to vertically center in the bottom half
         g.drawString(suitSymbol, suitX, suitY);
     }
 
-    public static String getSuitSymbol(CardSuit suit) {
+    private static String getSuitSymbol(CardSuit suit) {
         switch (suit) {
-            case HEARTS:
-                return "♥";
-            case DIAMONDS:
-                return "♦";
-            case CLUBS:
-                return "♣";
-            case SPADES:
-                return "♠";
-            default:
-                return ""; // Handle unknown suit
+            case HEARTS: return "♥";
+            case DIAMONDS: return "♦";
+            case CLUBS: return "♣";
+            case SPADES: return "♠";
+            default: return ""; // Handle unknown suit
         }
     }
+
+
+
 
     private void drawWinningHand(Graphics g) {
         if (currentHandData == null || currentHandData.getWinningHand() == null) {
@@ -210,8 +205,10 @@ public class PokerTablePanel extends JPanel {
         }
 
         final PokerHand winningHand = currentHandData.getWinningHand();
-        int cardWidth = 50;
-        int cardHeight = 70;
+        Dimension cardSize = getCardSize();
+        int cardWidth = (int) (cardSize.width * 2); // Make winning hand cards slightly larger than the dynamic base size
+        int cardHeight = (int) (cardSize.height * 2);
+
         int cardMargin = 5;
         int xStart = 20; // Top left
         int yStart = 20;
@@ -249,9 +246,6 @@ public class PokerTablePanel extends JPanel {
 
             g2.dispose(); // Properly dispose of the Graphics2D object
         }
-        if (winningHand.getHandType().rank() <= PokerHand.HandType.FLUSH.rank()) {
-            return;
-        }
 
         int winningPlayerIndex = findWinningPlayerIndex();
         if (winningPlayerIndex != -1) {
@@ -284,26 +278,26 @@ public class PokerTablePanel extends JPanel {
         Graphics2D g2 = (Graphics2D) g.create();
 
         int numberOfPlayers = currentHandData.getPlayers().size();
-        int seatSpacing = getWidth() / (numberOfPlayers > 0 ? numberOfPlayers : 1);
-        int seatSize = 60; // Assuming this is the size used for seats
+        // Dynamic calculation of seatSpacing and seatSize based on panel size and number of players
+        int seatSpacing = getWidth() / numberOfPlayers;
+        int seatSize = Math.min(seatSpacing, getHeight() / 4); // Ensure seats fit vertically and are not too large
+
+        // Calculate x and y position for the seat circle
         int x = seatSpacing * winningPlayerIndex + (seatSpacing - seatSize) / 2;
-        int y = getHeight() - 120; // Y-position of the seat
+        int y = getHeight() - seatSize - 20; // Adjust y position based on dynamic seatSize
 
-        // Set the color for the "WINNER" sign
-        g2.setColor(new Color(153, 102, 255)); // Purple color
-
-        // Set the font for the text
-        Font winnerFont = new Font("SansSerif", Font.BOLD, 20); // Adjust font size as needed
+        // Dynamic font size based on seatSize
+        int fontSize = Math.max(12, seatSize / 8); // Ensure font is legible but proportional to seat size
+        Font winnerFont = new Font("SansSerif", Font.BOLD, fontSize);
         g2.setFont(winnerFont);
 
-        // Calculate the width of the "WINNER" text to center it above the seat
+        // Adjusted text positioning
         String winnerText = "WINNER";
         int textWidth = g2.getFontMetrics().stringWidth(winnerText);
         int textX = x + (seatSize / 2) - (textWidth / 2); // Center text over the seat
-        int textY = y + seatSize + 20; // Adjust the offset as needed for visual appeal
+        int textY = y + seatSize + fontSize; // Position text below the seat circle, adjusted by fontSize
 
-
-        // Draw the "WINNER" text
+        g2.setColor(new Color(153, 102, 255)); // Purple color for "WINNER" text
         g2.drawString(winnerText, textX, textY);
 
         g2.dispose();
