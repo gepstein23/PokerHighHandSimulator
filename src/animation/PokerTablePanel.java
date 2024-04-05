@@ -86,8 +86,8 @@ public class PokerTablePanel extends JPanel {
         final List<Card> communityCards = currentHandData.getCommunityCards();
         if (communityCards != null) {
             Dimension cardSize = getCardSize(); // Get dynamic card size
-            int cardWidth = cardSize.width;
-            int cardHeight = cardSize.height;
+            int cardWidth = (int) ((Integer) cardSize.width * 1.5);
+            int cardHeight = (int) ((int)cardSize.height * 1.5);
             int spaceBetweenCards = 10;
             int totalWidth = (cardWidth * communityCards.size()) + (spaceBetweenCards * (communityCards.size() - 1));
             int xStart = (getWidth() / 2) - (totalWidth / 2);
