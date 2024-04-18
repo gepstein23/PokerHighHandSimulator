@@ -62,14 +62,13 @@ Can we make the HH promotion equitable for both games if we update the flop rest
 
   
 
-#### 3) Continuously updated minimum qualifiers for PLO integrated with [PokerAtlas TableCaptain™](https://www.pokeratlas.com/info/table-captain)
+#### 3) Continuously updated minimum qualifiers for PLO integrated with [PokerAtlas TableCaptain™](https://www.pokeratlas.com/info/table-captain)  *(in-progress)*
 What if a system could be put in place where the HH minimum qualifier for PLO is automatically/continuously updated using data from TableCaptain about how many players of each type are currently playing.
 To accomplish this, a top-layer function must be implemented which tests different minimum PLO qualifiers for the given # of players until the fair qualifier is found.
 *Maybe*: We will keep a save file to be re-used on future runs of known player # configurations' fair qualifiers -- in order to optimize the performance of this feature (output duplicates automatically & pick proximity starting qualifiers to test). After some time, this function would have `O(1)` execution time for most all realistic player # combinations.
 Issues: In practice, the HH minimum qualifier found to be fair would be updated at the beginning of each new HH period.
 Players could exploit this if the # of players input to the program is taken at a static point in the period => it must be an average of the player #s for the period.
 
-TODO: as simulation duration increases, hold em is getting more wins?
 ## Program Implementation Details
 
 ### Program Usage Instructions
