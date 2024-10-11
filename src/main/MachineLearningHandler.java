@@ -18,7 +18,7 @@ import static main.Utils.log;
 public class MachineLearningHandler {
 
     private static final Duration MINIMUM_MEANINGFUL_DURATION = Duration.ofHours(20_000);
-    private static final Duration SEMI_MEANINGFUL_DURATION = Duration.ofHours(2000);
+    private static final Duration SEMI_MEANINGFUL_DURATION = Duration.ofHours(5000);
     private static final int MAX_TABLES = 25;
 
     public void initMl() {
@@ -30,11 +30,12 @@ public class MachineLearningHandler {
 
                 PokerHand startingNlhMinimumQualifyingHand =
                         new PokerHand(Card.card(CardValue.TWO), Card.card(CardValue.TWO), Card.card(CardValue.TWO), Card.card(CardValue.THREE), Card.card(CardValue.THREE));
-                PokerHand startingPloMinimumQualifyingHand = new PokerHand(Card.card(CardValue.ACE), Card.card(CardValue.ACE), Card.card(CardValue.ACE), Card.card(CardValue.KING), Card.card(CardValue.KING));
+                PokerHand startingPloMinimumQualifyingHand = new PokerHand(Card.card(CardValue.TWO), Card.card(CardValue.TWO), Card.card(CardValue.TWO), Card.card(CardValue.THREE), Card.card(CardValue.THREE));
                 HighHand highHand = new HighHand(startingNlhMinimumQualifyingHand, startingPloMinimumQualifyingHand, DEFAULT_HIGH_HAND_DURATION);
                 boolean isEquilibriumFound = false;
                 boolean isEquilibriumClose = false;
-                Collection<PokerHand> seenPloHighHands = new ArrayList<>();
+                Collection<PokerHand> seenPloHighHands = new ArrayList<>(); // Map<> shouldn't repeat combos TODO
+                Collection<PokerHand> seenNlhHighHands = new ArrayList<>();
                 while (!isEquilibriumFound) {
                     final Duration simulationDuration = isEquilibriumClose ? MINIMUM_MEANINGFUL_DURATION : SEMI_MEANINGFUL_DURATION;
                     log("======= Trying %s for %s", highHand, simulationDuration);
@@ -44,27 +45,21 @@ public class MachineLearningHandler {
                                     /*noPloFlopRestriction*/ true, /*ploTurnRestriction*/ false, /*animate*/ false);
                     final SimulationData data = highHandSimulator.runSimulation();
                     seenPloHighHands.add(highHand.getPloMinimumQualifyingHand());
+                    seenNlhHighHands.add(highHand.getNlhMinimumQualifyingHand());
                     long numPloWins = data.getNumPloWins();
                     long numNlhWins = data.getNumNlhWins();
                     long totalWins = numPloWins + numNlhWins;
                     isEquilibriumFound = isEquilibriumFound(numNlhWins, numPloWins);
                     isEquilibriumClose = isEquilibriumClose(numNlhWins, numPloWins);
                     log("======= numNlhWins=%s/%s, numPloWins=%s/%s", numNlhWins, totalWins, numPloWins, totalWins);
-                    highHand = pickNextHighHand(highHand, numNlhWins, numPloWins, seenPloHighHands);
+                    highHand = pickNextHighHand(highHand, numNlhWins, numPloWins, seenPloHighHands, seenNlhHighHands);
                 }
                 log("============== Chose %s\n", highHand);
             });
         });
     }
 
-    private boolean isEquilibriumClose(long numNlhWins, long numPloWins) {
-        double totalWins = numNlhWins + numPloWins;
-        double nlhWinRate = (double) numNlhWins / totalWins;
-        return nlhWinRate >= 0.45 && nlhWinRate <= 0.55;
-    }
-
-
-    private HighHand pickNextHighHand(HighHand highHand, long numNlhWins, long numPloWins, Collection<PokerHand> seenPloHighHands) {
+    private HighHand pickNextHighHand(HighHand highHand, long numNlhWins, long numPloWins, Collection<PokerHand> seenPloHighHands, Collection<PokerHand> seenNlhHighHands) {
         boolean increase = numPloWins > numNlhWins;
 
         PokerHand newPloMinimumQualifyingHand = adjustPokerHand(highHand.getPloMinimumQualifyingHand(), increase);
@@ -73,6 +68,10 @@ public class MachineLearningHandler {
         if (newPloMinimumQualifyingHand == null || seenPloHighHands.stream().anyMatch(seen -> seen.compare(finalNewPloMinimumQualifyingHand) == 0)) {
             // if you can't increase/decrease PLO, do the opposite to holdem
             newNlhMinimumQualifyingHand = highHand.getNlhMinimumQualifyingHand().chooseHand(increase);
+            if (seenNlhHighHands.stream().anyMatch(seen -> seen.compare(newNlhMinimumQualifyingHand) == 0)) {
+                // already seen both, try something else
+
+            }
             newPloMinimumQualifyingHand = newPloMinimumQualifyingHand == null ? highHand.getPloMinimumQualifyingHand() : newPloMinimumQualifyingHand;
         } else {
             newNlhMinimumQualifyingHand = highHand.getNlhMinimumQualifyingHand();
@@ -92,6 +91,13 @@ public class MachineLearningHandler {
         double nlhWinRate = (double) numNlhWins / totalWins;
         return nlhWinRate >= 0.499 && nlhWinRate <= 0.501;
     }
+
+    private boolean isEquilibriumClose(long numNlhWins, long numPloWins) {
+        double totalWins = numNlhWins + numPloWins;
+        double nlhWinRate = (double) numNlhWins / totalWins;
+        return nlhWinRate >= 0.48 && nlhWinRate <= 0.52;
+    }
+
 
     private void processGameCombinations(Consumer<Collection<Integer>> processor) {
         for (int numTables = 1; numTables <= MAX_TABLES; numTables++) {

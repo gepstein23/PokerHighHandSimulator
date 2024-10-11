@@ -117,11 +117,11 @@ public class Main {
             System.exit(1);
         }
 
-        final boolean runMachineLearning = cmd.hasOption(MACHINE_LEARNING);
-        if (runMachineLearning) {
-            runMachineLearning();
-            return;
-        }
+//        final boolean runMachineLearning = cmd.hasOption(MACHINE_LEARNING);
+//        if (runMachineLearning) {
+//            runMachineLearning();
+//            return;
+//        }
 
         final String inputNumNlhTables = cmd.getOptionValue(NUM_NLH_TABLES);
         final int numNlhTables = inputNumNlhTables == null ? DEFAULT_NUM_NLH_TABLES : Integer.parseInt(inputNumNlhTables);

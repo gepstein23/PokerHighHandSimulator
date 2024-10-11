@@ -69,7 +69,7 @@ public class HighHandSimulator {
         log(this.toString());
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
 
-        displaySimulationResults(tables, data);
+     //   displaySimulationResults(tables, data);
         return data;
       //  log(data.toString());
     }
