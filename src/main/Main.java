@@ -104,7 +104,7 @@ public class Main {
         COMMAND_LINE_OPTIONS.addOption(machineLearning);
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         CommandLineParser parser = new DefaultParser();
         HelpFormatter formatter = new HelpFormatter();
         CommandLine cmd = null;

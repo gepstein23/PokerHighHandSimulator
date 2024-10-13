@@ -1,15 +1,5 @@
 package animation;
-import javax.swing.*;
-import javax.swing.Timer;
-import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.time.Duration;
-import java.util.*;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import main.HighHand;
 import playingcards.PokerHand;
 import simulation_datas.HourSimulationData;
 import simulation_datas.SimulationData;
@@ -17,7 +7,17 @@ import simulation_datas.TableSimulationData;
 import tables.PLOTable;
 import tables.PokerTable;
 
+import javax.swing.Timer;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
+
 public class PokerRoomAnimation {
+    private final boolean isLogicOnly;
     private JFrame statsFrame;
     private JLabel nlhWinLabel;
     private JLabel ploWinLabel;
@@ -28,7 +28,7 @@ public class PokerRoomAnimation {
     private JTextArea highHandSummaryText;
     private List<PokerTablePanel> tablePanels = new ArrayList<>();
     private JFrame frame;
-    private List<PokerTable> tables;
+    private Collection<PokerTable> tables;
     private PokerHand currentHighHand = null;
     private UUID highHandTableUUID = null;
     private HighHandPanel highHandPanel;
@@ -42,9 +42,10 @@ public class PokerRoomAnimation {
 
 
 
-    public PokerRoomAnimation(List<PokerTable> tables, SimulationData data) {
+    public PokerRoomAnimation(Collection<PokerTable> tables, SimulationData data, boolean isLogicOnly) {
         this.tables = tables;
         this.data = data;
+        this.isLogicOnly = isLogicOnly;
     }
 
     public void initUI() {

@@ -22,14 +22,17 @@ public abstract class PokerTable {
     protected boolean shouldFilterPreflop;
     protected List<PlayedHandData> playedHands = new ArrayList<PlayedHandData>();
 
+    protected PokerTableHistory history;
+
     public PokerTable(int numPlayers, double tableHandsPerHour, boolean shouldFilterPreflop) {
         this.tableID = UUID.randomUUID();
         this.tableHandsPerHour = tableHandsPerHour;
         this.numPlayers = numPlayers;
         this.shouldFilterPreflop = shouldFilterPreflop;
+        this.history = new PokerTableHistory(tableID);
     }
 
-    public TableSimulationData runSimulation(HighHand highHand, Duration duration) {
+    public TableSimulationData runSimulation(HighHand highHand, Duration duration) throws InterruptedException {
          Duration clock = Duration.ofHours(duration.toHours());
          if (Duration.ofHours(1).compareTo(clock) > 0) {
              throw new AssertionError("Invalid simulation duration: " + duration);
@@ -41,12 +44,12 @@ public abstract class PokerTable {
              tableHighHandPerSimulationHour.put(clock.toHours(), tableHighHandCurrHour);
              clock = clock.minus(Duration.ofHours(1));
          }
-         return new TableSimulationData(tableID, tableHighHandPerSimulationHour, isPloTable());
+         return new TableSimulationData(tableID, tableHighHandPerSimulationHour, isPloTable(), history);
     }
 
     protected abstract boolean isPloTable();
 
-    private PokerHand playHourOfHands(double tableHandsPerHour, HighHand highHand) {
+    private PokerHand playHourOfHands(double tableHandsPerHour, HighHand highHand) throws InterruptedException {
         PokerHand tableHighHandWinner = null;
         for (int i = 0; i < tableHandsPerHour; i++) {
             tableHighHandWinner = playOneHand(i, tableHighHandWinner, highHand);
@@ -55,7 +58,7 @@ public abstract class PokerTable {
         return tableHighHandWinner;
     }
 
-    private PokerHand playOneHand(int handNum, PokerHand currentTableHighHandWinner, HighHand highHand) {
+    private PokerHand playOneHand(int handNum, PokerHand currentTableHighHandWinner, HighHand highHand) throws InterruptedException {
         PokerHand newTableHighHandWinner = currentTableHighHandWinner;
         debug("\n=============== Table %s Hand #%s", tableID, handNum);
         // Play out one hand
@@ -79,7 +82,7 @@ public abstract class PokerTable {
             }
         }
 
-        recordPlayedHand(players, communityCards, winningHand, qualifiesForHighHand);
+        recordPlayedHand(players, communityCards, winningHand, qualifiesForHighHand, handNum);
         return newTableHighHandWinner;
     }
 
@@ -162,8 +165,10 @@ public abstract class PokerTable {
 
     public abstract Collection<PokerPlayer> dealPlayers(Deck deck);
 
-    public void recordPlayedHand(Collection<PokerPlayer> players, List<Card> communityCards, PokerHand winningHand, boolean qualifiesForHighHand) {
-        playedHands.add(new PlayedHandData(new ArrayList<>(players), communityCards, winningHand, qualifiesForHighHand));
+    public void recordPlayedHand(Collection<PokerPlayer> players, List<Card> communityCards, PokerHand winningHand, boolean qualifiesForHighHand, int handNum) {
+        PlayedHandData handData = new PlayedHandData(new ArrayList<>(players), communityCards, winningHand, qualifiesForHighHand, this instanceof PLOTable, tableID);
+        playedHands.add(handData);
+        history.addHandData(handData, handNum);
     }
 
     public List<PlayedHandData> getPlayedHands() {
@@ -171,5 +176,9 @@ public abstract class PokerTable {
     }
     public UUID getTableID() {
         return tableID;
+    }
+
+    public PokerTableHistory getHistory() {
+        return history;
     }
 }

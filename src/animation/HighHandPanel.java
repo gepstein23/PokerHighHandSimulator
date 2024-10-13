@@ -12,7 +12,6 @@ import static animation.PokerTablePanel.drawCard;
 public class HighHandPanel extends JPanel {
     private PokerHand currentHighHand;
     private UUID highHandTableID;
-    private int highHandPeriod;
 
 
     @Override

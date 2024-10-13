@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.function.Consumer;
 
 import static main.Main.DEFAULT_HANDS_PER_HOUR;
-import static main.Main.DEFAULT_HIGH_HAND_DURATION;
 import static main.Utils.log;
 
 public class MachineLearningHandler {
@@ -20,6 +19,7 @@ public class MachineLearningHandler {
     private static final Duration MINIMUM_MEANINGFUL_DURATION = Duration.ofHours(20_000);
     private static final Duration SEMI_MEANINGFUL_DURATION = Duration.ofHours(5000);
     private static final int MAX_TABLES = 25;
+    private static final Duration DEFAULT_HIGH_HAND_DURATION = Duration.ofHours(10);
 
     public void initMl() {
         processGameCombinations(nlhTablePlayers -> {
@@ -43,7 +43,12 @@ public class MachineLearningHandler {
                             new HighHandSimulator(nlhTablePlayers, ploTablePlayers, DEFAULT_HANDS_PER_HOUR,
                                     simulationDuration, highHand, true, DEFAULT_HIGH_HAND_DURATION,
                                     /*noPloFlopRestriction*/ true, /*ploTurnRestriction*/ false, /*animate*/ false);
-                    final SimulationData data = highHandSimulator.runSimulation();
+                    final SimulationData data;
+                    try {
+                        data = highHandSimulator.runSimulation();
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException(e);
+                    }
                     seenPloHighHands.add(highHand.getPloMinimumQualifyingHand());
                     seenNlhHighHands.add(highHand.getNlhMinimumQualifyingHand());
                     long numPloWins = data.getNumPloWins();
@@ -78,7 +83,7 @@ public class MachineLearningHandler {
         }
 
 
-        final HighHand newHighHand = new HighHand(newNlhMinimumQualifyingHand, newPloMinimumQualifyingHand, DEFAULT_HIGH_HAND_DURATION);
+        final HighHand newHighHand = new HighHand(newNlhMinimumQualifyingHand, newPloMinimumQualifyingHand, Main.DEFAULT_HIGH_HAND_DURATION);
         return newHighHand;
     }
 

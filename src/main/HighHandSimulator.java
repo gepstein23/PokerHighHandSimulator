@@ -1,6 +1,10 @@
 package main;
 
+import animation.PlayedHandData;
 import animation.PokerRoomAnimation;
+import api.snapshots.HandSnapShot;
+import api.snapshots.HighHandSnapshot;
+import api.snapshots.StatsSnapshot;
 import playingcards.PokerHand;
 import simulation_datas.HourSimulationData;
 import simulation_datas.SimulationData;
@@ -8,11 +12,10 @@ import simulation_datas.TableSimulationData;
 import tables.NLHTable;
 import tables.PLOTable;
 import tables.PokerTable;
+import tables.PokerTableHistory;
 
 import java.time.Duration;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 import static main.Utils.log;
 
@@ -29,9 +32,15 @@ public class HighHandSimulator {
     private final boolean ploTurnRestriction;
     private final boolean animate;
     private final Collection<PokerTable> tables;
+    private SimulationData simulationData = null;
+    public UUID simulationID;
+
+    // only used for api
+    public Map<Integer, HandSnapShot> handNumToHandSnapshot;
 
     public HighHandSimulator(int numNlhTables, int numPloTables, int numHandsPerHour, int numPlayersPerTable,
                              Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration, boolean noPloFlopRestriction, boolean ploTurnRestriction, boolean animate) {
+        this.simulationID = UUID.randomUUID();
         this.numNlhTables = numNlhTables;
         this.numPloTables = numPloTables;
         this.numHandsPerHour = numHandsPerHour;
@@ -45,11 +54,13 @@ public class HighHandSimulator {
         this.animate = animate;
         this.tables = createTables(numNlhTables, numPloTables, numHandsPerHour,
                 shouldFilterPreflop, numPlayersPerTable, noPloFlopRestriction, ploTurnRestriction);
+        this.handNumToHandSnapshot = new HashMap<>();
     }
 
     public HighHandSimulator(Collection<Integer> nlhTablePlayers, Collection<Integer> ploTablePlayers,  int numHandsPerHour,
                              Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration,
                              boolean noPloFlopRestriction, boolean ploTurnRestriction, boolean animate) {
+        this.simulationID = UUID.randomUUID();
         this.numNlhTables = nlhTablePlayers.size();
         this.numPloTables = ploTablePlayers.size();
         this.numPlayersPerTable = -1;
@@ -63,18 +74,36 @@ public class HighHandSimulator {
         this.animate = animate;
         this.tables = createTables(nlhTablePlayers, ploTablePlayers, numHandsPerHour,
                 shouldFilterPreflop, noPloFlopRestriction, ploTurnRestriction);
+        this.handNumToHandSnapshot = new HashMap<>();
     }
 
-    public SimulationData runSimulation() {
+    public SimulationData runSimulation() throws InterruptedException {
         log(this.toString());
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
-
+        this.simulationData = data;
      //   displaySimulationResults(tables, data);
         return data;
       //  log(data.toString());
     }
 
-    private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) {
+    public Thread initializeSimulation() throws InterruptedException {
+        log(this.toString());
+
+        Thread asyncCommandThread = new Thread(() -> {
+            try {
+                final SimulationData data = initSimulation(tables, highHand, simulationDuration);
+                this.simulationData = data;
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
+        });
+     //   displaySimulationResults(tables, data);
+      //  log(data.toString());
+        asyncCommandThread.start();
+        return asyncCommandThread;
+    }
+
+    private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) throws InterruptedException {
         final List<TableSimulationData> tableSimulationDatas = new ArrayList<>();
         for (PokerTable table : tables) {
             tableSimulationDatas.add(table.runSimulation(highHand, duration));
@@ -170,7 +199,180 @@ public class HighHandSimulator {
         if (!animate) {
             return;
         }
-        final PokerRoomAnimation animation = new PokerRoomAnimation(new ArrayList<>(tables), data);
+        final PokerRoomAnimation animation = new PokerRoomAnimation(new ArrayList<>(tables), data, false);
         animation.initUI();
     }
-}
+    public SimulationData getSimulationData() {
+        return simulationData;
+    }
+
+    public Collection<PokerTable> getTables() {
+        return tables;
+    }
+
+    public void generateApiSnapshots() {
+        if (this.simulationData == null) {
+            return;
+        }
+
+        if (!this.handNumToHandSnapshot.isEmpty()) {
+            return;
+        }
+
+        // Here, only adding played hand data to handNumToHandSnapshot
+        for (PokerTable pokerTable : tables) {
+            PokerTableHistory history = pokerTable.getHistory();
+            HashMap<Integer, PlayedHandData> handNumToHandData = history.getHandNumToHandData();
+            for (Map.Entry<Integer, PlayedHandData> entry : handNumToHandData.entrySet()) {
+                HandSnapShot handSnapshot = this.handNumToHandSnapshot.getOrDefault(entry.getKey(), new HandSnapShot(entry.getKey()));
+                // Get current handSnapshot, add this table's hand details
+                handSnapshot.getTableSnapshots().add(entry.getValue());
+                handNumToHandSnapshot.putIfAbsent(entry.getKey(), handSnapshot);
+            }
+        }
+
+        // Next, iteratively determine high hand over each hand
+        int hourHandsRemaining = numHandsPerHour;
+        HighHandSnapshot currHighHandSnapshot = new HighHandSnapshot();
+        StatsSnapshot statsSnapshot = new StatsSnapshot();
+        for (HandSnapShot handSnapShot : this.handNumToHandSnapshot.values()) {
+            if (hourHandsRemaining == 0) {  // Hour has passed, reset high hand
+
+                // Update (dont reset) the stats
+                if (currHighHandSnapshot.getHighHand() == null) { // there was NOT!!! a HH
+                    statsSnapshot.addHour(false, false);
+                } else {
+                    if (currHighHandSnapshot.getPlo()) {
+                        statsSnapshot.addHour(true, false);
+                    } else {
+                        statsSnapshot.addHour(false, true);
+                    }
+                }
+
+                // Reset the HH board and handsRemaining
+                hourHandsRemaining = numHandsPerHour;
+                currHighHandSnapshot = new HighHandSnapshot();
+            }
+
+            // Now, process the current hand (reuse algo from animation)
+            PokerHand qualifyingHandForHandNum = null;
+            Boolean isPlo = null;
+            UUID tableId = null;
+            for (PlayedHandData tableSnapshot : handSnapShot.getTableSnapshots()) {
+                if (tableSnapshot.isQualifiesForHighHand()) {
+                    if (beatsCurrentHighHand(tableSnapshot.getWinningHand(), qualifyingHandForHandNum)) {
+                        qualifyingHandForHandNum = tableSnapshot.getWinningHand();
+                        isPlo = tableSnapshot.isPlo;
+                        tableId = tableSnapshot.getTableId();
+                    }
+                }
+            }
+
+            // Update the high hand for all tables if applicable
+            PokerHand currentHighHand = currHighHandSnapshot.getHighHand();
+            if (beatsCurrentHighHand(qualifyingHandForHandNum, currentHighHand)) {
+                // Set high hand
+                currHighHandSnapshot = new HighHandSnapshot();
+                currHighHandSnapshot.setHighHand(qualifyingHandForHandNum);
+                currHighHandSnapshot.setPlo(isPlo);
+                currHighHandSnapshot.setTableID(tableId);
+            }
+
+            handSnapShot.setHighHandSnapshot(currHighHandSnapshot);
+            handSnapShot.setStatsSnapshot(statsSnapshot);
+            hourHandsRemaining--;
+        }
+    }
+
+    private boolean beatsCurrentHighHand(PokerHand winningQualifyingHand, PokerHand currentHighHand) {
+        if (winningQualifyingHand == null) {
+            return false;
+        }
+        if (currentHighHand == null) {
+            return true;
+        }
+        return winningQualifyingHand.compare(currentHighHand) > 0;
+    }
+
+    public HandSnapShot getSnapshot(int handNum) {
+        return handNumToHandSnapshot.get(handNum);
+    }
+
+//    public SimulationSnapshot getNextData() {
+//        if (simulationData == null) {
+//            return null;
+//        }
+//
+//        if (this.simulationIterator == null) {
+//            this.simulationIterator = new SimulationIterator(simulationData, tables);
+//            return this.simulationIterator.getNextSnapshot();
+//        } else {
+//            return this.simulationIterator.getNextSnapshot();
+//        }
+//    }
+
+//    class SimulationIterator {
+//
+//        private final SimulationData simulationData;
+//        Collection<TableIterator> tableIterators;
+//
+//        public SimulationIterator(SimulationData simulationData, Collection<PokerTable> tables) {
+//            this.simulationData = simulationData;
+//            this.tableIterators = tables.stream().map(TableIterator::new).collect(Collectors.toList());
+//        }
+//
+//        public SimulationSnapshot getNextSnapshot() {
+//            PokerHand newHighHand = null;
+//            boolean handsRemaining = false;
+//            UUID newTableID = null;
+//            for (TableIterator tableIterator : this.tableIterators) {
+//                boolean thisHandsRemaining = tableIterator.hasHand();
+//                handsRemaining |= thisHandsRemaining;
+//                if (thisHandsRemaining) {
+//                    final PokerTableSnapshot pokerTableSnapshot = new PokerTableSnapshot();
+//                    if (tableIterator.currentHandData.) { // potentialQualifier
+//                        if (beatsCurrentHighHand(winningQualifyingHand)) {
+//                            newHighHand = winningQualifyingHand;
+//                            newTableID = panel.getTableID();
+//                        }
+//                    }
+//                }
+//            }
+//            if (newHighHand != null) {
+//                this.currentHighHand = newHighHand;
+//                this.highHandTableUUID = newTableID;
+//                displayNewHighHand();
+//            }
+//            if (!handsRemaining) {
+//                displaySimulationResultsPanel();
+//            }
+//            int currHandIndex = tablePanels.iterator().next().getCurrHandIndex();
+//            if (currHandIndex % numHandsPerHour == 0 && handsRemaining) {
+//                updateHighHandSummaryBoard(); // Call the method when an hour of play is completed
+//                resetCurrentHighHand();
+//            }
+//            return handsRemaining;
+//        }
+//
+//        private class TableIterator {
+//            private final List<PlayedHandData> playedHandData;
+//            private final UUID tabelId;
+//            private int currentHandIndex = 0;
+//            private PlayedHandData currentHandData;
+//
+//            public TableIterator(PokerTable table) {
+//                this.playedHandData = table.getPlayedHands();
+//                this.tabelId = table.getTableID();
+//            }
+//
+//            public boolean hasHand() {
+//                return currentHandIndex < playedHandData.size();
+//            }
+//            public PokerHand getNextHand() {
+//                this.currentHandData = playedHandData.get(currentHandIndex);
+//                return currentHandData.
+//            }
+//
+//        }
+    }
+//}

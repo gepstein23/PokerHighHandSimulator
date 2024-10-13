@@ -57,12 +57,15 @@ public class PokerHand {
     public static PokerHand from(String inputHighHandMinimumQualifier) {
         final char[] chars = inputHighHandMinimumQualifier.toCharArray();
         if (chars.length != 5) {
-            throw new AssertionError("Invalid inputHighHandMinimumQualifier " + inputHighHandMinimumQualifier + ", must be 5 cards.");
+            throw new IllegalArgumentException("Invalid inputHighHandMinimumQualifier " + inputHighHandMinimumQualifier + ", must be 5 cards.");
         }
         final Card[] cards = new Card[5];
         for (int i = 0; i < 5; i++) {
             final String val = String.valueOf(chars[i]);
             final CardValue cardValue = CardValue.fromFriendlyName(val);
+            if (cardValue == null) {
+                throw new IllegalArgumentException("null card value");
+            }
             final Card card = card(cardValue);
             cards[i] = card;
         }
