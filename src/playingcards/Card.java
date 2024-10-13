@@ -6,10 +6,12 @@ package playingcards;
 public class Card implements Comparable<Card> {
     private CardValue value;
     private CardSuit suit;
+    private String strRepr;
 
     public Card(CardValue value, CardSuit suit) {
         this.value = value;
         this.suit = suit;
+        this.strRepr = this.toString();
     }
 
     public static Card card(CardValue value) {
@@ -43,7 +45,15 @@ public class Card implements Comparable<Card> {
 
     @Override
     public String toString() {
-        return String.format("%s%s", this.value.getFriendlyName(),
-                this.suit == null ? "" : this.suit.getFriendlyName());
+        return String.format("%s%s", this.value.getFriendlyName().equals("T") ? "0" : value.getFriendlyName(),
+                this.suit == null ? "S" : this.suit.getFriendlyName());
+    }
+
+    public String getStrRepr() {
+        return strRepr;
+    }
+
+    public void setStrRepr(String strRepr) {
+        this.strRepr = strRepr;
     }
 }

@@ -1,11 +1,9 @@
 package api.snapshots;
 
-import org.springframework.web.bind.annotation.ResponseBody;
 import playingcards.PokerHand;
 
 import java.util.UUID;
 
-@ResponseBody
 public class HighHandSnapshot {
 
     PokerHand highHand;
@@ -40,4 +38,5 @@ public class HighHandSnapshot {
     public void setTableID(UUID tableID) {
         this.tableID = tableID;
     }
+
 }

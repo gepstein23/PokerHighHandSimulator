@@ -79,28 +79,28 @@ public class HandSnapShot {
             this.statsSnapshot = statsSnapshot;
         }
 
-        public HighHandSnapshot getHighHandSnapshot() {
-            return highHandSnapshot;
-        }
-
-        public void setHighHandSnapshot(HighHandSnapshot highHandSnapshot) {
-            this.highHandSnapshot = highHandSnapshot;
-        }
-
         Map<UUID, TableSnapshot> tableIdToSnapshot;
 
         // Curr Stats at this time
         StatsSnapshot statsSnapshot;
 
+        public HighHandSnapshotApiModel getHighHandSnapshot() {
+            return highHandSnapshot;
+        }
+
+        public void setHighHandSnapshot(HighHandSnapshotApiModel highHandSnapshot) {
+            this.highHandSnapshot = highHandSnapshot;
+        }
+
         // Curr High Hand Board Snapshot
-        HighHandSnapshot highHandSnapshot;
+        HighHandSnapshotApiModel highHandSnapshot;
 
         public HandSnapshotApiModel(HandSnapShot handSnapShot) {
             this.handNum = handSnapShot.getHandNum();
             this.tableIdToSnapshot = new HashMap<>();
             handSnapShot.getTableSnapshots().forEach(table -> tableIdToSnapshot.put(table.getTableId(), new TableSnapshot(table)));
             this.statsSnapshot = handSnapShot.getStatsSnapshot();
-            this.highHandSnapshot = handSnapShot.getHighHandSnapshot();
+            this.highHandSnapshot = new HighHandSnapshotApiModel(handSnapShot.getHighHandSnapshot());
         }
     }
 

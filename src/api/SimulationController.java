@@ -54,8 +54,8 @@ public class SimulationController {
         }
     }
 
-    @PostMapping("/simulations/{simulationID}/status")
-    public ResponseEntity<String> getSimulationStatus( @RequestBody SimulationStartRequest request, @PathVariable UUID simulationID) {
+    @GetMapping("/simulations/{simulationID}/status")
+    public ResponseEntity<String> getSimulationStatus( @PathVariable UUID simulationID) {
        if (! simulationMap.containsKey(simulationID)) {
            return ResponseEntity.badRequest().body("Simulation does not exist: " + simulationID);
        }
@@ -66,7 +66,7 @@ public class SimulationController {
        return ResponseEntity.ok().body("DONE"); // TODO enums
     }
 
-    @PostMapping("/simulations/{simulationID}/hands/{handNum}")
+    @GetMapping("/simulations/{simulationID}/hands/{handNum}")
     public ResponseEntity<HandSnapShot.HandSnapshotApiModel> getNextSimulationData(@PathVariable UUID simulationID, @PathVariable int handNum) {
         if (!simulationMap.containsKey(simulationID)) {
             throw new IllegalArgumentException(String.format("Simulation [%s] does not exist.", simulationID));
