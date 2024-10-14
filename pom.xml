@@ -4,12 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.genevieveepstein</groupId>
     <artifactId>poker-high-hand-simulator</artifactId>
-    <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging> <!-- Change packaging to 'pom' for parent POM -->
+    <version>2.0-SNAPSHOT</version>
+    <packaging>jar</packaging> <!-- Change packaging to 'pom' for parent POM -->
 
-    <modules>
-        <module>poker-high-hand-simulator</module> <!-- Name of your child module -->
-    </modules>
 
     <dependencyManagement>
         <dependencies>
