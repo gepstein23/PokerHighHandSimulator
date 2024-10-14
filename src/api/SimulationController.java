@@ -5,6 +5,7 @@ import animation.PokerRoomAnimation;
 import api.snapshots.HandSnapShot;
 import main.HighHand;
 import main.HighHandSimulator;
+import org.springframework.boot.SpringApplication;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,9 @@ import java.util.UUID;
 @RestController
 @RequestMapping("/api")
 public class SimulationController {
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(SimulationController.class, args);
+    }
 
     private static final boolean shouldFilterPreflopDefault = false;
     private static final boolean ploTurnRestrictionDefault = false;
