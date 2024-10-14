@@ -49,9 +49,6 @@
                         </goals>
                     </execution>
                 </executions>
-                <configuration>
-                    <mainClass>api.Main</mainClass> <!-- Your main class -->
-                </configuration>
             </plugin>
         </plugins>
     </build>
