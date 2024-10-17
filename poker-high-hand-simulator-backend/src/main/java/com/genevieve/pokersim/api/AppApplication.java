@@ -1,4 +1,4 @@
-package com.genevieve.pokersim.app;
+package com.genevieve.pokersim.api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

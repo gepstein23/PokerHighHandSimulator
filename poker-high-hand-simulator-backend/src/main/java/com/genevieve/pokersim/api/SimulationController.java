@@ -1,4 +1,4 @@
-package com.genevieve.pokersim.app;
+package com.genevieve.pokersim.api;
 
 import com.genevieve.pokersim.animation.PokerRoomAnimation;
 import com.genevieve.pokersim.api.SimulationStartRequest;
@@ -8,6 +8,7 @@ import com.genevieve.pokersim.main.HighHandSimulator;
 import com.genevieve.pokersim.playingcards.PokerHand;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
@@ -16,7 +17,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(path = "/api")
 public class SimulationController {
 //    public static void main(String[] args) throws Exception {
 //        SpringApplication.run(SimulationController.class, args);
@@ -31,7 +32,7 @@ public class SimulationController {
 
     // Start Simulation
     @PostMapping("/simulations/start")
-    public UUID startSimulation(@RequestBody SimulationStartRequest request) throws InterruptedException {
+    public ResponseEntity<UUID> startSimulation(@RequestBody SimulationStartRequest request) throws InterruptedException {
         int numNlhTables = request.getNumNlhTables();
         int numPloTables = request.getNumPloTables();
         int numHandsPerHour = request.getNumHandsPerHour();
@@ -48,23 +49,29 @@ public class SimulationController {
                 numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction, ploTurnRestriction, animate);
             highHandSimulator.initializeSimulation();
             simulationMap.put(highHandSimulator.simulationID, highHandSimulator);
-            return highHandSimulator.simulationID;
+            return ResponseEntity.accepted().body(highHandSimulator.simulationID);
+    }
+
+    @GetMapping("/")
+    public ResponseEntity<String> get() {
+
+        return null;
     }
 
     @GetMapping("/simulations/{simulationID}/status")
-    public String getSimulationStatus( @PathVariable UUID simulationID) {
+    public ResponseEntity<String> getSimulationStatus( @PathVariable UUID simulationID) {
        if (! simulationMap.containsKey(simulationID)) {
            throw new IllegalArgumentException("Simulation does not exist: " + simulationID);
        }
         HighHandSimulator highHandSimulator = simulationMap.get(simulationID);
        if (highHandSimulator.getSimulationData() == null) {
-           return "IN_PROGRESS";
+           return ResponseEntity.ok("IN_PROGRESS");
        }
-       return "DONE"; // TODO enums
+       return ResponseEntity.ok().body("DONE"); // TODO enums
     }
 
     @GetMapping("/simulations/{simulationID}/hands/{handNum}")
-    public HandSnapShot.HandSnapshotApiModel getNextSimulationData(@PathVariable UUID simulationID, @PathVariable int handNum) {
+    public ResponseEntity<HandSnapShot.HandSnapshotApiModel> getNextSimulationData(@PathVariable UUID simulationID, @PathVariable int handNum) {
         if (!simulationMap.containsKey(simulationID)) {
             throw new IllegalArgumentException(String.format("Simulation [%s] does not exist.", simulationID));
         }
@@ -87,7 +94,7 @@ public class SimulationController {
             throw new IllegalArgumentException(String.format("There is no hand with handNum=%s for simulation [%s].", handNum, simulationID));
         }
         HandSnapShot.HandSnapshotApiModel model = simulationSnapshot.transform();
-        return model;
+        return ResponseEntity.ok().body(model);
     }
 
     private HighHand parseHighHand(String nlhMinimumQualifyingHand, String ploMinimumQualifyingHand, Duration highHandDuration) {
