@@ -15,12 +15,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-@RequestMapping("/api")
-@SpringBootApplication
+@RestController
 public class SimulationController {
-    public static void main(String[] args) throws Exception {
-        SpringApplication.run(SimulationController.class, args);
-    }
+//    public static void main(String[] args) throws Exception {
+//        SpringApplication.run(SimulationController.class, args);
+//    }
 
     private static final boolean shouldFilterPreflopDefault = false;
     private static final boolean ploTurnRestrictionDefault = false;
