@@ -16,6 +16,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
+@RequestMapping("/api")
 public class SimulationController {
 //    public static void main(String[] args) throws Exception {
 //        SpringApplication.run(SimulationController.class, args);
