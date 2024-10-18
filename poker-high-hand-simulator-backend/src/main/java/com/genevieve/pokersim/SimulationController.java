@@ -1,4 +1,4 @@
-package com.genevieve.pokersim.api;
+package com.genevieve.pokersim;
 
 import com.genevieve.pokersim.animation.PokerRoomAnimation;
 import com.genevieve.pokersim.api.SimulationStartRequest;
@@ -7,7 +7,6 @@ import com.genevieve.pokersim.main.HighHand;
 import com.genevieve.pokersim.main.HighHandSimulator;
 import com.genevieve.pokersim.playingcards.PokerHand;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,10 +17,10 @@ import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api")
-public class SimulationController {
-//    public static void main(String[] args) throws Exception {
-//        SpringApplication.run(SimulationController.class, args);
-//    }
+public class    SimulationController {
+    public static void main(String[] args) throws Exception {
+        SpringApplication.run(SimulationController.class, args);
+    }
 
     private static final boolean shouldFilterPreflopDefault = false;
     private static final boolean ploTurnRestrictionDefault = false;
@@ -54,7 +53,6 @@ public class SimulationController {
 
     @GetMapping("/")
     public ResponseEntity<String> get() {
-
         return null;
     }
 
