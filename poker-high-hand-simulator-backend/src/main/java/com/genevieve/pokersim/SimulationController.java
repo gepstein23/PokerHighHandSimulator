@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
-@CrossOrigin(origins = "genevieveepstein.com")
+@CrossOrigin(origins = "http://genevieveepstein.com:3000")
 public class SimulationController {
 
     private static final String template = "Hello, %s!";
