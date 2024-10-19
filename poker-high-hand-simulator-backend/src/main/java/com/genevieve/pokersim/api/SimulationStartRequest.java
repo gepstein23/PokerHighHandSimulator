@@ -12,6 +12,7 @@ public class SimulationStartRequest extends SimulationRequest {
     private String nlhMinimumQualifyingHand;
     private String ploMinimumQualifyingHand;
     private boolean noPloFlopRestriction;
+    private String notificationPhoneNumber;
 
     protected SimulationStartRequest() {
         this(UUID.randomUUID());
@@ -83,5 +84,13 @@ public class SimulationStartRequest extends SimulationRequest {
 
     public void setNumHandsPerHour(int numHandsPerHour) {
         this.numHandsPerHour = numHandsPerHour;
+    }
+
+    public String getNotificationPhoneNumber() {
+        return notificationPhoneNumber;
+    }
+
+    public void setNotificationPhoneNumber(String notificationPhoneNumber) {
+        this.notificationPhoneNumber = notificationPhoneNumber;
     }
 }

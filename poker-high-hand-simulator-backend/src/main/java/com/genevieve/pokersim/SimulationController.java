@@ -51,9 +51,13 @@ public class SimulationController {
         boolean noPloFlopRestriction = request.isNoPloFlopRestriction();
         boolean ploTurnRestriction = ploTurnRestrictionDefault;
         boolean animate = animateDefault;
+        String notificationPhoneNumber = request.getNotificationPhoneNumber();
+
+        // TODO first verify phone number here
+        // TODO validate params
 
         HighHandSimulator highHandSimulator = new HighHandSimulator(numNlhTables, numPloTables, numHandsPerHour,
-                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction, ploTurnRestriction, animate);
+                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction, ploTurnRestriction, animate, notificationPhoneNumber);
         highHandSimulator.initializeSimulation();
         simulationMap.put(highHandSimulator.simulationID, highHandSimulator);
         return ResponseEntity.accepted().body(highHandSimulator.simulationID);

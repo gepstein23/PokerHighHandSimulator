@@ -13,6 +13,10 @@ import com.genevieve.pokersim.tables.NLHTable;
 import com.genevieve.pokersim.tables.PLOTable;
 import com.genevieve.pokersim.tables.PokerTable;
 import com.genevieve.pokersim.tables.PokerTableHistory;
+import software.amazon.awssdk.regions.Region;
+import software.amazon.awssdk.services.sns.SnsClient;
+import software.amazon.awssdk.services.sns.model.PublishRequest;
+import software.amazon.awssdk.services.sns.model.PublishResponse;
 
 import java.time.Duration;
 import java.util.*;
@@ -32,6 +36,7 @@ public class HighHandSimulator {
     private final boolean ploTurnRestriction;
     private final boolean animate;
     private final Collection<PokerTable> tables;
+    private final String notifPhoneNumber;
     private SimulationData simulationData = null;
     public UUID simulationID;
 
@@ -39,7 +44,7 @@ public class HighHandSimulator {
     public Map<Integer, HandSnapShot> handNumToHandSnapshot;
 
     public HighHandSimulator(int numNlhTables, int numPloTables, int numHandsPerHour, int numPlayersPerTable,
-                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration, boolean noPloFlopRestriction, boolean ploTurnRestriction, boolean animate) {
+                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration, boolean noPloFlopRestriction, boolean ploTurnRestriction, boolean animate, String notificationPhoneNumber) {
         this.simulationID = UUID.randomUUID();
         this.numNlhTables = numNlhTables;
         this.numPloTables = numPloTables;
@@ -55,6 +60,7 @@ public class HighHandSimulator {
         this.tables = createTables(numNlhTables, numPloTables, numHandsPerHour,
                 shouldFilterPreflop, numPlayersPerTable, noPloFlopRestriction, ploTurnRestriction);
         this.handNumToHandSnapshot = new HashMap<>();
+        this.notifPhoneNumber = notificationPhoneNumber;
     }
 
     public HighHandSimulator(Collection<Integer> nlhTablePlayers, Collection<Integer> ploTablePlayers,  int numHandsPerHour,
@@ -75,6 +81,7 @@ public class HighHandSimulator {
         this.tables = createTables(nlhTablePlayers, ploTablePlayers, numHandsPerHour,
                 shouldFilterPreflop, noPloFlopRestriction, ploTurnRestriction);
         this.handNumToHandSnapshot = new HashMap<>();
+        this.notifPhoneNumber = null;
     }
 
     public SimulationData runSimulation() throws InterruptedException {
@@ -93,6 +100,7 @@ public class HighHandSimulator {
             try {
                 final SimulationData data = initSimulation(tables, highHand, simulationDuration);
                 this.simulationData = data;
+                notifyUser();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
@@ -101,6 +109,34 @@ public class HighHandSimulator {
       //  log(data.toString());
         asyncCommandThread.start();
         return asyncCommandThread;
+    }
+
+    private void notifyUser() {
+        if (this.notifPhoneNumber == null || this.notifPhoneNumber.length() < 7) {
+            return; // TODO better validation
+        }
+
+
+        SnsClient snsClient = SnsClient.builder()
+                .region(Region.US_EAST_2)
+                .build();
+        try {
+
+            String message = "Poker High Hand Simulation " + simulationID + " is complete! Navigate to https://genevieveepstein.com to see the results.";
+
+            // Create a Publish request for SMS
+            PublishRequest request = PublishRequest.builder()
+                    .message(message)
+                    .phoneNumber(notifPhoneNumber)
+                    .build();
+
+            // Send SMS
+            PublishResponse response = snsClient.publish(request);
+            System.out.println("Message sent. Message ID: " + response.messageId());
+        } catch (Exception e) {
+            System.err.println("Error sending message: " + e.getMessage());
+        }
+        snsClient.close();
     }
 
     private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) throws InterruptedException {
