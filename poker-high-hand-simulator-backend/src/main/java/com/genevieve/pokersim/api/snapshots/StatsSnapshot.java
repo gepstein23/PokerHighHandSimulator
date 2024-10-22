@@ -14,6 +14,12 @@ public class StatsSnapshot {
         this.numHoldEmWins = 0;
     }
 
+    public StatsSnapshot(StatsSnapshot old) {
+        this.currNumHighHands = old.getNumHighHands();
+        this.numPloWins = old.getNumPloWins();
+        this.numHoldEmWins = old.getNumHoldEmWins();
+    }
+
     public int getNumHighHands() {
         return currNumHighHands;
     }
@@ -45,5 +51,9 @@ public class StatsSnapshot {
         } else if (isNlhWin) {
             numHoldEmWins++;
         }
+    }
+
+    public StatsSnapshot deepCopy() {
+        return new StatsSnapshot(this);
     }
 }

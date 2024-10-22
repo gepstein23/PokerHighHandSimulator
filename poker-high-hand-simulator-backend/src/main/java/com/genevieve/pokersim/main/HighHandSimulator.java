@@ -269,7 +269,9 @@ public class HighHandSimulator {
         int hourHandsRemaining = numHandsPerHour;
         HighHandSnapshot currHighHandSnapshot = new HighHandSnapshot();
         StatsSnapshot statsSnapshot = new StatsSnapshot();
-        for (HandSnapShot handSnapShot : this.handNumToHandSnapshot.values()) {
+        List<HandSnapShot> values = new ArrayList<>(this.handNumToHandSnapshot.values());
+        for (int i = 0; i < values.size() ; i++) {
+            HandSnapShot handSnapShot = values.get(i);
             if (hourHandsRemaining == 0) {  // Hour has passed, reset high hand
 
                 // Update (dont reset) the stats
@@ -312,8 +314,21 @@ public class HighHandSimulator {
                 currHighHandSnapshot.setTableID(tableId);
             }
 
+            if (i == values.size() - 1) {
+                // Update (dont reset) the stats
+                if (currHighHandSnapshot.getHighHand() == null) { // there was NOT!!! a HH
+                    statsSnapshot.addHour(false, false);
+                } else {
+                    if (currHighHandSnapshot.getPlo()) {
+                        statsSnapshot.addHour(true, false);
+                    } else {
+                        statsSnapshot.addHour(false, true);
+                    }
+                }
+            }
+
             handSnapShot.setHighHandSnapshot(currHighHandSnapshot);
-            handSnapShot.setStatsSnapshot(statsSnapshot);
+            handSnapShot.setStatsSnapshot(statsSnapshot.deepCopy());
             hourHandsRemaining--;
         }
     }
