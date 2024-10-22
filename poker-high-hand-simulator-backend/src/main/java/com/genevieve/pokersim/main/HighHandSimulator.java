@@ -257,13 +257,11 @@ public class HighHandSimulator {
 
         // Here, only adding played hand data to handNumToHandSnapshot
         for (PokerTable pokerTable : tables) {
-            PokerTableHistory history = pokerTable.getHistory();
-            HashMap<Integer, PlayedHandData> handNumToHandData = history.getHandNumToHandData();
-            for (Map.Entry<Integer, PlayedHandData> entry : handNumToHandData.entrySet()) {
-                HandSnapShot handSnapshot = this.handNumToHandSnapshot.getOrDefault(entry.getKey(), new HandSnapShot(entry.getKey()));
+            for (int i = 0; i<pokerTable.getPlayedHands().size();i++) {
+                HandSnapShot handSnapshot = this.handNumToHandSnapshot.getOrDefault(i, new HandSnapShot(i));
                 // Get current handSnapshot, add this table's hand details
-                handSnapshot.getTableSnapshots().add(entry.getValue());
-                handNumToHandSnapshot.putIfAbsent(entry.getKey(), handSnapshot);
+                handSnapshot.getTableSnapshots().add(pokerTable.getPlayedHands().get(i));
+                handNumToHandSnapshot.putIfAbsent(i, handSnapshot);
             }
         }
 
