@@ -20,7 +20,7 @@ public class PLOTable extends PokerTable {
     }
 
     @Override
-    protected boolean isPloTable() {
+    public boolean isPloTable() {
         return true;
     }
 

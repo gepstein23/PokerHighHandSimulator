@@ -11,6 +11,9 @@ import com.genevieve.pokersim.api.SimulationStartRequest;
 import com.genevieve.pokersim.api.snapshots.HandSnapShot;
 import com.genevieve.pokersim.main.HighHand;
 import com.genevieve.pokersim.main.HighHandSimulator;
+import com.genevieve.pokersim.persistence.DynamoDBSimulationRepository;
+import com.genevieve.pokersim.persistence.InMemorySimulationRepository;
+import com.genevieve.pokersim.persistence.SimulationRepository;
 import com.genevieve.pokersim.playingcards.PokerHand;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,6 +32,7 @@ public class SimulationController {
     private static final boolean ploTurnRestrictionDefault = false;
     private static final boolean animateDefault = false;
 
+    private final SimulationRepository repository = createRepository();
     private Map<UUID, HighHandSimulator> simulationMap = new HashMap<>();
     private Map<UUID, PokerRoomAnimation> simulationAnimationMap = new HashMap<>();
 
@@ -57,7 +61,8 @@ public class SimulationController {
         // TODO validate params
 
         HighHandSimulator highHandSimulator = new HighHandSimulator(numNlhTables, numPloTables, numHandsPerHour,
-                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration, noPloFlopRestriction, ploTurnRestriction, animate, notificationPhoneNumber);
+                numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration,
+                noPloFlopRestriction, ploTurnRestriction, animate, notificationPhoneNumber, repository);
         highHandSimulator.initializeSimulation();
         simulationMap.put(highHandSimulator.simulationID, highHandSimulator);
         return ResponseEntity.accepted().body(highHandSimulator.simulationID);
@@ -69,45 +74,53 @@ public class SimulationController {
     }
 
     @GetMapping("/simulations/{simulationID}/status")
-    public ResponseEntity<String> getSimulationStatus( @PathVariable UUID simulationID) {
-        if (! simulationMap.containsKey(simulationID)) {
-            throw new IllegalArgumentException("Simulation does not exist: " + simulationID);
-        }
-        HighHandSimulator highHandSimulator = simulationMap.get(simulationID);
-        if (highHandSimulator.getSimulationData() == null) {
-            return ResponseEntity.ok("IN_PROGRESS");
-        }
-        return ResponseEntity.ok().body("DONE"); // TODO enums
+    public ResponseEntity<String> getSimulationStatus(@PathVariable UUID simulationID) {
+        return repository.getSimulationStatus(simulationID)
+                .map(status -> ResponseEntity.ok().body(status))
+                .orElseThrow(() -> new IllegalArgumentException("Simulation does not exist: " + simulationID));
     }
 
     @GetMapping("/simulations/{simulationID}/hands/{handNum}")
     public ResponseEntity<HandSnapShot.HandSnapshotApiModel> getNextSimulationData(@PathVariable UUID simulationID, @PathVariable int handNum) {
-        if (!simulationMap.containsKey(simulationID)) {
+        // Check if simulation exists
+        if (!repository.getSimulationStatus(simulationID).isPresent()) {
             throw new IllegalArgumentException(String.format("Simulation [%s] does not exist.", simulationID));
         }
-        HighHandSimulator highHandSimulator = simulationMap.get(simulationID);
-        if (highHandSimulator.getSimulationData() == null) {
-            throw new IllegalArgumentException(String.format("Simulation [%s] is not finished.", simulationID));
-        }
 
-        // First hand => must gather data
-        if (handNum == 0) {
-            highHandSimulator.generateApiSnapshots();
-        } else {
-            if (highHandSimulator.handNumToHandSnapshot.isEmpty()) {
-                throw new IllegalArgumentException(String.format("You must first call this API with handNum=0 for simulation [%s].", simulationID));
-            }
-        }
+        // Try to get the hand snapshot from repository (works during simulation)
+        return repository.getHandSnapshot(simulationID, handNum)
+                .map(snapshot -> ResponseEntity.ok().body(snapshot.transform()))
+                .orElseThrow(() -> new IllegalArgumentException(
+                        String.format("Hand %s is not yet available for simulation [%s].", handNum, simulationID)));
+    }
 
-        HandSnapShot simulationSnapshot = highHandSimulator.getSnapshot(handNum);
-        if (simulationSnapshot == null) {
-            throw new IllegalArgumentException(String.format("There is no hand with handNum=%s for simulation [%s].", handNum, simulationID));
-        }
-        HandSnapShot.HandSnapshotApiModel model = simulationSnapshot.transform();
-        return ResponseEntity.ok().body(model);
+    @GetMapping("/simulations/{simulationID}/progress")
+    public ResponseEntity<Map<String, Object>> getProgress(@PathVariable UUID simulationID) {
+        String status = repository.getSimulationStatus(simulationID)
+                .orElseThrow(() -> new IllegalArgumentException("Simulation does not exist: " + simulationID));
+        int handsCompleted = repository.getHandCount(simulationID);
+
+        Map<String, Object> progress = new HashMap<>();
+        progress.put("status", status);
+        progress.put("handsCompleted", handsCompleted);
+        return ResponseEntity.ok(progress);
     }
 
     private HighHand parseHighHand(String nlhMinimumQualifyingHand, String ploMinimumQualifyingHand, Duration highHandDuration) {
         return new HighHand(PokerHand.from(nlhMinimumQualifyingHand), PokerHand.from(ploMinimumQualifyingHand), highHandDuration);
+    }
+
+    private static SimulationRepository createRepository() {
+        String dynamoDbTable = System.getenv("DYNAMODB_TABLE");
+        String awsRegion = System.getenv("AWS_REGION");
+
+        if (dynamoDbTable != null && !dynamoDbTable.isEmpty()
+                && awsRegion != null && !awsRegion.isEmpty()) {
+            System.out.println("Using DynamoDB repository: table=" + dynamoDbTable + ", region=" + awsRegion);
+            return new DynamoDBSimulationRepository(dynamoDbTable, awsRegion);
+        }
+
+        System.out.println("DYNAMODB_TABLE or AWS_REGION not set, using in-memory repository");
+        return new InMemorySimulationRepository();
     }
 }

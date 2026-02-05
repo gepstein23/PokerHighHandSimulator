@@ -4,7 +4,7 @@ import com.genevieve.pokersim.playingcards.Card;
 import com.genevieve.pokersim.playingcards.PokerHand;
 
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class PLOPokerPlayer extends PokerPlayer {
     public PLOPokerPlayer(Card[] holeCards, boolean shouldFilterPreflop) {
@@ -16,7 +16,7 @@ public class PLOPokerPlayer extends PokerPlayer {
 
     @Override
     protected int getRandomVpip() {
-        return new Random(System.currentTimeMillis()).nextInt(50);
+        return ThreadLocalRandom.current().nextInt(50);
     }
 
     @Override

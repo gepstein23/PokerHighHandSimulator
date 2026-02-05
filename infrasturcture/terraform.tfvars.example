@@ -1,0 +1,10 @@
+aws_region      = "us-east-1"
+project_name    = "poker-sim"
+environment     = "dev"
+instance_type   = "t3.small"
+github_repo_url = "https://github.com/gepstein23/PokerHighHandSimulator.git"
+github_branch   = "master"
+
+# SSH access (optional — SSM Session Manager works without any of this)
+# key_pair_name = "my-key"
+# ssh_cidr      = "1.2.3.4/32"    # Your IP — never use 0.0.0.0/0
