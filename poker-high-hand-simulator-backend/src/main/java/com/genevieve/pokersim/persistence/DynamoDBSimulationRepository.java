@@ -12,6 +12,8 @@ import software.amazon.awssdk.services.dynamodb.model.PutItemRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryRequest;
 import software.amazon.awssdk.services.dynamodb.model.QueryResponse;
 
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -36,12 +38,18 @@ public class DynamoDBSimulationRepository extends InMemorySimulationRepository {
     private final String tableName;
     private final ObjectMapper objectMapper;
 
+    private static final long TTL_HOURS = 72;
+
     public DynamoDBSimulationRepository(String tableName, String awsRegion) {
         this.tableName = tableName;
         this.objectMapper = new ObjectMapper();
         this.client = DynamoDbClient.builder()
                 .region(Region.of(awsRegion))
                 .build();
+    }
+
+    private static String ttlEpochSeconds() {
+        return String.valueOf(Instant.now().plus(TTL_HOURS, ChronoUnit.HOURS).getEpochSecond());
     }
 
     @Override
@@ -58,6 +66,7 @@ public class DynamoDBSimulationRepository extends InMemorySimulationRepository {
             item.put("hand_number", AttributeValue.fromN(String.valueOf(handNum)));
             item.put("record_type", AttributeValue.fromS("HAND"));
             item.put("snapshot_json", AttributeValue.fromS(snapshotJson));
+            item.put("ttl", AttributeValue.fromN(ttlEpochSeconds()));
 
             client.putItem(PutItemRequest.builder()
                     .tableName(tableName)
@@ -82,6 +91,7 @@ public class DynamoDBSimulationRepository extends InMemorySimulationRepository {
             item.put("hand_number", AttributeValue.fromN("-1"));
             item.put("record_type", AttributeValue.fromS("STATUS"));
             item.put("status", AttributeValue.fromS(status));
+            item.put("ttl", AttributeValue.fromN(ttlEpochSeconds()));
 
             client.putItem(PutItemRequest.builder()
                     .tableName(tableName)
@@ -106,6 +116,7 @@ public class DynamoDBSimulationRepository extends InMemorySimulationRepository {
             item.put("num_high_hands", AttributeValue.fromN(String.valueOf(stats.getNumHighHands())));
             item.put("num_plo_wins", AttributeValue.fromN(String.valueOf(stats.getNumPloWins())));
             item.put("num_nlh_wins", AttributeValue.fromN(String.valueOf(stats.getNumHoldEmWins())));
+            item.put("ttl", AttributeValue.fromN(ttlEpochSeconds()));
 
             client.putItem(PutItemRequest.builder()
                     .tableName(tableName)

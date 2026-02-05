@@ -33,6 +33,11 @@ resource "aws_dynamodb_table" "hands" {
     enabled = true # Uses AWS-owned KMS key (no extra cost)
   }
 
+  ttl {
+    attribute_name = "ttl"
+    enabled        = true
+  }
+
   deletion_protection_enabled = true
 
   tags = { Name = "${local.name_prefix}-hands" }
