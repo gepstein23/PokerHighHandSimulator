@@ -1,0 +1,9 @@
+description                                    | hand  | minimum | uses_both | expected
+Aces full beats low full house minimum         | AAAKK | 22233   | true      | true
+Aces full but didnt use both hole cards        | AAAKK | 22233   | false     | false
+Set below full house minimum                   | 22234 | 22233   | true      | false
+Aces full exceeds queens full minimum          | AAAKK | AAAQQ   | true      | true
+Two pair below full house minimum              | AAKKQ | 22233   | true      | false
+Hand exactly equals minimum qualifies         | 22233 | 22233   | true      | true
+Quads beats full house minimum                 | 7777J | 22233   | true      | true
+High card below pair minimum                   | AKQJ9 | 22345   | true      | false

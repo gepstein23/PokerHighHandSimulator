@@ -1,0 +1,11 @@
+description                              | hole    | community            | expected_type | expected_hand
+Pocket aces no improvement               | As Ah   | 2c 3d 5s 7h 9c      | PAIR          | As Ah 9c 7h 5s
+Pocket pair hits set on board            | Ks Kh   | Kd 3d 5s 7h Jc      | SET           | Ks Kh Kd Jc 7h
+Hole completes straight using 2+3        | 9s Ts   | 6h 7d 8c Ac Kd      | STRAIGHT      | 6h 7d 8c 9s Ts
+Flush using both hole cards 2+3          | Ah 3h   | 5h 8h Kh 2d 9c      | FLUSH         | 3h 5h 8h Kh Ah
+One hole card extends to flush 1+4       | Ah 2c   | 3h 5h 8h Jh Kd      | FLUSH         | 3h 5h 8h Jh Ah
+Full house using both holes 2+3          | As Ac   | Ad Ks Kh 2c 3d      | FULL_HOUSE    | Ks Kh Ac Ad As
+Quads from hole pair + board pair 2+3    | 9s 9h   | 9c 9d Qh Js Tc      | QUADS         | 9c 9d 9h 9s Qh
+Wheel straight using hole ace 2+3        | As 5h   | 2d 3c 4s Kh Qd      | STRAIGHT      | 2d 3c 4s 5h As
+Community-only hand is best 0+5          | 2d 3c   | Ts Jh Qd Ks Ac      | STRAIGHT      | Ts Jh Qd Ks Ac
+Two pair from both holes + community     | As Kh   | Ad Kd 5s 7c 9h      | TWO_PAIR      | Kd Kh Ad As 9h
