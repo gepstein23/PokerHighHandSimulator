@@ -38,6 +38,16 @@ resource "aws_apigatewayv2_integration" "backend" {
   payload_format_version = "1.0"
 }
 
+# Separate integration for the root path (no {proxy} variable)
+resource "aws_apigatewayv2_integration" "backend_root" {
+  api_id             = aws_apigatewayv2_api.main.id
+  integration_type   = "HTTP_PROXY"
+  integration_method = "ANY"
+  integration_uri    = "http://${aws_eip.backend.public_ip}:8080/"
+
+  payload_format_version = "1.0"
+}
+
 # ---------- Routes ----------
 
 # Catch-all route for all paths and methods
@@ -51,7 +61,7 @@ resource "aws_apigatewayv2_route" "proxy" {
 resource "aws_apigatewayv2_route" "root" {
   api_id    = aws_apigatewayv2_api.main.id
   route_key = "ANY /"
-  target    = "integrations/${aws_apigatewayv2_integration.backend.id}"
+  target    = "integrations/${aws_apigatewayv2_integration.backend_root.id}"
 }
 
 # ---------- Stage ----------

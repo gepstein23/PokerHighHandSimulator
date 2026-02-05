@@ -9,11 +9,14 @@ resource "aws_instance" "backend" {
   key_name                    = var.key_pair_name
   user_data_replace_on_change = true
 
+  # deploy_timestamp changes on every apply, forcing instance replacement
+  # (user_data_replace_on_change = true above) so the EC2 always gets latest code.
   user_data = templatefile("${path.module}/templates/user_data.sh", {
-    aws_region     = var.aws_region
-    dynamodb_table = aws_dynamodb_table.hands.name
-    github_repo    = var.github_repo_url
-    github_branch  = var.github_branch
+    aws_region       = var.aws_region
+    dynamodb_table   = aws_dynamodb_table.hands.name
+    github_repo      = var.github_repo_url
+    github_branch    = var.github_branch
+    deploy_timestamp = timestamp()
   })
 
   # Require IMDSv2 -- prevents SSRF credential theft from the metadata service

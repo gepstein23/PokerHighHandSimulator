@@ -1,6 +1,9 @@
 #!/bin/bash
 set -euxo pipefail
 
+# Deploy timestamp: ${deploy_timestamp}
+# (Forces Terraform to replace this instance on every apply)
+
 # ──────────────────────────────────────────────
 # 1. Install dependencies
 # ──────────────────────────────────────────────
