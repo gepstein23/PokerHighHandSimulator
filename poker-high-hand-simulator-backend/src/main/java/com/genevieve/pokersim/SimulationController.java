@@ -1,9 +1,13 @@
 package com.genevieve.pokersim;
 
 import java.time.Duration;
+import java.time.LocalDate;
+import java.time.ZoneOffset;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
 import com.genevieve.pokersim.animation.PokerRoomAnimation;
@@ -15,6 +19,8 @@ import com.genevieve.pokersim.persistence.DynamoDBSimulationRepository;
 import com.genevieve.pokersim.persistence.InMemorySimulationRepository;
 import com.genevieve.pokersim.persistence.SimulationRepository;
 import com.genevieve.pokersim.playingcards.PokerHand;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,9 +38,17 @@ public class SimulationController {
     private static final boolean ploTurnRestrictionDefault = false;
     private static final boolean animateDefault = false;
 
+    private static final int MAX_SIMS_PER_IP_PER_DAY = 10;
+    private static final int MAX_SIMS_PER_DAY = 500;
+
     private final SimulationRepository repository = createRepository();
     private Map<UUID, HighHandSimulator> simulationMap = new HashMap<>();
     private Map<UUID, PokerRoomAnimation> simulationAnimationMap = new HashMap<>();
+
+    // Rate limiting state — resets daily
+    private volatile LocalDate rateLimitDate = LocalDate.now(ZoneOffset.UTC);
+    private final AtomicInteger dailyTotal = new AtomicInteger();
+    private final ConcurrentHashMap<String, AtomicInteger> dailyPerIp = new ConcurrentHashMap<>();
 
 
     @GetMapping("/greeting")
@@ -43,7 +57,23 @@ public class SimulationController {
     }
     // Start Simulation
     @PostMapping("/simulations/start")
-    public ResponseEntity<UUID> startSimulation(@RequestBody SimulationStartRequest request) throws InterruptedException {
+    public ResponseEntity<?> startSimulation(@RequestBody SimulationStartRequest request, HttpServletRequest httpRequest) throws InterruptedException {
+        String clientIp = getClientIp(httpRequest);
+        resetRateLimitsIfNewDay();
+
+        if (dailyTotal.get() >= MAX_SIMS_PER_DAY) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(Map.of("error", "Daily simulation limit reached. Please try again tomorrow."));
+        }
+
+        int ipCount = dailyPerIp.computeIfAbsent(clientIp, k -> new AtomicInteger()).get();
+        if (ipCount >= MAX_SIMS_PER_IP_PER_DAY) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(Map.of("error", "You have reached the limit of " + MAX_SIMS_PER_IP_PER_DAY + " simulations per day. Please try again tomorrow."));
+        }
+
+        dailyTotal.incrementAndGet();
+        dailyPerIp.get(clientIp).incrementAndGet();
         int numNlhTables = request.getNumNlhTables();
         int numPloTables = request.getNumPloTables();
         int numHandsPerHour = request.getNumHandsPerHour();
@@ -108,6 +138,28 @@ public class SimulationController {
 
     private HighHand parseHighHand(String nlhMinimumQualifyingHand, String ploMinimumQualifyingHand, Duration highHandDuration) {
         return new HighHand(PokerHand.from(nlhMinimumQualifyingHand), PokerHand.from(ploMinimumQualifyingHand), highHandDuration);
+    }
+
+    private void resetRateLimitsIfNewDay() {
+        LocalDate today = LocalDate.now(ZoneOffset.UTC);
+        if (!today.equals(rateLimitDate)) {
+            synchronized (this) {
+                if (!today.equals(rateLimitDate)) {
+                    dailyTotal.set(0);
+                    dailyPerIp.clear();
+                    rateLimitDate = today;
+                }
+            }
+        }
+    }
+
+    private static String getClientIp(HttpServletRequest request) {
+        // X-Forwarded-For is set by API Gateway
+        String xff = request.getHeader("X-Forwarded-For");
+        if (xff != null && !xff.isEmpty()) {
+            return xff.split(",")[0].trim();
+        }
+        return request.getRemoteAddr();
     }
 
     private static SimulationRepository createRepository() {
