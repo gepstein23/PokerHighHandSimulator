@@ -45,8 +45,8 @@ public class Card implements Comparable<Card> {
 
     @Override
     public String toString() {
-        return String.format("%s%s", this.value.getFriendlyName().equals("T") ? "0" : value.getFriendlyName(),
-                this.suit == null ? "S" : this.suit.getFriendlyName());
+        return String.format("%s%s", value.getFriendlyName(),
+                this.suit == null ? "s" : this.suit.getFriendlyName());
     }
 
     public String getStrRepr() {

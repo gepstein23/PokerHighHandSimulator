@@ -129,7 +129,7 @@ Unused test/placeholder endpoints.
 - **Sequential table simulation**: Tables run one after another in a single background thread (not parallelized).
 - **Pre-flop filtering is disabled**: `shouldFilterPreflop` defaults to `false` and is not exposed in the API. The `getHoleCardRanking()` method returns hardcoded `0`, and `RankedHoleCards.valueOf()` returns `null`. The simulation assumes all players see the river.
 - **VPIP randomization uses `System.currentTimeMillis()` seed**: Since `getRandomVpip()` creates a `new Random(System.currentTimeMillis())` on each player construction during rapid iteration, many players likely get the same seed.
-- **Card display quirk**: `Card.toString()` displays TEN as `"0s"` instead of `"Ts"` because it replaces `"T"` with `"0"`.
+- **Card display**: `Card.toString()` displays TEN as `"Ts"` (fixed from previous `"0s"` bug).
 - **Commented-out code**: `MachineLearningHandler` (130 lines), `SimulationIterator` in `HighHandSimulator`, `debug()` output in `Utils`, and `api/WebConfig.java` are all commented out.
 - **`SeatSnapshot.java`** and **`SimulationStatisticsData.java`** are unused.
 - **`HighHand.highHandPeriod`** is stored but never used in qualification logic (hardcoded to 1 hour).
@@ -139,7 +139,7 @@ Unused test/placeholder endpoints.
 ### General Approach
 - The Maven project root is `poker-high-hand-simulator-backend/` (not the git repo root).
 - All source lives under `src/main/java/com/genevieve/pokersim/`.
-- The test at `src/test/` is a basic Spring context load test. There are standalone test files in the repo root `test/` directory that are not wired into Maven.
+- Tests at `src/test/` include a Spring context load test and `PokerHandTest.java` with comprehensive hand evaluation/comparison tests. There are standalone test files in the repo root `test/` directory that are not wired into Maven.
 - No `application.properties` exists. To add config, create `src/main/resources/application.properties`.
 - CORS is globally permissive via `WebConfig.java`. The `@CrossOrigin` annotation on the controller is redundant.
 
@@ -150,10 +150,15 @@ Unused test/placeholder endpoints.
 
 ### Areas Likely to Be Touched for Improvements
 
-**Bugs / Correctness:**
-- `Card.toString()` displays TEN incorrectly as `"0"` instead of `"T"` (line 48).
-- `PokerHand.compare()` for STRAIGHT and STRAIGHT_FLUSH compares `otherHand` to `this` (reversed direction vs other hand types) -- verify this is intentional.
-- `compareRemainingCards()` accepts a `numCardsToCompare` parameter but ignores it, always comparing all 5 positions.
+**Bugs / Correctness (fixed):**
+- ~~`Card.toString()` displays TEN incorrectly as `"0"` instead of `"T"`.~~ Fixed.
+- ~~`PokerHand.compare()` for STRAIGHT and STRAIGHT_FLUSH had reversed comparison direction and didn't handle ace-low wheel correctly.~~ Fixed: uses `getStraightHighRank()` helper with `Integer.compare()`.
+- ~~`compareIndividualCards()` (flush comparison) used `CardValue.compareTo()` (ordinal-based) instead of `Card.compareTo()` (rank-based), reversing high/low.~~ Fixed.
+- ~~`compareRemainingCards()` accepted unused `numCardsToCompare` parameter.~~ Fixed: parameter removed.
+- ~~FULL_HOUSE and QUADS comparison used `CardValue.compareTo()` (ordinal-based).~~ Fixed: uses `Integer.compare()` on `.getRank()`.
+- ~~`getValueToNumOccurrencesMap()` was duplicated as `getValueToOccurrencesMap()`.~~ Fixed: consolidated to single static method.
+
+**Bugs / Correctness (remaining):**
 - `NLHPokerPlayer.getBestHand()` includes "community only" as a candidate, which can't win a high hand since it wouldn't use both hole cards. Harmless but wasteful.
 
 **Cleanup:**
@@ -170,8 +175,8 @@ Unused test/placeholder endpoints.
 
 **Performance:**
 - Tables are simulated sequentially. For large simulations (10k+ hours, 12+ tables), parallelizing table simulation would help significantly.
-- `getValueToNumOccurrencesMap()` is defined twice with slightly different names (`getValueToNumOccurrencesMap` and `getValueToOccurrencesMap`) doing the same thing.
+- ~~`getValueToNumOccurrencesMap()` was defined twice with slightly different names.~~ Fixed: consolidated.
 - Hand evaluation allocates many short-lived `ArrayList` and `Card[]` objects per hand.
 
 **Testing:**
-- Only a Spring context load test exists. No unit tests for hand evaluation, comparison, dealing, or simulation logic.
+- `PokerHandTest.java` covers card display, hand type classification, and comparison logic (54 tests). No unit tests for dealing or simulation logic yet.
