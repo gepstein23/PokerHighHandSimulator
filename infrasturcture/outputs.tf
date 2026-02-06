@@ -33,6 +33,11 @@ output "api_base_url_direct" {
   value       = "http://${aws_eip.backend.public_ip}:8080"
 }
 
+output "instance_id" {
+  description = "EC2 instance ID (used by deploy.sh for SSM commands)"
+  value       = aws_instance.backend.id
+}
+
 output "ssm_connect_command" {
   description = "Connect to the instance via SSM Session Manager (no SSH key needed)"
   value       = "aws ssm start-session --target ${aws_instance.backend.id}"

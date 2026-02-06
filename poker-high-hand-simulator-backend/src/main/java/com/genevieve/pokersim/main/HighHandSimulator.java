@@ -41,6 +41,7 @@ public class HighHandSimulator {
     private final List<PokerTable> tables;
     private final String notifPhoneNumber;
     private final SimulationRepository repository;
+    private Runnable onComplete;
     private SimulationData simulationData = null;
     public UUID simulationID;
 
@@ -135,6 +136,10 @@ public class HighHandSimulator {
                 notifyUser();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
+            } finally {
+                if (onComplete != null) {
+                    onComplete.run();
+                }
             }
         });
         asyncCommandThread.start();
@@ -355,6 +360,10 @@ public class HighHandSimulator {
         final PokerRoomAnimation animation = new PokerRoomAnimation(new ArrayList<>(tables), data, false);
         animation.initUI();
     }
+    public void setOnComplete(Runnable onComplete) {
+        this.onComplete = onComplete;
+    }
+
     public SimulationData getSimulationData() {
         return simulationData;
     }

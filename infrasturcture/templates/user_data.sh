@@ -1,9 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
 
-# Deploy timestamp: ${deploy_timestamp}
-# (Forces Terraform to replace this instance on every apply)
-
 # ──────────────────────────────────────────────
 # 1. Install dependencies
 # ──────────────────────────────────────────────
@@ -42,7 +39,7 @@ After=network.target
 Type=simple
 User=ec2-user
 EnvironmentFile=/etc/poker-sim.env
-ExecStart=/bin/bash -c 'exec java -jar /opt/app/poker-high-hand-simulator-backend/target/poker-high-hand-simulator-0.0.1-SNAPSHOT.jar'
+ExecStart=/bin/bash -c 'exec java -Xmx1g -Xms512m -jar /opt/app/poker-high-hand-simulator-backend/target/poker-high-hand-simulator-0.0.1-SNAPSHOT.jar'
 Restart=on-failure
 RestartSec=10
 

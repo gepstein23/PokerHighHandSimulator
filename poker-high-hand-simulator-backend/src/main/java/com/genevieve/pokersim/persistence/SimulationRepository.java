@@ -46,4 +46,10 @@ public interface SimulationRepository {
      * Get final stats for a completed simulation.
      */
     Optional<StatsSnapshot> getFinalStats(UUID simulationId);
+
+    /**
+     * Remove all data for a simulation (snapshots, status, stats).
+     * Used to free memory after a simulation has been completed and consumed.
+     */
+    void clearSimulation(UUID simulationId);
 }

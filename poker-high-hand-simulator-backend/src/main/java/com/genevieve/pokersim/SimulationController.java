@@ -7,6 +7,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -40,10 +43,22 @@ public class SimulationController {
 
     private static final int MAX_SIMS_PER_IP_PER_DAY = 10;
     private static final int MAX_SIMS_PER_DAY = 500;
+    private static final int MAX_CONCURRENT_SIMS = 3;
+    private static final long CLEANUP_DELAY_HOURS = 1;
 
     private final SimulationRepository repository = createRepository();
     private Map<UUID, HighHandSimulator> simulationMap = new HashMap<>();
     private Map<UUID, PokerRoomAnimation> simulationAnimationMap = new HashMap<>();
+
+    // Concurrent simulation tracking
+    private final AtomicInteger runningSimulations = new AtomicInteger();
+
+    // Scheduled cleanup of completed simulations
+    private final ScheduledExecutorService cleanupExecutor = Executors.newSingleThreadScheduledExecutor(r -> {
+        Thread t = new Thread(r, "sim-cleanup");
+        t.setDaemon(true);
+        return t;
+    });
 
     // Rate limiting state — resets daily
     private volatile LocalDate rateLimitDate = LocalDate.now(ZoneOffset.UTC);
@@ -58,6 +73,19 @@ public class SimulationController {
     // Start Simulation
     @PostMapping("/simulations/start")
     public ResponseEntity<?> startSimulation(@RequestBody SimulationStartRequest request, HttpServletRequest httpRequest) throws InterruptedException {
+        // Input validation
+        String validationError = validateRequest(request);
+        if (validationError != null) {
+            return ResponseEntity.badRequest().body(Map.of("error", validationError));
+        }
+
+        // Concurrent simulation limit
+        if (runningSimulations.get() >= MAX_CONCURRENT_SIMS) {
+            return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS)
+                    .body(Map.of("error", "Too many simulations running. Please wait for a simulation to complete and try again."));
+        }
+
+        // Rate limiting
         String clientIp = getClientIp(httpRequest);
         resetRateLimitsIfNewDay();
 
@@ -74,6 +102,8 @@ public class SimulationController {
 
         dailyTotal.incrementAndGet();
         dailyPerIp.get(clientIp).incrementAndGet();
+        runningSimulations.incrementAndGet();
+
         int numNlhTables = request.getNumNlhTables();
         int numPloTables = request.getNumPloTables();
         int numHandsPerHour = request.getNumHandsPerHour();
@@ -87,15 +117,23 @@ public class SimulationController {
         boolean animate = animateDefault;
         String notificationPhoneNumber = request.getNotificationPhoneNumber();
 
-        // TODO first verify phone number here
-        // TODO validate params
-
         HighHandSimulator highHandSimulator = new HighHandSimulator(numNlhTables, numPloTables, numHandsPerHour,
                 numPlayersPerTable, simulationDuration, highHand, shouldFilterPreflop, highHandDuration,
                 noPloFlopRestriction, ploTurnRestriction, animate, notificationPhoneNumber, repository);
+
+        UUID simId = highHandSimulator.simulationID;
+        highHandSimulator.setOnComplete(() -> {
+            runningSimulations.decrementAndGet();
+            cleanupExecutor.schedule(() -> {
+                simulationMap.remove(simId);
+                repository.clearSimulation(simId);
+                System.out.println("Cleaned up simulation " + simId + " from memory");
+            }, CLEANUP_DELAY_HOURS, TimeUnit.HOURS);
+        });
+
         highHandSimulator.initializeSimulation();
-        simulationMap.put(highHandSimulator.simulationID, highHandSimulator);
-        return ResponseEntity.accepted().body(highHandSimulator.simulationID);
+        simulationMap.put(simId, highHandSimulator);
+        return ResponseEntity.accepted().body(simId);
     }
 
     @GetMapping("/")
@@ -134,6 +172,47 @@ public class SimulationController {
         progress.put("status", status);
         progress.put("handsCompleted", handsCompleted);
         return ResponseEntity.ok(progress);
+    }
+
+    private String validateRequest(SimulationStartRequest request) {
+        int nlh = request.getNumNlhTables();
+        int plo = request.getNumPloTables();
+        int players = request.getNumPlayersPerTable();
+        int handsPerHour = request.getNumHandsPerHour();
+        int duration = request.getSimulationDuration();
+
+        if (nlh < 0 || nlh > 20) {
+            return "numNlhTables must be between 0 and 20.";
+        }
+        if (plo < 0 || plo > 20) {
+            return "numPloTables must be between 0 and 20.";
+        }
+        if (nlh + plo < 1) {
+            return "At least 1 table is required (numNlhTables + numPloTables >= 1).";
+        }
+        if (nlh + plo > 20) {
+            return "Total tables (numNlhTables + numPloTables) must not exceed 20.";
+        }
+        if (players < 2 || players > 10) {
+            return "numPlayersPerTable must be between 2 and 10.";
+        }
+        if (handsPerHour < 1 || handsPerHour > 50) {
+            return "numHandsPerHour must be between 1 and 50.";
+        }
+        if (duration < 1 || duration > 10000) {
+            return "simulationDuration must be between 1 and 10,000 hours.";
+        }
+        long totalHands = (long) duration * handsPerHour;
+        if (totalHands > 100_000) {
+            return "Total hands (simulationDuration * numHandsPerHour) must not exceed 100,000. Requested: " + totalHands + ".";
+        }
+        return null;
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Map<String, String>> handleIllegalArgument(IllegalArgumentException e) {
+        return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                .body(Map.of("error", e.getMessage()));
     }
 
     private HighHand parseHighHand(String nlhMinimumQualifyingHand, String ploMinimumQualifyingHand, Duration highHandDuration) {

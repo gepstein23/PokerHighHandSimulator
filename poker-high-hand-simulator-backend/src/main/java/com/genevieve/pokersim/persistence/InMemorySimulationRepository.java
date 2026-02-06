@@ -58,4 +58,11 @@ public class InMemorySimulationRepository implements SimulationRepository {
     public Optional<StatsSnapshot> getFinalStats(UUID simulationId) {
         return Optional.ofNullable(finalStats.get(simulationId));
     }
+
+    @Override
+    public void clearSimulation(UUID simulationId) {
+        snapshots.remove(simulationId);
+        statuses.remove(simulationId);
+        finalStats.remove(simulationId);
+    }
 }
