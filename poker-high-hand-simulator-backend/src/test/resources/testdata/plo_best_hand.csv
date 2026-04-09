@@ -1,0 +1,11 @@
+description                                            | hole            | community            | expected_type   | expected_hand        | expected_flopped | expected_turned
+Flush with 2 suited holes + 3 suited community         | Ah Kh Qd 2c    | 3h 5h 8h Jc 9s      | FLUSH           | 3h 5h 8h Kh Ah      | true             | true
+3 suited holes 2 suited community NO flush max 4 suits | Ah Kh Qh 2c    | 3h 5h 7d 9s Jc      | HIGH_CARD       | 7d 9s Jc Kh Ah      | false            | false
+4 aces in hole can only use 2 so just a pair            | As Ah Ad Ac    | Ks Qd Jh 9c 7s      | PAIR            | Jh Qd Ks Ah As      | true             | true
+Trips in hole + 1 on board = set NOT quads              | 9s 9h 9d 2c    | 9c Kd Qh Js Tc      | SET             | 9c 9h 9s Qh Kd      | true             | true
+PLO straight using 2 holes + 3 community flopped        | 5h 6h Ks 2d    | 7d 8c 9s Ac Jd      | STRAIGHT        | 5h 6h 7d 8c 9s      | true             | true
+Full house using river card not flopped not turned      | As Ah 3d 4c    | 7c 8s Ad Ks Kh      | FULL_HOUSE      | As Ah Ad Ks Kh      | false            | false
+Set using turn card turned=true flopped=false           | As Ah 3d 4c    | 7c 8s Ad Kd 2h      | SET             | 8s Ad Kd Ah As      | false            | true
+Straight flush all from flop                            | 5s 6s Kh 2d    | 7s 8s 9s Ac Jd      | STRAIGHT_FLUSH  | 5s 6s 7s 8s 9s      | true             | true
+1 suited hole cant make flush needs 2 suited            | Ah Qd Jc 2c    | 3h 5h 8h Kh 9s      | HIGH_CARD       | 8h 9s Kh Qd Ah      | false            | false
+PLO full house 2 holes pair + board trips               | Ks Kh 2d 3c    | As Ah Ac 5d 9s      | FULL_HOUSE      | Ks Kh As Ah Ac      | true             | true

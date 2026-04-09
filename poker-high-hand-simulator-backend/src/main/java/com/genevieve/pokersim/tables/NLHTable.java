@@ -16,7 +16,7 @@ public class NLHTable extends PokerTable {
     }
 
     @Override
-    protected boolean isPloTable() {
+    public boolean isPloTable() {
         return false;
     }
 

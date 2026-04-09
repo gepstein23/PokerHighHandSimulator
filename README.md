@@ -69,6 +69,110 @@ To accomplish this, a top-layer function must be implemented which tests differe
 Issues: In practice, the HH minimum qualifier found to be fair would be updated at the beginning of each new HH period.
 Players could exploit this if the # of players input to the program is taken at a static point in the period => it must be an average of the player #s for the period.
 
+## Infrastructure (Terraform)
+
+The `terraform/` directory deploys the backend to AWS (single account, single region).
+
+### What Gets Created
+
+| Resource | Purpose |
+|----------|---------|
+| **VPC** + public subnet, IGW, route table | Isolated network with internet access |
+| **EC2** (t3.small) + Elastic IP | Builds and runs the Spring Boot backend on port 8080 |
+| **DynamoDB** table (`poker-sim-dev-hands`) | Stores hand outputs, keyed by `simulation_id` + `hand_number` |
+| **IAM** role + instance profile | Grants the EC2 instance write access to DynamoDB |
+| **Security group** | Allows inbound 8080 (API) and 22 (SSH) |
+
+```
+terraform/
+  bootstrap/main.tf         # One-time: S3 state bucket + DynamoDB lock table
+  versions.tf                # Terraform >= 1.5, AWS provider ~> 5.0
+  backend.tf                 # S3 backend (commented out until bootstrapped)
+  providers.tf               # AWS provider with default tags
+  variables.tf               # All input variables
+  outputs.tf                 # EC2 IP, API URL, DynamoDB table name
+  locals.tf                  # Shared naming prefix
+  data.tf                    # AMI lookup, availability zones
+  vpc.tf                     # VPC, subnet, internet gateway, routing
+  security_groups.tf         # Inbound/outbound rules
+  iam.tf                     # Role, DynamoDB policy, instance profile
+  dynamodb.tf                # Hands table
+  ec2.tf                     # Backend instance + elastic IP
+  templates/user_data.sh     # EC2 startup: install Java 17, clone, build, run
+  terraform.tfvars.example   # Example variable values
+```
+
+### Prerequisites
+
+- [Terraform CLI](https://developer.hashicorp.com/terraform/install) >= 1.5.0
+- [AWS CLI](https://aws.amazon.com/cli/) configured with credentials (`aws configure`)
+- An AWS account with permissions to create VPC, EC2, DynamoDB, IAM, and S3 resources
+
+### Step 1: Bootstrap Remote State
+
+Creates an S3 bucket (versioned, encrypted, private) and a DynamoDB table for state locking. Run once.
+
+```bash
+cd terraform/bootstrap
+terraform init
+terraform apply
+```
+
+Note the output values `state_bucket_name` and `lock_table_name`.
+
+### Step 2: Enable Remote Backend
+
+Edit `terraform/backend.tf` -- uncomment the `backend "s3"` block and verify the bucket name and region match your bootstrap outputs:
+
+```hcl
+terraform {
+  backend "s3" {
+    bucket         = "poker-sim-terraform-state"
+    key            = "terraform.tfstate"
+    region         = "us-east-1"
+    dynamodb_table = "poker-sim-terraform-locks"
+    encrypt        = true
+  }
+}
+```
+
+### Step 3: Deploy
+
+```bash
+cd terraform
+cp terraform.tfvars.example terraform.tfvars   # Edit with your values
+terraform init                                  # Initialize backend + providers
+terraform plan                                  # Preview changes
+terraform apply                                 # Deploy
+```
+
+After `apply` completes, Terraform outputs the API URL:
+```
+api_base_url = "http://<elastic-ip>:8080"
+```
+
+Point your frontend at this URL. The EC2 instance automatically clones the repo, builds the jar, and starts the backend as a systemd service.
+
+### SSH Access (Optional)
+
+To enable SSH, create an EC2 key pair in the AWS console and set `key_pair_name` in your `terraform.tfvars`. Restrict `ssh_cidr` to your IP (e.g. `"1.2.3.4/32"`).
+
+```bash
+ssh -i ~/.ssh/your-key.pem ec2-user@<elastic-ip>
+sudo journalctl -u poker-sim -f    # Tail application logs
+```
+
+### Day-to-Day Workflow
+
+```bash
+cd terraform
+terraform plan      # See what would change
+terraform apply     # Apply changes
+terraform destroy   # Tear down all resources (use with caution)
+```
+
+---
+
 ## Program Implementation Details
 
 ### Program Usage Instructions

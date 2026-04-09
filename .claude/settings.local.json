@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(./mvnw clean test:*)",
+      "Bash(terraform validate:*)",
+      "Bash(./mvnw clean:*)",
+      "Bash(terraform plan:*)",
+      "Bash(terraform apply:*)",
+      "Bash(git check-ignore:*)",
+      "Bash(terraform init:*)",
+      "Bash(aws ec2 describe-instance-status:*)",
+      "Bash(aws ssm get-command-invocation:*)",
+      "WebSearch",
+      "Bash(aws ssm send-command:*)",
+      "Bash(git add:*)",
+      "Bash(git commit -m \"$\\(cat <<''EOF''\nAuthored by Genevieve''s intern, Claude: add system-wide throttling and resource protection\n\n- Input validation on POST /simulations/start with parameter caps\n- Concurrent simulation limit \\(max 3\\) with AtomicInteger tracking\n- 1-hour delayed memory cleanup of completed simulations via ScheduledExecutorService\n- clearSimulation\\(\\) added to SimulationRepository interface and implementations\n- Completion callback \\(onComplete Runnable\\) on HighHandSimulator\n- @ExceptionHandler for IllegalArgumentException returning 404 JSON\n- JVM heap limits \\(-Xmx1g -Xms512m\\) in user_data.sh systemd service\n\nCo-Authored-By: Claude Opus 4.6 <noreply@anthropic.com>\nEOF\n\\)\")"
+    ]
+  }
+}

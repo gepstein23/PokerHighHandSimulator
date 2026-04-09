@@ -21,6 +21,7 @@ public abstract class PokerTable {
     protected double tableHandsPerHour;
     protected boolean shouldFilterPreflop;
     protected List<PlayedHandData> playedHands = new ArrayList<PlayedHandData>();
+    private final Deck reusableDeck;
 
     protected PokerTableHistory history;
 
@@ -30,8 +31,13 @@ public abstract class PokerTable {
         this.numPlayers = numPlayers;
         this.shouldFilterPreflop = shouldFilterPreflop;
         this.history = new PokerTableHistory(tableID);
+        this.reusableDeck = new Deck();
     }
 
+    /**
+     * @deprecated Use hand-by-hand simulation via HighHandSimulator instead.
+     */
+    @Deprecated
     public TableSimulationData runSimulation(HighHand highHand, Duration duration) throws InterruptedException {
          Duration clock = Duration.ofHours(duration.toHours());
          if (Duration.ofHours(1).compareTo(clock) > 0) {
@@ -47,8 +53,53 @@ public abstract class PokerTable {
          return new TableSimulationData(tableID, tableHighHandPerSimulationHour, isPloTable(), history);
     }
 
-    protected abstract boolean isPloTable();
+    public abstract boolean isPloTable();
 
+    /**
+     * Play a single hand at this table and return the result.
+     * This method is used by the hand-by-hand simulation orchestration.
+     *
+     * @param handNum the hand number (for logging/debugging)
+     * @param highHand the high hand qualification configuration
+     * @return a HandResult containing the played hand data and qualification info
+     */
+    public HandResult playSingleHand(int handNum, HighHand highHand) {
+        debug("\n=============== Table %s Hand #%s", tableID, handNum);
+
+        // Play out one hand (reuse deck to avoid allocation)
+        reusableDeck.reset();
+        final Deck deck = reusableDeck;
+        final Collection<PokerPlayer> players = filterPlayersPrePreflop(dealPlayers(deck));
+        final List<Card> communityCards = dealCommunityCards(deck);
+        debug(" = Community Cards: %s", Card.getCardStr(communityCards.toArray(new Card[0])));
+
+        final Map<UUID, PokerHand> winner = determineWinningHand(players, communityCards);
+        final PokerHand winningHand = winner.values().iterator().next();
+        final boolean usesBothCards = usesThreeCommunityCards(winningHand, communityCards);
+        final boolean qualifiesForHighHand = winningHand != null && isQualifyingHighHand(winningHand, highHand, usesBothCards);
+
+        if (winningHand == null) {
+            debug("winningHand is null");
+        } else {
+            debug(" = Winner: %s, handType=%s, playerID=%s, qualifiesForHH=%s",
+                    Card.getCardStr(winningHand.getFiveHandCards()),
+                    winningHand.getHandType(), winner.keySet().iterator().next(), qualifiesForHighHand);
+        }
+
+        // Record the played hand
+        PlayedHandData handData = new PlayedHandData(
+                new ArrayList<>(players), communityCards, winningHand,
+                qualifiesForHighHand, isPloTable(), tableID);
+        playedHands.add(handData);
+        history.addHandData(handData, handNum);
+
+        return new HandResult(handData, winningHand, qualifiesForHighHand, isPloTable(), tableID);
+    }
+
+    /**
+     * @deprecated Use hand-by-hand simulation via HighHandSimulator instead.
+     */
+    @Deprecated
     private PokerHand playHourOfHands(double tableHandsPerHour, HighHand highHand) throws InterruptedException {
         PokerHand tableHighHandWinner = null;
         for (int i = 0; i < tableHandsPerHour; i++) {
@@ -58,6 +109,10 @@ public abstract class PokerTable {
         return tableHighHandWinner;
     }
 
+    /**
+     * @deprecated Use playSingleHand() instead.
+     */
+    @Deprecated
     private PokerHand playOneHand(int handNum, PokerHand currentTableHighHandWinner, HighHand highHand) throws InterruptedException {
         PokerHand newTableHighHandWinner = currentTableHighHandWinner;
         debug("\n=============== Table %s Hand #%s", tableID, handNum);

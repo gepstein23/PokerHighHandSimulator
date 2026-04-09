@@ -9,6 +9,8 @@ import com.genevieve.pokersim.playingcards.PokerHand;
 import com.genevieve.pokersim.simulation_datas.HourSimulationData;
 import com.genevieve.pokersim.simulation_datas.SimulationData;
 import com.genevieve.pokersim.simulation_datas.TableSimulationData;
+import com.genevieve.pokersim.persistence.SimulationRepository;
+import com.genevieve.pokersim.tables.HandResult;
 import com.genevieve.pokersim.tables.NLHTable;
 import com.genevieve.pokersim.tables.PLOTable;
 import com.genevieve.pokersim.tables.PokerTable;
@@ -20,6 +22,7 @@ import software.amazon.awssdk.services.sns.model.PublishResponse;
 
 import java.time.Duration;
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static com.genevieve.pokersim.main.Utils.log;
 
@@ -35,8 +38,10 @@ public class HighHandSimulator {
     private final boolean noPloFlopRestriction;
     private final boolean ploTurnRestriction;
     private final boolean animate;
-    private final Collection<PokerTable> tables;
+    private final List<PokerTable> tables;
     private final String notifPhoneNumber;
+    private final SimulationRepository repository;
+    private Runnable onComplete;
     private SimulationData simulationData = null;
     public UUID simulationID;
 
@@ -44,7 +49,9 @@ public class HighHandSimulator {
     public Map<Integer, HandSnapShot> handNumToHandSnapshot;
 
     public HighHandSimulator(int numNlhTables, int numPloTables, int numHandsPerHour, int numPlayersPerTable,
-                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration, boolean noPloFlopRestriction, boolean ploTurnRestriction, boolean animate, String notificationPhoneNumber) {
+                             Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration,
+                             boolean noPloFlopRestriction, boolean ploTurnRestriction, boolean animate,
+                             String notificationPhoneNumber, SimulationRepository repository) {
         this.simulationID = UUID.randomUUID();
         this.numNlhTables = numNlhTables;
         this.numPloTables = numPloTables;
@@ -61,8 +68,13 @@ public class HighHandSimulator {
                 shouldFilterPreflop, numPlayersPerTable, noPloFlopRestriction, ploTurnRestriction);
         this.handNumToHandSnapshot = new HashMap<>();
         this.notifPhoneNumber = notificationPhoneNumber;
+        this.repository = repository;
     }
 
+    /**
+     * @deprecated Use constructor with SimulationRepository parameter instead.
+     */
+    @Deprecated
     public HighHandSimulator(Collection<Integer> nlhTablePlayers, Collection<Integer> ploTablePlayers,  int numHandsPerHour,
                              Duration simulationDuration, HighHand highHand, boolean shouldFilterPreflop, Duration highHandDuration,
                              boolean noPloFlopRestriction, boolean ploTurnRestriction, boolean animate) {
@@ -82,8 +94,13 @@ public class HighHandSimulator {
                 shouldFilterPreflop, noPloFlopRestriction, ploTurnRestriction);
         this.handNumToHandSnapshot = new HashMap<>();
         this.notifPhoneNumber = null;
+        this.repository = null;
     }
 
+    /**
+     * @deprecated Use initializeSimulation() with repository-based persistence instead.
+     */
+    @Deprecated
     public SimulationData runSimulation() throws InterruptedException {
         log(this.toString());
         final SimulationData data = initSimulation(tables, highHand, simulationDuration);
@@ -93,22 +110,119 @@ public class HighHandSimulator {
       //  log(data.toString());
     }
 
-    public Thread initializeSimulation() throws InterruptedException {
+    /**
+     * Starts the hand-by-hand simulation in a background thread.
+     * Each hand is persisted to the repository as it completes.
+     */
+    public Thread initializeSimulation() {
         log(this.toString());
+
+        if (repository != null) {
+            repository.saveSimulationStatus(simulationID, "IN_PROGRESS");
+        }
 
         Thread asyncCommandThread = new Thread(() -> {
             try {
-                final SimulationData data = initSimulation(tables, highHand, simulationDuration);
-                this.simulationData = data;
+                if (repository != null) {
+                    runHandByHandSimulation();
+                } else {
+                    // Fallback to legacy behavior for deprecated constructor
+                    final SimulationData data = initSimulation(tables, highHand, simulationDuration);
+                    this.simulationData = data;
+                }
+                if (repository != null) {
+                    repository.saveSimulationStatus(simulationID, "DONE");
+                }
                 notifyUser();
             } catch (InterruptedException e) {
                 throw new RuntimeException(e);
+            } finally {
+                if (onComplete != null) {
+                    onComplete.run();
+                }
             }
         });
-     //   displaySimulationResults(tables, data);
-      //  log(data.toString());
         asyncCommandThread.start();
         return asyncCommandThread;
+    }
+
+    /**
+     * Run the simulation hand-by-hand across all tables.
+     * Persists each hand snapshot to the repository as it completes.
+     */
+    private void runHandByHandSimulation() throws InterruptedException {
+        final int totalHands = (int) (simulationDuration.toHours() * numHandsPerHour);
+        int handsPlayedInCurrentHour = 0;
+        HighHandSnapshot currentHighHandSnapshot = new HighHandSnapshot();
+        StatsSnapshot statsSnapshot = new StatsSnapshot();
+
+        for (int handNum = 0; handNum < totalHands; handNum++) {
+            // Hour boundary check → update stats if needed
+            if (handsPlayedInCurrentHour == numHandsPerHour) {
+                recordHourWinner(statsSnapshot, currentHighHandSnapshot);
+                currentHighHandSnapshot = new HighHandSnapshot();
+                handsPlayedInCurrentHour = 0;
+            }
+
+            // Play hand N on every table in parallel
+            final int currentHandNum = handNum;
+            List<HandResult> results = tables.parallelStream()
+                    .map(table -> table.playSingleHand(currentHandNum, highHand))
+                    .collect(Collectors.toList());
+
+            HandSnapShot handSnapshot = new HandSnapShot(handNum);
+            PokerHand bestQualifyingHand = null;
+            Boolean bestIsPlo = null;
+            UUID bestTableId = null;
+
+            for (HandResult result : results) {
+                handSnapshot.getTableSnapshots().add(result.getPlayedHandData());
+
+                // Check if this table's hand beats the current best for this hand
+                if (result.isQualifiesForHighHand()) {
+                    if (beatsCurrentHighHand(result.getWinningHand(), bestQualifyingHand)) {
+                        bestQualifyingHand = result.getWinningHand();
+                        bestIsPlo = result.isPlo();
+                        bestTableId = result.getTableId();
+                    }
+                }
+            }
+
+            // Update the global high hand if this hand beat it
+            if (beatsCurrentHighHand(bestQualifyingHand, currentHighHandSnapshot.getHighHand())) {
+                currentHighHandSnapshot = new HighHandSnapshot();
+                currentHighHandSnapshot.setHighHand(bestQualifyingHand);
+                currentHighHandSnapshot.setPlo(bestIsPlo);
+                currentHighHandSnapshot.setTableID(bestTableId);
+            }
+
+            handSnapshot.setHighHandSnapshot(currentHighHandSnapshot);
+            handSnapshot.setStatsSnapshot(statsSnapshot.deepCopy());
+            repository.saveHandSnapshot(simulationID, handNum, handSnapshot);
+
+            // Also populate the legacy map for backwards compatibility
+            handNumToHandSnapshot.put(handNum, handSnapshot);
+
+            handsPlayedInCurrentHour++;
+        }
+
+        // Final hour stats
+        recordHourWinner(statsSnapshot, currentHighHandSnapshot);
+        repository.saveFinalStats(simulationID, statsSnapshot);
+
+        // Mark as complete for legacy getSimulationData() checks
+        this.simulationData = new SimulationData(new ArrayList<>(), new ArrayList<>(),
+                simulationDuration.toHours(), numHandsPerHour);
+    }
+
+    private void recordHourWinner(StatsSnapshot statsSnapshot, HighHandSnapshot highHandSnapshot) {
+        if (highHandSnapshot.getHighHand() == null) {
+            statsSnapshot.addHour(false, false);
+        } else if (highHandSnapshot.getPlo() != null && highHandSnapshot.getPlo()) {
+            statsSnapshot.addHour(true, false);
+        } else {
+            statsSnapshot.addHour(false, true);
+        }
     }
 
     private void notifyUser() {
@@ -139,6 +253,10 @@ public class HighHandSimulator {
         snsClient.close();
     }
 
+    /**
+     * @deprecated Use runHandByHandSimulation() instead.
+     */
+    @Deprecated
     private SimulationData initSimulation(Collection<PokerTable> tables, HighHand highHand, Duration duration) throws InterruptedException {
         final List<TableSimulationData> tableSimulationDatas = new ArrayList<>();
         for (PokerTable table : tables) {
@@ -147,9 +265,9 @@ public class HighHandSimulator {
         return determineSimulationWinners(tableSimulationDatas);
     }
 
-    private static Collection<PokerTable> createTables(int numNlhTables, int numPloTables, double tableHandsPerHour,
+    private static List<PokerTable> createTables(int numNlhTables, int numPloTables, double tableHandsPerHour,
                                                        boolean shouldFilterPreflop, int numPlayersPerTable, boolean noPloFlopRestriction, boolean ploTurnRestriction) {
-        final Collection<PokerTable> tables = new ArrayList<>();
+        final List<PokerTable> tables = new ArrayList<>();
         for (int i = 0; i < numNlhTables; i++) {
             final PokerTable nlhTable = new NLHTable(numPlayersPerTable, tableHandsPerHour, shouldFilterPreflop);
             tables.add(nlhTable);
@@ -161,11 +279,11 @@ public class HighHandSimulator {
         return tables;
     }
 
-    private Collection<PokerTable> createTables(Collection<Integer> nlhTablePlayers,
+    private List<PokerTable> createTables(Collection<Integer> nlhTablePlayers,
                                                 Collection<Integer> ploTablePlayers,
                                                 int numHandsPerHour, boolean shouldFilterPreflop,
                                                 boolean noPloFlopRestriction, boolean ploTurnRestriction) {
-        final Collection<PokerTable> tables = new ArrayList<>();
+        final List<PokerTable> tables = new ArrayList<>();
         for (Integer numNlhPlayersAtTable : nlhTablePlayers) {
             final PokerTable nlhTable = new NLHTable(numNlhPlayersAtTable, numHandsPerHour, shouldFilterPreflop);
             tables.add(nlhTable);
@@ -177,6 +295,10 @@ public class HighHandSimulator {
         return tables;
     }
 
+    /**
+     * @deprecated Statistics are now computed during hand-by-hand simulation.
+     */
+    @Deprecated
     private SimulationData determineSimulationWinners(List<TableSimulationData> tableSimulationDatas) {
         final List<HourSimulationData> hourSimulationDatas = new ArrayList<>();
         for (long i = 0; i < simulationDuration.toHours(); i++) {
@@ -238,14 +360,22 @@ public class HighHandSimulator {
         final PokerRoomAnimation animation = new PokerRoomAnimation(new ArrayList<>(tables), data, false);
         animation.initUI();
     }
+    public void setOnComplete(Runnable onComplete) {
+        this.onComplete = onComplete;
+    }
+
     public SimulationData getSimulationData() {
         return simulationData;
     }
 
-    public Collection<PokerTable> getTables() {
+    public List<PokerTable> getTables() {
         return tables;
     }
 
+    /**
+     * @deprecated Snapshots are now generated during hand-by-hand simulation and saved to repository.
+     */
+    @Deprecated
     public void generateApiSnapshots() {
         if (this.simulationData == null) {
             return;

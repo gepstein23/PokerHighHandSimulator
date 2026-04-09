@@ -1,0 +1,11 @@
+description                                             | hand  | minimum | is_flopped | is_turned | no_flop_restr | turn_restr | expected
+Flopped hand meets min with flop restriction active     | AAAKK | 22233   | true       | true      | false         | false      | true
+Not flopped fails flop restriction                      | AAAKK | 22233   | false      | true      | false         | false      | false
+Not flopped passes when flop restriction waived         | AAAKK | 22233   | false      | true      | true          | false      | true
+Turned hand meets turn restriction                      | AAAKK | 22233   | true       | true      | false         | true       | true
+Not turned fails turn restriction                       | AAAKK | 22233   | true       | false     | false         | true       | false
+Turned not flopped with turn restr on flop auto-waived  | AAAKK | 22233   | false      | true      | false         | true       | true
+Hand below minimum regardless of flags                  | AKQJ9 | 22233   | true       | true      | true          | false      | false
+Not flopped not turned but no flop restriction          | AAAKK | 22233   | false      | false     | true          | false      | true
+Not turned with turn restriction active                 | AAAKK | 22233   | false      | false     | false         | true       | false
+Quads flopped meets full house minimum                  | 7777J | 22233   | true       | true      | false         | false      | true

@@ -76,13 +76,26 @@ public class Deck {
     List<Card> cards;
 
     public Deck() {
-        cards = shuffle();
+        cards = new ArrayList<>(STANDARD_DECK);
+        Collections.shuffle(cards);
     }
 
     public Deck(List<Card> cards) {
         this.cards = cards;
     }
 
+    /**
+     * Reset this deck to a fresh shuffled state without allocating a new list.
+     */
+    public void reset() {
+        Collections.copy(cards, STANDARD_DECK);
+        Collections.shuffle(cards);
+    }
+
+    /**
+     * @deprecated Use constructor + reset() instead.
+     */
+    @Deprecated
     public List<Card> shuffle() {
         final ArrayList<Card> copiedCards = new ArrayList<>(STANDARD_DECK);
         Collections.shuffle(copiedCards);

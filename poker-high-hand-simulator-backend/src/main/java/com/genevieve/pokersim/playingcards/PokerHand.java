@@ -361,7 +361,7 @@ public class PokerHand {
                 if (thisPairValue != otherPairValue) {
                     return Integer.compare(thisPairValue, otherPairValue);
                 } else {
-                    return compareRemainingCards(this, otherHand, 2);
+                    return compareRemainingCards(this, otherHand);
                 }
             case TWO_PAIR:
                 int[] thisTwoPairValues = getTwoPairValues(this.fiveHandCards);
@@ -372,7 +372,7 @@ public class PokerHand {
                 } else if (thisTwoPairValues[0] != otherTwoPairValues[0]) {
                     return Integer.compare(thisTwoPairValues[0], otherTwoPairValues[0]);
                 } else {
-                    return compareRemainingCards(this, otherHand, 1);
+                    return compareRemainingCards(this, otherHand);
                 }
             case SET:
                 int thisSetValue = getSetValue(this.fiveHandCards);
@@ -381,11 +381,10 @@ public class PokerHand {
                 if (thisSetValue != otherSetValue) {
                     return Integer.compare(thisSetValue, otherSetValue);
                 } else {
-                    return compareRemainingCards(this, otherHand, 3);
+                    return compareRemainingCards(this, otherHand);
                 }
             case STRAIGHT:
-                // Compare highest card in the straight
-                return otherHand.fiveHandCards[0].getValue().compareTo(this.fiveHandCards[0].getValue());
+                return Integer.compare(getStraightHighRank(this), getStraightHighRank(otherHand));
             case FLUSH:
                 return compareIndividualCards(this, otherHand);
             case FULL_HOUSE:
@@ -394,30 +393,30 @@ public class PokerHand {
                 final CardValue thisFullValue = thisFullValues[0];
                 final CardValue otherFullValue = otherFullValues[0];
                 if (thisFullValue != otherFullValue) {
-                    return otherFullValue.compareTo(thisFullValue);
+                    return Integer.compare(thisFullValue.getRank(), otherFullValue.getRank());
                 }
                 final CardValue thisPairValuee = thisFullValues[1];
                 final CardValue otherPairValuee = otherFullValues[1];
-                return otherPairValuee.compareTo(thisPairValuee);
+                return Integer.compare(thisPairValuee.getRank(), otherPairValuee.getRank());
             case QUADS:
                 final CardValue[] thisQuadsValues = getQuadsValues(this);
                 final CardValue[] otherQuadsValues = getQuadsValues(otherHand);
                 final CardValue thisQuadsValue = thisQuadsValues[0];
                 final CardValue otherQuadsValue = otherQuadsValues[0];
                 if (thisQuadsValue != otherQuadsValue) {
-                    return otherQuadsValue.compareTo(thisQuadsValue);
+                    return Integer.compare(thisQuadsValue.getRank(), otherQuadsValue.getRank());
                 }
                 final CardValue thisKickerValue = thisQuadsValues[1];
                 final CardValue otherKickerValue = otherQuadsValues[1];
-                return otherKickerValue.compareTo(thisKickerValue);
+                return Integer.compare(thisKickerValue.getRank(), otherKickerValue.getRank());
             case STRAIGHT_FLUSH:
-                return otherHand.fiveHandCards[0].getValue().compareTo(this.fiveHandCards[0].getValue());
+                return Integer.compare(getStraightHighRank(this), getStraightHighRank(otherHand));
             default:
                 throw new AssertionError("Unknown handType: " + this.handType);
         }
     }
 
-    private int compareRemainingCards(PokerHand hand1, PokerHand hand2, int numCardsToCompare) {
+    private int compareRemainingCards(PokerHand hand1, PokerHand hand2) {
         for (int i = 4; i >= 0; i--) {
             if (hand1.fiveHandCards[i].getValue().getRank() != hand2.fiveHandCards[i].getValue().getRank()) {
                 return hand1.fiveHandCards[i].compareTo(hand2.fiveHandCards[i]);
@@ -428,7 +427,7 @@ public class PokerHand {
 
     private int compareIndividualCards(PokerHand hand1, PokerHand hand2) {
         for (int i = 4; i >= 0; i--) {
-            int comparison = hand1.fiveHandCards[i].getValue().compareTo(hand2.fiveHandCards[i].getValue());
+            int comparison = hand1.fiveHandCards[i].compareTo(hand2.fiveHandCards[i]);
             if (comparison != 0) {
                 return comparison;
             }
@@ -436,6 +435,16 @@ public class PokerHand {
         return 0;
     }
 
+    private static int getStraightHighRank(PokerHand hand) {
+        // Cards are sorted ascending by rank. If it's A-2-3-4-5 (wheel),
+        // the ace plays low, so the effective high card is 5 (rank 4).
+        if (hand.fiveHandCards[4].getValue() == CardValue.ACE
+                && hand.fiveHandCards[0].getValue() == CardValue.TWO
+                && hand.fiveHandCards[3].getValue() == CardValue.FIVE) {
+            return CardValue.FIVE.getRank();
+        }
+        return hand.fiveHandCards[4].getValue().getRank();
+    }
 
     private static CardValue[] getFullHouseFullCardValues(PokerHand pokerHand) {
         final CardValue[] result = new CardValue[2];
@@ -469,7 +478,7 @@ public class PokerHand {
     }
 
     private int getSetValue(Card[] cards) {
-        Map<CardValue, Integer> valueToOccurrences = getValueToOccurrencesMap(cards);
+        Map<CardValue, Integer> valueToOccurrences = getValueToNumOccurrencesMap(cards);
         for (Map.Entry<CardValue, Integer> entry : valueToOccurrences.entrySet()) {
             if (entry.getValue() == 3) {
                 return entry.getKey().getRank();
@@ -480,7 +489,7 @@ public class PokerHand {
 
     private int[] getTwoPairValues(Card[] cards) {
         int[] pairValues = new int[2];
-        Map<CardValue, Integer> valueToOccurrences = getValueToOccurrencesMap(cards);
+        Map<CardValue, Integer> valueToOccurrences = getValueToNumOccurrencesMap(cards);
         int count = 0;
         for (Map.Entry<CardValue, Integer> entry : valueToOccurrences.entrySet()) {
             if (entry.getValue() == 2) {
@@ -492,7 +501,7 @@ public class PokerHand {
     }
 
     private int getPairValue(Card[] cards) {
-        Map<CardValue, Integer> valueToOccurrences = getValueToOccurrencesMap(cards);
+        Map<CardValue, Integer> valueToOccurrences = getValueToNumOccurrencesMap(cards);
         for (Map.Entry<CardValue, Integer> entry : valueToOccurrences.entrySet()) {
             if (entry.getValue() == 2) {
                 return entry.getKey().getRank();
@@ -500,16 +509,6 @@ public class PokerHand {
         }
         return -1; // Not found
     }
-
-    private Map<CardValue, Integer> getValueToOccurrencesMap(Card[] cards) {
-        Map<CardValue, Integer> valueToOccurrences = new HashMap<>();
-        for (Card card : cards) {
-            CardValue value = card.getValue();
-            valueToOccurrences.put(value, valueToOccurrences.getOrDefault(value, 0) + 1);
-        }
-        return valueToOccurrences;
-    }
-
 
     @Override
     public String toString() {
